@@ -6,7 +6,7 @@
 
 auto main(const int argc, char* argv[]) -> int
 {
-	noi_engine::game my_game;
+	noi_engine::game my_game("BestGame", 700, 600);
 
 	return my_game.run(argc, argv);
 }

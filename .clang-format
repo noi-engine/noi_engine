@@ -6,10 +6,9 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: 'Never'
 AllowShortLoopsOnASingleLine: false
 BreakBeforeBraces: Allman
-BinPackArguments: false
-BinPackParameters: false
+BinPackParameters: true
+BinPackArguments: true
 Cpp11BracedListStyle: false
-ColumnLimit: 100
 NamespaceIndentation: All
 SpaceAfterTemplateKeyword: false
 SpaceBeforeCtorInitializerColon: true

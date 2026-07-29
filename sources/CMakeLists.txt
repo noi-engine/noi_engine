@@ -1,6 +1,8 @@
 set(CORE_SOURCES
+        core/glad/glad.cpp
         core/sum.cpp
         core/game.cpp
+        core/window.cpp
 )
 
 set(NOI_ENGINE_SOURCES
@@ -12,6 +14,12 @@ if (BUILD_SHARED_LIBS)
 else ()
     add_library(${NOI_ENGINE_LIB_NAME} STATIC ${NOI_ENGINE_SOURCES})
 endif ()
+
+target_link_libraries(${NOI_ENGINE_LIB_NAME}
+        PUBLIC
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+)
 
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)

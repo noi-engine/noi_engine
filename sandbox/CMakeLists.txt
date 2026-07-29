@@ -1,8 +1,8 @@
-set(SANBOX_SOURCES
+set(SANDBOX_SOURCES
         main.cpp
 )
 
-add_executable(sandbox ${SANBOX_SOURCES})
+add_executable(sandbox ${SANDBOX_SOURCES})
 
 target_link_libraries(
         sandbox
