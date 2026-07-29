@@ -11,7 +11,8 @@
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
-        "BUILD_SHARED_LIBS": "ON"
+        "BUILD_SHARED_LIBS": "ON",
+        "NOI_ENGINE_BUILD_TESTS": "ON"
       }
     },
 

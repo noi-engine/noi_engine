@@ -22,4 +22,11 @@ if (NOI_ENGINE_IS_MAIN_PROJECT)
             ${NOI_ENGINE_SOURCE_DIR}/include/${NOI_ENGINE_LIB_NAME}/${NOI_ENGINE_LIB_NAME}Config.hpp @ONLY)
 endif ()
 
+
 add_subdirectory(sources)
+
+option(NOI_ENGINE_BUILD_TESTS "Build Noi Engine tests" ON)
+if (NOI_ENGINE_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
