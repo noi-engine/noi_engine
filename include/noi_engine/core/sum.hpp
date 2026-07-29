@@ -6,5 +6,5 @@
 
 namespace noi_engine
 {
-    auto sum(int a, int b) -> int;
+	auto sum(int a, int b) -> int;
 }

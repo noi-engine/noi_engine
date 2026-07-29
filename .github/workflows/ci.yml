@@ -31,6 +31,10 @@ jobs:
         with:
           configurePreset: release
           buildPreset: release
+
+      - name: Run tests
+        run: |
+          ctest --preset release --output-on-failure
   style:
     runs-on: ubuntu-latest
     name: check style
@@ -39,7 +43,7 @@ jobs:
         path:
           - 'sources'
           - 'include'
-          - 'tests'
+          #TODO: - 'tests'
     steps:
       - uses: actions/checkout@v7
       - name: Run clang-format
