@@ -13,7 +13,6 @@ target_link_libraries(
         ${NOI_ENGINE_LIB_NAME}
         GTest::gtest_main
 )
-target_include_directories(noi_engine_tests PRIVATE ${NOI_ENGINE_SOURCE_DIR}/include)
 
 include(GoogleTest)
 gtest_discover_tests(noi_engine_tests)

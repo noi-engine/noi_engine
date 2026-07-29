@@ -1,5 +1,6 @@
 set(CORE_SOURCES
         core/sum.cpp
+        core/game.cpp
 )
 
 set(NOI_ENGINE_SOURCES

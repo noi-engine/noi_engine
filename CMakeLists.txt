@@ -30,3 +30,8 @@ if (NOI_ENGINE_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif ()
+
+option(NOI_ENGINE_BUILD_SANDBOX "Build Noi Engine sandbox" ON)
+if (NOI_ENGINE_BUILD_SANDBOX)
+    add_subdirectory(sandbox)
+endif ()
