@@ -1,0 +1,49 @@
+name: ci
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install latest CMake and Ninja
+        uses: lukka/get-cmake@latest
+
+      - name: Fix Linux-specific issues # TODO: check if still necessary
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libltdl-dev build-essential pkg-config ninja-build
+
+      - name: Setup anew (or from cache) vcpkg (and does not build any package)
+        uses: lukka/run-vcpkg@v11
+        with:
+          configurePreset: release
+          buildPreset: release
+
+      - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: release
+          buildPreset: release
+  style:
+    runs-on: ubuntu-latest
+    name: check style
+    strategy:
+      matrix:
+        path:
+          - 'sources'
+          - 'include'
+          - 'tests'
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run clang-format
+        uses: jidicula/clang-format-action@v4.18.0
+        with:
+          clang-format-version: '22'
+          check-path: ${{ matrix.path }}

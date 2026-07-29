@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0.0) # TODO
+cmake_minimum_required(VERSION 3.18)
 
 project(noi_engine VERSION 0.0.1 DESCRIPTION "noi_engine" LANGUAGES CXX)
 

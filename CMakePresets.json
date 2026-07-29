@@ -12,7 +12,8 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
         "BUILD_SHARED_LIBS": "ON",
-        "NOI_ENGINE_BUILD_TESTS": "ON"
+        "NOI_ENGINE_BUILD_TESTS": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
       }
     },
 
