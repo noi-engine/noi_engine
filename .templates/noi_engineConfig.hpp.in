@@ -1,0 +1,3 @@
+#pragma once
+
+#define NOI_ENGINE_VERSION "@NOI_ENGINE_VERSION@"

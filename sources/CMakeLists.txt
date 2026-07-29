@@ -1,0 +1,23 @@
+set(CORE_SOURCES
+        core/sum.cpp
+)
+
+set(NOI_ENGINE_SOURCES
+        ${CORE_SOURCES}
+)
+
+if (BUILD_SHARED_LIBS)
+    add_library(${NOI_ENGINE_LIB_NAME} SHARED ${NOI_ENGINE_SOURCES})
+else ()
+    add_library(${NOI_ENGINE_LIB_NAME} STATIC ${NOI_ENGINE_SOURCES})
+endif ()
+
+target_include_directories(
+        ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
+
+set_target_properties(
+        ${NOI_ENGINE_LIB_NAME}
+        PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        SOVERSION ${NOI_ENGINE_VERSION_MAJOR}
+        VERSION ${NOI_ENGINE_VERSION})
