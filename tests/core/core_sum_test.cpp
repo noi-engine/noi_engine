@@ -7,10 +7,10 @@
 
 TEST(SumTest, AddsTwoNumbers)
 {
-    EXPECT_EQ(noi_engine::sum(2, 3), 5);
+	EXPECT_EQ(noi_engine::sum(2, 3), 5);
 }
 
 TEST(SumTest, HandlesNegativeNumbers)
 {
-    EXPECT_EQ(noi_engine::sum(-2, 3), 1);
+	EXPECT_EQ(noi_engine::sum(-2, 3), 1);
 }

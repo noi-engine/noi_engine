@@ -6,5 +6,5 @@
 
 auto noi_engine::sum(const int a, const int b) -> int
 {
-    return a + b;
+	return a + b;
 }
