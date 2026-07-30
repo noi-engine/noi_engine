@@ -5,6 +5,7 @@ set(CORE_SOURCES
         core/window.cpp
         core/scene.cpp
         core/timer.cpp
+        core/frame_limiter.cpp
         core/scene_manager.cpp
         core/renderer/renderer.cpp
         core/ecs/world.cpp

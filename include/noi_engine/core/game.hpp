@@ -14,10 +14,13 @@ namespace noi_engine
 {
 	struct game_conf
 	{
+		int max_fps{ 30 };
+		bool v_sync{ true };
 	};
 
 	class game
 	{
+		game_conf m_conf{};
 		bool m_running{ false };
 		std::unique_ptr<window> m_window{ nullptr };
 		std::unique_ptr<renderer> m_renderer{ nullptr };

@@ -7,6 +7,7 @@
 #include <noi_engine/core/timer.hpp>
 #include <stdexcept>
 
+#include "frame_limiter.hpp"
 #include "glad/glad.h"
 
 auto noi_engine::game::render() -> void
@@ -51,6 +52,12 @@ noi_engine::game::game(const std::string& title, int width, int height,
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	this->m_conf = conf;
+
+	if (this->m_conf.v_sync)
+	{
+		SDL_GL_SetSwapInterval(1);
+	}
 }
 
 noi_engine::game::~game()
@@ -76,14 +83,16 @@ auto noi_engine::game::get_window() const -> const window&
 auto noi_engine::game::run(const int argc, char** argv) -> int
 {
 	timer timer;
+	frame_limiter frame_limiter(m_conf.max_fps);
 	m_running = true;
 
 	while (m_running)
 	{
+		frame_limiter.begin();
+
 		const float dt = timer.tick();
 
 		process_events();
-
 		update(dt);
 
 		this->m_renderer->begin_frame();
@@ -91,6 +100,8 @@ auto noi_engine::game::run(const int argc, char** argv) -> int
 		this->m_renderer->end_frame();
 
 		this->m_window->swap_buffers();
+
+		frame_limiter.end();
 	}
 
 	return 0;
