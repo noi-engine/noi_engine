@@ -4,24 +4,31 @@
 
 #pragma once
 
+#include <memory>
+#include <typeindex>
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/ecs/component_pool.hpp>
 #include <noi_engine/core/ecs/entity_manager.hpp>
+#include <noi_engine/core/ecs/view.hpp>
 
 namespace noi_engine
 {
 	class world
 	{
+		std::vector<entity> m_entities{};
 		entity_manager m_entity_manager{};
+		std::unordered_map<std::type_index, std::unique_ptr<
+			                   component_pool_base> > m_pools;
 
 	public:
 		[[nodiscard]] auto create_entity() -> entity;
+
 		auto destroy_entity(entity entity) -> void;
 
-		template <typename T>
-		auto add(entity e, T &comp) -> void
+		template<typename T>
+		auto add(entity e, const T& comp) -> void
 		{
-			pool<T>().add(e, comp);
+			pool<T>().add(e, std::move(comp));
 		}
 
 		template<typename T>
@@ -31,7 +38,23 @@ namespace noi_engine
 		}
 
 		template<typename T>
-		[[nodiscard]] auto pool() -> component_pool<T>&;
+		auto pool() -> component_pool<T>&
+		{
+			const auto id = std::type_index(typeid(T));
+
+			if (!m_pools.contains(id))
+			{
+				m_pools[id] = std::make_unique<component_pool<T> >();
+			}
+
+			return *static_cast<component_pool<T>*>(m_pools[id].get());
+		}
+
+		template<typename... Components>
+		auto view()
+		{
+			return noi_engine::view<Components...>(pool<Components>()...);
+		}
 
 		world() = default;
 	};

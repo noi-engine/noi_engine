@@ -27,6 +27,8 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME}
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )
 
+target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
+
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
 

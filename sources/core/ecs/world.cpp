@@ -7,7 +7,9 @@
 
 auto noi_engine::world::create_entity() -> entity
 {
-	return m_entity_manager.create();
+	const auto e = m_entity_manager.create();
+	m_entities.push_back(e);
+	return e;
 }
 
 auto noi_engine::world::destroy_entity(const entity entity) -> void

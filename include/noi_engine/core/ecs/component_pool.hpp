@@ -10,15 +10,23 @@
 
 namespace noi_engine
 {
+	class component_pool_base
+	{
+	public:
+		virtual ~component_pool_base() = default;
+
+		virtual void remove(entity e) = 0;
+	};
+
 	template<typename T>
-	class component_pool
+	class component_pool : public component_pool_base
 	{
 		std::vector<T> m_dense{};
 		std::vector<entity> m_entities{};
 		std::unordered_map<uint32_t, size_t> m_sparse{};
 
 	public:
-		auto add(const entity e, T value) -> void
+		auto add(const entity e, const T& value) -> void
 		{
 			if (has(e))
 				return;
@@ -28,17 +36,20 @@ namespace noi_engine
 			m_entities.push_back(e);
 		}
 
-		auto remove(const entity e) -> void
+		auto remove(const entity e) -> void override
 		{
 			if (!has(e))
 				return;
 
-			size_t index = m_sparse[e.m_id];
-			size_t last = m_dense.size() - 1;
+			const size_t index = m_sparse[e.m_id];
+			const size_t last = m_dense.size() - 1;
 
-			m_dense[index] = m_dense[last];
-			m_entities[index] = m_entities[last];
-			m_sparse[m_entities[index].m_id] = index;
+			if (index != last)
+			{
+				m_dense[index] = std::move(m_dense[last]);
+				m_entities[index] = m_entities[last];
+				m_sparse[m_entities[index].m_id] = index;
+			}
 
 			m_dense.pop_back();
 			m_entities.pop_back();
@@ -52,10 +63,10 @@ namespace noi_engine
 
 		[[nodiscard]] auto get(const entity e) -> T&
 		{
-			return m_dense[m_sparse[e.m_id]];
+			return m_dense.at(m_sparse.at(e.m_id));
 		}
 
-		[[nodiscard]] auto get_entities() -> std::vector<entity>&
+		[[nodiscard]] auto get_entities() const -> const std::vector<entity>&
 		{
 			return m_entities;
 		}

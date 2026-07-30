@@ -5,6 +5,7 @@ set(NOI_ENGINE_TEST_SOURCES
         core/frame_limiter_test.cpp
         core/ecs/entity_manager_test.cpp
         core/ecs/entity_test.cpp
+        core/ecs/world_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
