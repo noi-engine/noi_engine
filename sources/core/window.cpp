@@ -58,3 +58,8 @@ auto noi_engine::window::get_size() const -> size_2d
 	SDL_GetWindowSize(this->sdl_window, &width, &height);
 	return size_2d{ width, height };
 }
+
+auto noi_engine::window::swap_buffers() -> void
+{
+	SDL_GL_SwapWindow(this->sdl_window);
+}

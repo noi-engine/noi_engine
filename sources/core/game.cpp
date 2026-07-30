@@ -11,6 +11,8 @@
 
 auto noi_engine::game::render() -> void
 {
+	glClearColor( 0.1f,0.2f, 0.3f,1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 auto noi_engine::game::process_events() -> void
@@ -78,6 +80,8 @@ auto noi_engine::game::run(const int argc, char** argv) -> int
 		update(dt);
 
 		render();
+
+		this->m_window->swap_buffers();
 	}
 
 	return 0;

@@ -28,5 +28,7 @@ namespace noi_engine
 		                const window_conf& conf = window_conf());
 
 		[[nodiscard]] auto get_size() const -> size_2d;
+
+		auto swap_buffers() -> void;
 	};
 }
