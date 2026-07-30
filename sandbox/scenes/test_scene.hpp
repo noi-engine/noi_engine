@@ -5,24 +5,15 @@
 #pragma once
 
 #include <noi_engine/core/scene.hpp>
-#include "../../sources/core/glad/glad.h"
 
-class test_scene: public noi_engine::scene
+class test_scene : public noi_engine::scene
 {
 public:
-	test_scene(): scene("test_scene")
+	test_scene() : scene("test_scene")
 	{
 	}
 
-	auto render() -> void override
+	auto render(noi_engine::renderer& renderer) -> void override
 	{
-		glClearColor(
-			0.2f,
-			0.3f,
-			0.4f,
-			1.0f
-		);
-
-		glClear(GL_COLOR_BUFFER_BIT);
 	}
 };

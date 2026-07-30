@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <noi_engine/core/scene.hpp>
+#include <noi_engine/core/renderer/renderer.hpp>
 
 namespace noi_engine
 {
@@ -22,6 +23,6 @@ namespace noi_engine
 
 		auto update(float dt) -> void;
 
-		auto render() -> void;
+		auto render(renderer &renderer) -> void;
 	};
 }

@@ -8,7 +8,7 @@ noi_engine::scene::scene(const std::string& name) : m_name(name)
 {
 }
 
-auto noi_engine::scene::render() ->void
+auto noi_engine::scene::render(renderer& renderer) -> void
 {
 }
 

@@ -6,6 +6,7 @@ set(CORE_SOURCES
         core/scene.cpp
         core/timer.cpp
         core/scene_manager.cpp
+        core/renderer/renderer.cpp
 )
 
 set(NOI_ENGINE_SOURCES

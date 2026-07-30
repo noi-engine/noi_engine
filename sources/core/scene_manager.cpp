@@ -17,10 +17,10 @@ auto noi_engine::scene_manager::update(const float dt) -> void
 	}
 }
 
-auto noi_engine::scene_manager::render() -> void
+auto noi_engine::scene_manager::render(renderer &renderer) -> void
 {
 	if (this->m_current)
 	{
-		this->m_current->render();
+		this->m_current->render(renderer);
 	}
 }

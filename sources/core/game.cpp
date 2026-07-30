@@ -11,7 +11,7 @@
 
 auto noi_engine::game::render() -> void
 {
-	m_scene_manager->render();
+	m_scene_manager->render(*this->m_renderer);
 }
 
 auto noi_engine::game::process_events() -> void
@@ -45,8 +45,9 @@ noi_engine::game::game(const std::string& title, int width, int height,
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
 	                    SDL_GL_CONTEXT_PROFILE_CORE);
 
-	this->m_window = std::make_unique<window>(title, width, height);
+	this->m_renderer = std::make_unique<renderer>();
 	this->m_scene_manager = std::make_unique<scene_manager>();
+	this->m_window = std::make_unique<window>(title, width, height);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -85,7 +86,9 @@ auto noi_engine::game::run(const int argc, char** argv) -> int
 
 		update(dt);
 
+		this->m_renderer->begin_frame();
 		render();
+		this->m_renderer->end_frame();
 
 		this->m_window->swap_buffers();
 	}

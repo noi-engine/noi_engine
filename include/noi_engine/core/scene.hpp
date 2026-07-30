@@ -3,7 +3,9 @@
 //
 
 #pragma once
+
 #include <string>
+#include <noi_engine/core/renderer/renderer.hpp>
 
 namespace noi_engine
 {
@@ -14,7 +16,7 @@ namespace noi_engine
 	public:
 		explicit scene(const std::string& name);
 
-		virtual auto render() -> void;
+		virtual auto render(renderer& renderer) -> void;
 
 		virtual auto update(float dt) -> void;
 
