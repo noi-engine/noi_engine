@@ -3,7 +3,9 @@ set(CORE_SOURCES
         core/sum.cpp
         core/game.cpp
         core/window.cpp
+        core/scene.cpp
         core/timer.cpp
+        core/scene_manager.cpp
 )
 
 set(NOI_ENGINE_SOURCES
