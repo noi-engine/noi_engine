@@ -7,6 +7,8 @@ set(CORE_SOURCES
         core/timer.cpp
         core/scene_manager.cpp
         core/renderer/renderer.cpp
+        core/ecs/world.cpp
+        core/ecs/entity_manager.cpp
 )
 
 set(NOI_ENGINE_SOURCES
