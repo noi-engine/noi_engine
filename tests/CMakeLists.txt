@@ -1,11 +1,15 @@
 find_package(GTest CONFIG REQUIRED)
 
 set(NOI_ENGINE_TEST_SOURCES
-        core/core_sum_test.cpp
-        core/core_window_test.cpp
+        core/window_test.cpp
+        core/frame_limiter_test.cpp
+        core/ecs/entity_manager_test.cpp
+        core/ecs/entity_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
+
+target_include_directories(noi_engine_tests PRIVATE ${NOI_ENGINE_SOURCE_DIR}/sources)
 
 target_link_directories(noi_engine_tests PRIVATE ${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(

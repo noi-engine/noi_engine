@@ -1,6 +1,5 @@
 set(CORE_SOURCES
         core/glad/glad.cpp
-        core/sum.cpp
         core/game.cpp
         core/window.cpp
         core/scene.cpp
