@@ -4,6 +4,8 @@
 
 #include <noi_engine/core/window.hpp>
 #include <SDL2/SDL.h>
+#include <gtest/internal/gtest-param-util.h>
+
 #include <stdexcept>
 
 #include "glad/glad.h"
@@ -48,4 +50,11 @@ noi_engine::window::window(const std::string& title, int width, int height,
 		SDL_GL_DeleteContext(this->gl_context);
 		throw std::runtime_error("Failed to initialize GLAD");
 	}
+}
+
+auto noi_engine::window::get_size() const -> size_2d
+{
+	int width, height;
+	SDL_GetWindowSize(this->sdl_window, &width, &height);
+	return size_2d{ width, height };
 }

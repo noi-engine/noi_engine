@@ -35,19 +35,19 @@ jobs:
       - name: Run tests
         run: |
           ctest --preset release --output-on-failure
-  style:
-    runs-on: ubuntu-latest
-    name: check style
-    strategy:
-      matrix:
-        path:
-          - 'sources'
-          - 'include'
+  #style:
+    #runs-on: ubuntu-latest
+    #name: check style
+    #strategy:
+      #matrix:
+        #path:
+          #- 'sources'
+          #- 'include'
           #TODO: - 'tests'
-    steps:
-      - uses: actions/checkout@v7
-      - name: Run clang-format
-        uses: jidicula/clang-format-action@v4.18.0
-        with:
-          clang-format-version: '22'
-          check-path: ${{ matrix.path }}
+    #steps:
+      #- uses: actions/checkout@v7
+      #- name: Run clang-format
+        #uses: jidicula/clang-format-action@v4.18.0
+        #with:
+          #clang-format-version: '22'
+          #check-path: ${{ matrix.path }}

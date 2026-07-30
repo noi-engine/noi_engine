@@ -7,6 +7,7 @@
 #include <SDL2/SDL_video.h>
 
 #include <string>
+#include <noi_engine/core/model/size_2d.hpp>
 
 namespace noi_engine
 {
@@ -25,5 +26,7 @@ namespace noi_engine
 
 		explicit window(const std::string& title, int width, int height,
 		                const window_conf& conf = window_conf());
+
+		[[nodiscard]] auto get_size() const -> size_2d;
 	};
 }

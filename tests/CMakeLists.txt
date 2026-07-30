@@ -2,6 +2,7 @@ find_package(GTest CONFIG REQUIRED)
 
 set(NOI_ENGINE_TEST_SOURCES
         core/core_sum_test.cpp
+        core/core_window_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})

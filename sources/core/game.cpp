@@ -21,7 +21,7 @@ noi_engine::game::game(const std::string& title, int width, int height,
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
 	                    SDL_GL_CONTEXT_PROFILE_CORE);
 
-	this->window = std::make_unique<noi_engine::window>(title, width, height);
+	this->m_window = std::make_unique<window>(title, width, height);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -30,6 +30,16 @@ noi_engine::game::game(const std::string& title, int width, int height,
 noi_engine::game::~game()
 {
 	SDL_Quit();
+}
+
+auto noi_engine::game::get_window() -> window&
+{
+	return *this->m_window;
+}
+
+auto noi_engine::game::get_window() const -> const window&
+{
+	return *this->m_window;
 }
 
 auto noi_engine::game::run(const int argc, char** argv) -> int

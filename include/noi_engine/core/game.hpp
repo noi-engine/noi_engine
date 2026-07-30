@@ -15,13 +15,17 @@ namespace noi_engine
 
 	class game
 	{
-		std::unique_ptr<window> window{ nullptr };
+		std::unique_ptr<window> m_window{ nullptr };
 
 	public:
 		explicit game(const std::string& title, int width, int height,
 		              const game_conf& conf = game_conf());
 
 		virtual ~game();
+
+		[[nodiscard]] auto get_window() -> window&;
+
+		[[nodiscard]] auto get_window() const -> const window&;
 
 		virtual auto run(int argc, char** argv) -> int;
 	};
