@@ -15,7 +15,15 @@ namespace noi_engine
 
 	class game
 	{
+		bool m_running{ false };
 		std::unique_ptr<window> m_window{ nullptr };
+
+	protected:
+		virtual auto render() -> void;
+
+		virtual auto process_events() -> void;
+
+		virtual auto update(float dt) -> void;
 
 	public:
 		explicit game(const std::string& title, int width, int height,

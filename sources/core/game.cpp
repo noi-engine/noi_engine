@@ -4,9 +4,31 @@
 
 #include <SDL2/SDL.h>
 #include <noi_engine/core/game.hpp>
+#include <noi_engine/core/timer.hpp>
 #include <stdexcept>
 
 #include "glad/glad.h"
+
+auto noi_engine::game::render() -> void
+{
+}
+
+auto noi_engine::game::process_events() -> void
+{
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT)
+		{
+			m_running = false;
+		}
+	}
+}
+
+auto noi_engine::game::update(float dt) -> void
+{
+}
 
 noi_engine::game::game(const std::string& title, int width, int height,
                        const game_conf& conf)
@@ -44,6 +66,19 @@ auto noi_engine::game::get_window() const -> const window&
 
 auto noi_engine::game::run(const int argc, char** argv) -> int
 {
-	SDL_Delay(5000);
+	timer timer;
+	m_running = true;
+
+	while (m_running)
+	{
+		const float dt = timer.tick();
+
+		process_events();
+
+		update(dt);
+
+		render();
+	}
+
 	return 0;
 }

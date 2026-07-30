@@ -46,8 +46,8 @@ noi_engine::window::window(const std::string& title, int width, int height,
 
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
-		SDL_DestroyWindow(this->sdl_window);
 		SDL_GL_DeleteContext(this->gl_context);
+		SDL_DestroyWindow(this->sdl_window);
 		throw std::runtime_error("Failed to initialize GLAD");
 	}
 }
