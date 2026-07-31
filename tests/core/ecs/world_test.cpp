@@ -16,7 +16,7 @@ TEST(WorldTest, AddTransformAndMesh)
 
 	w.add(e, mesh{});
 
-	const auto& [position] = w.get<transform>(e);
+	const auto& [position, rotation, scale] = w.get<transform>(e);
 
 	EXPECT_FLOAT_EQ(position.x, 1.0f);
 	EXPECT_FLOAT_EQ(position.y, 2.0f);
@@ -33,10 +33,10 @@ TEST(WorldTest, ViewTransformMesh)
 	const auto e1 = w.create_entity();
 	const auto e2 = w.create_entity();
 
-	w.add(e1, transform{ { 1, 2, 3 } });
+	w.add(e1, transform{ .position = { 1, 2, 3 } });
 	w.add(e1, mesh{});
 
-	w.add(e2, transform{ { 4, 5, 6 } });
+	w.add(e2, transform{ .position = { 4, 5, 6 } });
 
 	auto view = w.view<transform, mesh>();
 
@@ -46,9 +46,9 @@ TEST(WorldTest, ViewTransformMesh)
 	{
 		count++;
 
-		const auto& [position] = w.get<transform>(e);
+		const auto& value = w.get<transform>(e);
 
-		EXPECT_EQ(position.x, 1);
+		EXPECT_EQ(value.position.x, 1);
 	}
 
 	EXPECT_EQ(count, 1);

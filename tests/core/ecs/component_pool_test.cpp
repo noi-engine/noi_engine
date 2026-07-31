@@ -14,8 +14,8 @@ TEST(ComponentPoolTest, AddHasGetRemove)
 {
 	component_pool<int> pool;
 
-	constexpr entity e1{1};
-	constexpr entity e2{2};
+	constexpr entity e1{ .m_id = 1 };
+	constexpr entity e2{ .m_id = 2 };
 
 	EXPECT_FALSE(pool.has(e1));
 	EXPECT_FALSE(pool.has(e2));
@@ -41,9 +41,9 @@ TEST(ComponentPoolTest, RemoveSwapsLastElement)
 {
 	component_pool<int> pool;
 
-	constexpr entity e1{1};
-	constexpr entity e2{2};
-	constexpr entity e3{3};
+	constexpr entity e1{ .m_id = 1 };
+	constexpr entity e2{ .m_id = 2 };
+	constexpr entity e3{ .m_id = 3 };
 
 	pool.add(e1, 10);
 	pool.add(e2, 20);
@@ -64,8 +64,8 @@ TEST(ComponentPoolTest, RemoveLastElement)
 {
 	component_pool<int> pool;
 
-	constexpr entity e1{1};
-	constexpr entity e2{2};
+	constexpr entity e1{ .m_id = 1 };
+	constexpr entity e2{ .m_id = 2 };
 
 	pool.add(e1, 10);
 	pool.add(e2, 20);
@@ -84,7 +84,7 @@ TEST(ComponentPoolTest, DenseArrayIsContiguous)
 
 	for (uint32_t i = 0; i < 100; ++i)
 	{
-		pool.add({i}, static_cast<int>(i));
+		pool.add({ .m_id = i }, static_cast<int>(i));
 	}
 
 	const auto& dense = pool.get_dense();
@@ -109,7 +109,7 @@ TEST(ComponentPoolPerformance, AddOneMillionComponents)
 
 	for (uint32_t i = 0; i < count; ++i)
 	{
-		pool.add({i}, static_cast<int>(i));
+		pool.add({ .m_id = i }, static_cast<int>(i));
 	}
 
 	const auto end = high_resolution_clock::now();
@@ -135,7 +135,7 @@ TEST(ComponentPoolPerformance, IterateOneMillionComponents)
 
 	for (uint32_t i = 0; i < count; ++i)
 	{
-		pool.add({i}, static_cast<int>(i));
+		pool.add({ .m_id = i }, static_cast<int>(i));
 	}
 
 	volatile long long sum = 0;

@@ -33,8 +33,8 @@ TEST(ViewTest, SingleComponent)
 	const auto e1 = w.create_entity();
 	const auto e2 = w.create_entity();
 
-	w.add(e1, transform{ { 1.f, 2.f, 3.f } });
-	w.add(e2, transform{ { 4.f, 5.f, 6.f } });
+	w.add(e1, transform{ .position = { 1.f, 2.f, 3.f } });
+	w.add(e2, transform{ .position = { 4.f, 5.f, 6.f } });
 
 	auto view = w.view<transform>();
 
@@ -57,10 +57,10 @@ TEST(ViewTest, MultipleComponents)
 	const auto e2 = w.create_entity();
 	const auto e3 = w.create_entity();
 
-	w.add(e1, transform{ { 1, 2, 3 } });
+	w.add(e1, transform{ .position = { 1, 2, 3 } });
 	w.add(e1, mesh{});
 
-	w.add(e2, transform{ { 4, 5, 6 } });
+	w.add(e2, transform{ .position = { 4, 5, 6 } });
 
 	w.add(e3, mesh{});
 
@@ -83,7 +83,7 @@ TEST(ViewTest, ViewReflectsNewComponents)
 
 	const auto e = w.create_entity();
 
-	w.add(e, transform{ { 1, 2, 3 } });
+	w.add(e, transform{ .position = { 1, 2, 3 } });
 
 	auto view = w.view<transform, mesh>();
 
@@ -105,7 +105,7 @@ TEST(ViewTest, RemoveComponentRemovesEntityFromView)
 
 	const auto e = w.create_entity();
 
-	w.add(e, transform{ { 1, 2, 3 } });
+	w.add(e, transform{ .position = { 1, 2, 3 } });
 	w.add(e, mesh{});
 
 	auto view = w.view<transform, mesh>();
@@ -141,7 +141,7 @@ TEST(ViewTest, IterationReturnsCorrectEntities)
 	{
 		const auto e = w.create_entity();
 
-		w.add(e, transform{ { 0, 0, 0 } });
+		w.add(e, transform{ .position = { 0, 0, 0 } });
 
 		if (i % 2 == 0)
 		{
