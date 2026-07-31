@@ -7,6 +7,7 @@ set(NOI_ENGINE_TEST_SOURCES
         core/ecs/entity_test.cpp
         core/ecs/world_test.cpp
         core/ecs/component_pool_test.cpp
+        core/ecs/view_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
