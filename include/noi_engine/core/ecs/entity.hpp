@@ -12,6 +12,12 @@ namespace noi_engine
 	{
 		uint32_t m_id;
 		uint32_t m_generation;
+
+		auto operator==(const entity& other) const -> bool
+		{
+			return m_id == other.m_id &&
+			       m_generation == other.m_generation;
+		}
 	};
 
 	inline auto pack(const entity e) -> uint64_t
@@ -22,9 +28,8 @@ namespace noi_engine
 	inline auto unpack(const uint64_t v) -> entity
 	{
 		return entity{
-			static_cast<uint32_t>(v & 0xFFFFFFFF),
-			static_cast<uint32_t>(v >> 32)
+			.m_id = static_cast<uint32_t>(v & 0xFFFFFFFF),
+			.m_generation = static_cast<uint32_t>(v >> 32)
 		};
 	}
-
 }

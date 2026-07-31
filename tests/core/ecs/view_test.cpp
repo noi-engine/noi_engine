@@ -74,8 +74,7 @@ TEST(ViewTest, MultipleComponents)
 	}
 
 	ASSERT_EQ(entities.size(), 1);
-	EXPECT_EQ(entities[0].m_id, e1.m_id);
-	EXPECT_EQ(entities[0].m_generation, e1.m_generation);
+	EXPECT_EQ(entities[0], e1);
 }
 
 TEST(ViewTest, ViewReflectsNewComponents)
