@@ -25,6 +25,9 @@ if (NOI_ENGINE_IS_MAIN_PROJECT)
             ${NOI_ENGINE_SOURCE_DIR}/include/${NOI_ENGINE_LIB_NAME}/${NOI_ENGINE_LIB_NAME}Config.hpp @ONLY)
 endif ()
 
+if (BUILD_SHARED_LIBS)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif ()
 
 add_subdirectory(sources)
 
