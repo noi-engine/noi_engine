@@ -8,25 +8,26 @@
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/ecs/entity.hpp>
+#include <noi_engine/core/input/input_state.hpp>
 
 namespace noi_engine
 {
-	class scene
-	{
-	protected:
-		world m_world{};
-		std::string m_name{};
-		entity m_camera_entity{};
+    class scene
+    {
+    protected:
+        world m_world{};
+        std::string m_name{};
+        entity m_camera_entity{};
 
-	public:
-		explicit scene(std::string  name);
+    public:
+        explicit scene(std::string name);
 
-		virtual auto render(renderer& renderer) -> void;
+        virtual auto render(renderer& renderer) -> void;
 
-		virtual auto update(float dt) -> void;
+        virtual auto update(float dt, const input_state& input) -> void;
 
-		[[nodiscard]] auto get_world() -> world&;
+        [[nodiscard]] auto get_world() -> world&;
 
-		virtual ~scene() = default;
-	};
+        virtual ~scene() = default;
+    };
 }

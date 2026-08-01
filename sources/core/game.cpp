@@ -13,11 +13,15 @@
 
 auto noi_engine::game::render() -> void
 {
-    m_scene_manager->render(*this->m_renderer);
+    this->m_scene_manager.render(*this->m_renderer);
 }
 
 auto noi_engine::game::process_events() -> void
 {
+    m_input.mouse_delta_x = 0.0f;
+    m_input.mouse_delta_y = 0.0f;
+    m_input.scroll_delta = 0.0f;
+
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
@@ -26,12 +30,37 @@ auto noi_engine::game::process_events() -> void
         {
             m_running = false;
         }
+        else if (event.type == SDL_MOUSEMOTION)
+        {
+            m_input.mouse_delta_x += static_cast<float>(event.motion.xrel);
+            m_input.mouse_delta_y += static_cast<float>(event.motion.yrel);
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+        {
+            m_input.left_mouse_held = true;
+        }
+        else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
+        {
+            m_input.left_mouse_held = false;
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+        {
+            m_input.right_mouse_held = true;
+        }
+        else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT)
+        {
+            m_input.right_mouse_held = false;
+        }
+        else if (event.type == SDL_MOUSEWHEEL)
+        {
+            m_input.scroll_delta += static_cast<float>(event.wheel.y);
+        }
     }
 }
 
 auto noi_engine::game::update(const float dt) -> void
 {
-    m_scene_manager->update(dt);
+    this->m_scene_manager.update(dt, m_input);
 }
 
 noi_engine::game::game(const std::string& title, int width, int height,
@@ -53,10 +82,8 @@ noi_engine::game::game(const std::string& title, int width, int height,
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                         SDL_GL_CONTEXT_PROFILE_CORE);
 
-    this->m_resources = std::make_unique<resource_system>();
-    this->m_scene_manager = std::make_unique<scene_manager>();
     this->m_window = std::make_unique<window>(title, width, height);
-    this->m_renderer = std::make_unique<renderer>(*this->m_resources);
+    this->m_renderer = std::make_unique<renderer>(this->m_resources);
 
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
@@ -77,7 +104,7 @@ noi_engine::game::~game()
 
 auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) -> void
 {
-    this->m_scene_manager->set_scene(std::move(scene));
+    this->m_scene_manager.set_scene(std::move(scene));
 }
 
 auto noi_engine::game::get_window() -> window&
@@ -90,9 +117,14 @@ auto noi_engine::game::get_window() const -> const window&
     return *this->m_window;
 }
 
-auto noi_engine::game::resources() const noexcept -> resource_system&
+auto noi_engine::game::resources() noexcept -> resource_system&
 {
-    return *this->m_resources;
+    return this->m_resources;
+}
+
+auto noi_engine::game::input() -> input_state&
+{
+    return this->m_input;
 }
 
 auto noi_engine::game::run(const int argc, char** argv) -> int
@@ -107,8 +139,8 @@ auto noi_engine::game::run(const int argc, char** argv) -> int
 
         const float dt = timer.tick();
 
-        process_events();
-        update(dt);
+        this->process_events();
+        this->update(dt);
 
         renderer::begin_frame();
         render();

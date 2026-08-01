@@ -15,6 +15,7 @@ set(CORE_SOURCES
         core/model/material.cpp
         core/components/transform.cpp
         core/systems/render_system.cpp
+        core/systems/orbit_camera_system.cpp
 )
 
 set(NOI_ENGINE_SOURCES

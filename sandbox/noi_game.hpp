@@ -12,9 +12,4 @@ public:
 	noi_game() : game("noi_game", 800, 600)
 	{
 	}
-
-	auto update(float dt) -> void override
-	{
-		//TODO
-	}
 };

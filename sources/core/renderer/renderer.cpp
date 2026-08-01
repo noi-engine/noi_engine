@@ -20,7 +20,6 @@ auto noi_engine::renderer::begin_frame() -> void
     );
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 auto noi_engine::renderer::end_frame() -> void

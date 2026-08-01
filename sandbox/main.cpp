@@ -140,6 +140,7 @@ auto main(const int argc, char* argv[]) -> int
                   .rotation = {0.5f, 0.5f, 0.0f},
                   .scale = {0.8f, 0.8f, 0.8f}
               });
+
     world.add(
         cube,
         noi_engine::mesh_renderer

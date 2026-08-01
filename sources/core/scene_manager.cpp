@@ -6,21 +6,21 @@
 
 auto noi_engine::scene_manager::set_scene(std::unique_ptr<scene> scene) -> void
 {
-	this->m_current = std::move(scene);
+    this->m_current = std::move(scene);
 }
 
-auto noi_engine::scene_manager::update(const float dt) -> void
+auto noi_engine::scene_manager::update(const float dt, const input_state& input) const -> void
 {
-	if (this->m_current)
-	{
-		this->m_current->update(dt);
-	}
+    if (this->m_current)
+    {
+        this->m_current->update(dt, input);
+    }
 }
 
-auto noi_engine::scene_manager::render(renderer &renderer) -> void
+auto noi_engine::scene_manager::render(renderer& renderer) const -> void
 {
-	if (this->m_current)
-	{
-		this->m_current->render(renderer);
-	}
+    if (this->m_current)
+    {
+        this->m_current->render(renderer);
+    }
 }
