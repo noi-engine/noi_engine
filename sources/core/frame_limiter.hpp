@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include <thread>
 
 namespace noi_engine
 {

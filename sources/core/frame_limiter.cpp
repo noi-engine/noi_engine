@@ -3,6 +3,7 @@
 //
 
 #include "frame_limiter.hpp"
+#include <thread>
 
 noi_engine::frame_limiter::frame_limiter(const int max_fps) : m_frame_time(
 	1.0 / max_fps)
