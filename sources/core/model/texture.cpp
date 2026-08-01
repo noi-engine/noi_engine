@@ -6,7 +6,7 @@
 
 #include "../glad/glad.h"
 #include <stdexcept>
-#include <noi_engine/core/model/texture_data.hpp>
+#include <noi_engine/core/model/texture.hpp>
 #include <SDL2/SDL_image.h>
 
 static auto from_surface(GLuint &id, const SDL_Surface *surface) -> void
@@ -35,7 +35,7 @@ static auto from_surface(GLuint &id, const SDL_Surface *surface) -> void
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-noi_engine::texture_data::texture_data(const std::string& path)
+noi_engine::texture::texture(const std::string& path)
 {
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (!surface)
@@ -53,7 +53,7 @@ noi_engine::texture_data::texture_data(const std::string& path)
     SDL_FreeSurface(surface);
 }
 
-noi_engine::texture_data::~texture_data()
+noi_engine::texture::~texture()
 {
     if (m_id != 0)
     {
@@ -61,13 +61,13 @@ noi_engine::texture_data::~texture_data()
     }
 }
 
-noi_engine::texture_data::texture_data(texture_data&& other) noexcept
+noi_engine::texture::texture(texture&& other) noexcept
     : m_id(other.m_id), m_width(other.m_width), m_height(other.m_height)
 {
     other.m_id = 0;
 }
 
-auto noi_engine::texture_data::operator=(texture_data&& other) noexcept -> texture_data&
+auto noi_engine::texture::operator=(texture&& other) noexcept -> texture&
 {
     if (this == &other)
         return *this;
@@ -81,17 +81,17 @@ auto noi_engine::texture_data::operator=(texture_data&& other) noexcept -> textu
     return *this;
 }
 
-auto noi_engine::texture_data::id() const noexcept -> uint32_t
+auto noi_engine::texture::id() const noexcept -> uint32_t
 {
     return m_id;
 }
 
-auto noi_engine::texture_data::width() const noexcept -> int
+auto noi_engine::texture::width() const noexcept -> int
 {
     return m_width;
 }
 
-auto noi_engine::texture_data::height() const noexcept -> int
+auto noi_engine::texture::height() const noexcept -> int
 {
     return m_height;
 }

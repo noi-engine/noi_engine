@@ -9,24 +9,24 @@
 
 namespace noi_engine
 {
-    class texture_data
+    class texture
     {
         uint32_t m_id{ 0 };
         int m_width{ 0 };
         int m_height{ 0 };
 
     public:
-        explicit texture_data(const std::string& path);
+        explicit texture(const std::string& path);
 
-        ~texture_data();
+        ~texture();
 
-        texture_data(const texture_data&) = delete;
+        texture(const texture&) = delete;
 
-        auto operator=(const texture_data&) -> texture_data& = delete;
+        auto operator=(const texture&) -> texture& = delete;
 
-        texture_data(texture_data&& other) noexcept;
+        texture(texture&& other) noexcept;
 
-        auto operator=(texture_data&& other) noexcept -> texture_data&;
+        auto operator=(texture&& other) noexcept -> texture&;
 
         [[nodiscard]] auto id() const noexcept -> uint32_t;
 

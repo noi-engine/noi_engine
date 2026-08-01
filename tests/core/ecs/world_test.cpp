@@ -2,7 +2,7 @@
 
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/transform.hpp>
-#include <noi_engine/core/components/mesh.hpp>
+#include <noi_engine/core/components/camera.hpp>
 
 using namespace noi_engine;
 
@@ -14,7 +14,7 @@ TEST(WorldTest, AddTransformAndMesh)
 
 	w.add(e, transform{ .position = { 1.0f, 2.0f, 3.0f } });
 
-	w.add(e, mesh{});
+	w.add(e, camera{});
 
 	const auto& [position, rotation, scale] = w.get<transform>(e);
 
@@ -22,7 +22,7 @@ TEST(WorldTest, AddTransformAndMesh)
 	EXPECT_FLOAT_EQ(position.y, 2.0f);
 	EXPECT_FLOAT_EQ(position.z, 3.0f);
 
-	EXPECT_TRUE(w.pool<mesh>().has(e));
+	EXPECT_TRUE(w.pool<camera>().has(e));
 }
 
 
@@ -34,11 +34,11 @@ TEST(WorldTest, ViewTransformMesh)
 	const auto e2 = w.create_entity();
 
 	w.add(e1, transform{ .position = { 1, 2, 3 } });
-	w.add(e1, mesh{});
+	w.add(e1, camera{});
 
 	w.add(e2, transform{ .position = { 4, 5, 6 } });
 
-	auto view = w.view<transform, mesh>();
+	auto view = w.view<transform, camera>();
 
 	int count = 0;
 

@@ -2,16 +2,16 @@
 // Created by ricka on 8/1/26.
 //
 
-#include <noi_engine/core/model/mesh_data.hpp>
+#include <noi_engine/core/model/mesh.hpp>
 #include <utility>
 #include "../glad/glad.h"
 
-noi_engine::mesh_data::mesh_data(std::vector<vertex> vertices, std::vector<uint32_t> indices)
+noi_engine::mesh::mesh(std::vector<vertex> vertices, std::vector<uint32_t> indices)
 	: m_vertices(std::move(vertices)), m_indices(std::move(indices))
 {
 }
 
-noi_engine::mesh_data::~mesh_data()
+noi_engine::mesh::~mesh()
 {
 	if (m_vao != 0)
 	{
@@ -21,7 +21,7 @@ noi_engine::mesh_data::~mesh_data()
 	}
 }
 
-noi_engine::mesh_data::mesh_data(mesh_data&& other) noexcept
+noi_engine::mesh::mesh(mesh&& other) noexcept
 	: m_vertices(std::move(other.m_vertices)),
 	  m_indices(std::move(other.m_indices)),
 	  m_vao(other.m_vao),
@@ -33,7 +33,7 @@ noi_engine::mesh_data::mesh_data(mesh_data&& other) noexcept
 	other.m_ebo = 0;
 }
 
-auto noi_engine::mesh_data::operator=(mesh_data&& other) noexcept -> mesh_data&
+auto noi_engine::mesh::operator=(mesh&& other) noexcept -> mesh&
 {
 	if (this == &other)
 		return *this;
@@ -51,7 +51,7 @@ auto noi_engine::mesh_data::operator=(mesh_data&& other) noexcept -> mesh_data&
 	return *this;
 }
 
-auto noi_engine::mesh_data::upload() -> void
+auto noi_engine::mesh::upload() -> void
 {
 	glGenVertexArrays(1, &m_vao);
 	glGenBuffers(1, &m_vbo);
@@ -86,12 +86,12 @@ auto noi_engine::mesh_data::upload() -> void
 	glBindVertexArray(0);
 }
 
-auto noi_engine::mesh_data::vao() const noexcept -> uint32_t
+auto noi_engine::mesh::vao() const noexcept -> uint32_t
 {
 	return m_vao;
 }
 
-auto noi_engine::mesh_data::index_count() const noexcept -> uint32_t
+auto noi_engine::mesh::index_count() const noexcept -> uint32_t
 {
 	return static_cast<uint32_t>(m_indices.size());
 }

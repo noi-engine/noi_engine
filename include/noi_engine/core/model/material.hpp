@@ -9,12 +9,10 @@
 #include <glm/vec4.hpp>
 #include <noi_engine/core/resources/resource_handle.hpp>
 #include <noi_engine/core/model/shader.hpp>
+#include <noi_engine/core/model/texture.hpp>
 
 namespace noi_engine
 {
-    class shader;
-    class texture;
-
     class material
     {
     public:

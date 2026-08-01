@@ -9,9 +9,10 @@ set(CORE_SOURCES
         core/renderer/renderer.cpp
         core/ecs/world.cpp
         core/ecs/entity_manager.cpp
-        core/model/mesh_data.cpp
-        core/model/texture_data.cpp
+        core/model/mesh.cpp
+        core/model/texture.cpp
         core/model/shader.cpp
+        core/model/material.cpp
 )
 
 set(NOI_ENGINE_SOURCES

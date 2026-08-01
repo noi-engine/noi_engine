@@ -54,6 +54,7 @@ noi_engine::game::game(const std::string& title, int width, int height,
 	                    SDL_GL_CONTEXT_PROFILE_CORE);
 
 	this->m_renderer = std::make_unique<renderer>();
+	this->m_resources = std::make_unique<resource_system>();
 	this->m_scene_manager = std::make_unique<scene_manager>();
 	this->m_window = std::make_unique<window>(title, width, height);
 
@@ -86,6 +87,11 @@ auto noi_engine::game::get_window() -> window&
 auto noi_engine::game::get_window() const -> const window&
 {
 	return *this->m_window;
+}
+
+auto noi_engine::game::resources() const noexcept -> resource_system&
+{
+	return *this->m_resources;
 }
 
 auto noi_engine::game::run(const int argc, char** argv) -> int

@@ -6,13 +6,13 @@
 
 #include <noi_engine/core/resources/resource_handle.hpp>
 #include <noi_engine/core/model/material.hpp>
-#include <noi_engine/core/model/mesh_data.hpp>
+#include <noi_engine/core/model/mesh.hpp>
 
 namespace noi_engine
 {
     struct mesh_renderer
     {
-        resource_handle<mesh_data> m_mesh{};
+        resource_handle<mesh> m_mesh{};
         resource_handle<material> m_material{};
     };
 }

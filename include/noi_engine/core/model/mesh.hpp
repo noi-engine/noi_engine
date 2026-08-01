@@ -10,7 +10,7 @@
 
 namespace noi_engine
 {
-    class mesh_data
+    class mesh
     {
         std::vector<vertex> m_vertices{};
         std::vector<uint32_t> m_indices{};
@@ -19,17 +19,17 @@ namespace noi_engine
         uint32_t m_ebo{0};
 
     public:
-        explicit mesh_data(std::vector<vertex> vertices, std::vector<uint32_t> indices);
+        explicit mesh(std::vector<vertex> vertices, std::vector<uint32_t> indices);
 
-        ~mesh_data();
+        ~mesh();
 
-        mesh_data(const mesh_data&) = delete;
+        mesh(const mesh&) = delete;
 
-        auto operator=(const mesh_data&) -> mesh_data& = delete;
+        auto operator=(const mesh&) -> mesh& = delete;
 
-        mesh_data(mesh_data&& other) noexcept;
+        mesh(mesh&& other) noexcept;
 
-        auto operator=(mesh_data&& other) noexcept -> mesh_data&;
+        auto operator=(mesh&& other) noexcept -> mesh&;
 
         auto upload() -> void;
 
