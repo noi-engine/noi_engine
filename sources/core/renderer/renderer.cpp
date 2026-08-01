@@ -20,6 +20,7 @@ auto noi_engine::renderer::begin_frame() -> void
     );
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 auto noi_engine::renderer::end_frame() -> void
@@ -30,7 +31,7 @@ auto noi_engine::renderer::draw(const transform& transform, const mesh_renderer&
                                 const glm::mat4& projection) -> void
 {
     const auto& mesh = m_resources.meshes.get(mesh_renderer.m_mesh);
-    const auto& material = m_resources.materials.get(mesh_renderer.m_material);
+    auto& material = m_resources.materials.get(mesh_renderer.m_material);
     const auto& shader = m_resources.shaders.get(material.shader());
 
     shader.use();
@@ -40,6 +41,7 @@ auto noi_engine::renderer::draw(const transform& transform, const mesh_renderer&
     shader.set_mat4("u_projection", projection);
 
     mesh.bind();
+    material.apply(shader, m_resources);
 
     glDrawElements(
         GL_TRIANGLES,

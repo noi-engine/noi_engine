@@ -11,7 +11,7 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
 {
     this->m_camera_entity = this->m_world.create_entity();
     this->m_world.add(this->m_camera_entity, camera{});
-    this->m_world.add(this->m_camera_entity, transform{});
+    this->m_world.add(this->m_camera_entity, transform{.position = {0.0f, 0.0f, 0.4f}});
 }
 
 auto noi_engine::scene::render(renderer& renderer) -> void

@@ -135,7 +135,11 @@ auto main(const int argc, char* argv[]) -> int
 
     const auto cube = world.create_entity();
 
-    world.add(cube, noi_engine::transform{});
+    world.add(cube, noi_engine::transform{
+                  .position = {0.0f, 0.0f, -3.0f},
+                  .rotation = {0.5f, 0.5f, 0.0f},
+                  .scale = {0.8f, 0.8f, 0.8f}
+              });
     world.add(
         cube,
         noi_engine::mesh_renderer
