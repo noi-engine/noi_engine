@@ -12,8 +12,4 @@ public:
 	test_scene() : scene("test_scene")
 	{
 	}
-
-	auto render(noi_engine::renderer& renderer) -> void override
-	{
-	}
 };
