@@ -10,12 +10,6 @@
 
 namespace noi_engine
 {
-    enum class vertex_type
-    {
-        textured,
-        colored
-    };
-
     class mesh_data
     {
         std::vector<vertex> m_vertices{};
@@ -23,7 +17,6 @@ namespace noi_engine
         uint32_t m_vao{0};
         uint32_t m_vbo{0};
         uint32_t m_ebo{0};
-        vertex_type m_vertex_type{vertex_type::textured};
 
     public:
         explicit mesh_data(std::vector<vertex> vertices, std::vector<uint32_t> indices);

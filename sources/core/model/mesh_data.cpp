@@ -76,7 +76,7 @@ auto noi_engine::mesh_data::upload() -> void
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex),
-	                       reinterpret_cast<void*>(offsetof(vertex, color))); // NOLINT(*-no-int-to-ptr)
+	                       reinterpret_cast<void*>(offsetof(vertex, normal))); // NOLINT(*-no-int-to-ptr)
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex),
