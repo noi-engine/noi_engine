@@ -9,6 +9,9 @@ set(CORE_SOURCES
         core/renderer/renderer.cpp
         core/ecs/world.cpp
         core/ecs/entity_manager.cpp
+        core/model/mesh_data.cpp
+        core/model/texture_data.cpp
+        core/model/shader.cpp
 )
 
 set(NOI_ENGINE_SOURCES
@@ -29,8 +32,11 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME}
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
 
+target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>)
+
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
+
 
 set_target_properties(
         ${NOI_ENGINE_LIB_NAME}

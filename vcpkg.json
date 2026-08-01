@@ -5,6 +5,7 @@
   "dependencies": [
     "gtest",
     "sdl2",
-    "glm"
+    "glm",
+    "sdl2-image"
   ]
 }

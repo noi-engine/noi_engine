@@ -3,6 +3,7 @@
 //
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <noi_engine/core/game.hpp>
 #include <noi_engine/core/timer.hpp>
 #include <stdexcept>
@@ -41,6 +42,12 @@ noi_engine::game::game(const std::string& title, int width, int height,
 		throw std::runtime_error("Cannot init sdl");
 	}
 
+	if ((IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) & (IMG_INIT_JPG | IMG_INIT_PNG)) == 0)
+	{
+		SDL_Quit();
+		throw std::runtime_error("Cannot init sdl_image");
+	}
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
@@ -62,6 +69,7 @@ noi_engine::game::game(const std::string& title, int width, int height,
 
 noi_engine::game::~game()
 {
+	IMG_Quit();
 	SDL_Quit();
 }
 
