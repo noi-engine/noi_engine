@@ -13,6 +13,8 @@ set(CORE_SOURCES
         core/model/texture.cpp
         core/model/shader.cpp
         core/model/material.cpp
+        core/components/transform.cpp
+        core/systems/render_system.cpp
 )
 
 set(NOI_ENGINE_SOURCES

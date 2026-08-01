@@ -32,5 +32,7 @@ namespace noi_engine
         auto set_mat4(const std::string& name, const glm::mat4& value) const -> void;
 
         auto set_int(const std::string& name, int value) const -> void;
+        auto set_float(const std::string& name, float value) const -> void;
+        auto set_vec4(const std::string& name, glm::vec4 value) const -> void;
     };
 }

@@ -33,6 +33,10 @@ namespace noi_engine
 
         auto upload() -> void;
 
+        auto bind() const -> void;
+
+        auto unbind() const -> void;
+
         [[nodiscard]] auto vao() const noexcept -> uint32_t;
 
         [[nodiscard]] auto index_count() const noexcept -> uint32_t;

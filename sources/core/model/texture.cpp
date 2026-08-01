@@ -9,7 +9,7 @@
 #include <noi_engine/core/model/texture.hpp>
 #include <SDL2/SDL_image.h>
 
-static auto from_surface(GLuint &id, const SDL_Surface *surface) -> void
+static auto from_surface(GLuint& id, const SDL_Surface* surface) -> void
 {
     if (!surface)
     {
@@ -22,14 +22,14 @@ static auto from_surface(GLuint &id, const SDL_Surface *surface) -> void
     const GLint format = surface->format->BytesPerPixel == 4 ? GL_RGBA : GL_RGB;
 
     glTexImage2D(GL_TEXTURE_2D,
-        0,
-        format,
-        surface->w,
-        surface->h,
-        0,
-        format,
-        GL_UNSIGNED_BYTE,
-        surface->pixels);
+                 0,
+                 format,
+                 surface->w,
+                 surface->h,
+                 0,
+                 format,
+                 GL_UNSIGNED_BYTE,
+                 surface->pixels);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -79,6 +79,12 @@ auto noi_engine::texture::operator=(texture&& other) noexcept -> texture&
     other.m_id = 0;
 
     return *this;
+}
+
+auto noi_engine::texture::bind(const uint32_t slot) const -> void
+{
+    glActiveTexture(GL_TEXTURE0 + slot);
+    glBindTexture(GL_TEXTURE_2D, m_id);
 }
 
 auto noi_engine::texture::id() const noexcept -> uint32_t

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace noi_engine
 {
@@ -13,5 +14,8 @@ namespace noi_engine
 		glm::vec3 position{ 0.0f };
 		glm::vec3 rotation{ 0.0f };
 		glm::vec3 scale{ 1.0f };
+
+		//TODO: should be optimized
+        [[nodiscard]] auto model() const -> glm::mat4;
 	};
 }

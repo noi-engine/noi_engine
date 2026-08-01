@@ -8,11 +8,14 @@
 #include <unordered_map>
 #include <glm/vec4.hpp>
 #include <noi_engine/core/resources/resource_handle.hpp>
-#include <noi_engine/core/model/shader.hpp>
-#include <noi_engine/core/model/texture.hpp>
 
 namespace noi_engine
 {
+
+    class shader;
+    class texture;
+    class resource_system;
+
     class material
     {
     public:
@@ -22,6 +25,8 @@ namespace noi_engine
         auto set_texture(std::string name, resource_handle<texture> texture) -> void;
 
         [[nodiscard]] auto shader() const noexcept -> resource_handle<shader>;
+
+        auto apply(const noi_engine::shader &shader, resource_system &resources) -> void;
 
     private:
         resource_handle<class shader> m_shader{};

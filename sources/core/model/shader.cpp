@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <vector>
 #include <noi_engine/core/model/shader.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace
 {
@@ -86,4 +87,16 @@ auto noi_engine::shader::set_int(const std::string& name, const int value) const
 {
     const auto location = glGetUniformLocation(m_program, name.c_str());
     glUniform1i(location, value);
+}
+
+auto noi_engine::shader::set_float(const std::string& name, float value) const -> void
+{
+    const auto location = glGetUniformLocation(m_program, name.data());
+    glUniform1f(location, value);
+}
+
+auto noi_engine::shader::set_vec4(const std::string& name, glm::vec4 value) const -> void
+{
+    const auto location = glGetUniformLocation(m_program, name.data());
+    glUniform4fv(location, 1, glm::value_ptr(value));
 }

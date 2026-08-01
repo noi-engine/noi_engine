@@ -7,13 +7,16 @@
 #include <string>
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/ecs/world.hpp>
+#include <noi_engine/core/ecs/entity.hpp>
 
 namespace noi_engine
 {
 	class scene
 	{
-		std::string m_name{};
+	protected:
 		world m_world{};
+		std::string m_name{};
+		entity m_camera_entity{};
 
 	public:
 		explicit scene(std::string  name);

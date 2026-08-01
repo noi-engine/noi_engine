@@ -28,6 +28,8 @@ namespace noi_engine
 
         auto operator=(texture&& other) noexcept -> texture&;
 
+        auto bind(uint32_t slot) const -> void;
+
         [[nodiscard]] auto id() const noexcept -> uint32_t;
 
         [[nodiscard]] auto width() const noexcept -> int;

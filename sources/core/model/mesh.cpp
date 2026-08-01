@@ -57,7 +57,7 @@ auto noi_engine::mesh::upload() -> void
 	glGenBuffers(1, &m_vbo);
 	glGenBuffers(1, &m_ebo);
 
-	glBindVertexArray(m_vao);
+	this->bind();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER,
@@ -75,7 +75,7 @@ auto noi_engine::mesh::upload() -> void
 	                       reinterpret_cast<void*>(offsetof(vertex, position))); // NOLINT(*-no-int-to-ptr)
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex),
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex),
 	                       reinterpret_cast<void*>(offsetof(vertex, normal))); // NOLINT(*-no-int-to-ptr)
 	glEnableVertexAttribArray(1);
 
@@ -83,6 +83,16 @@ auto noi_engine::mesh::upload() -> void
 	                       reinterpret_cast<void*>(offsetof(vertex, uv))); // NOLINT(*-no-int-to-ptr)
 	glEnableVertexAttribArray(2);
 
+	this->unbind();
+}
+
+auto noi_engine::mesh::bind() const -> void
+{
+	glBindVertexArray(m_vao);
+}
+
+auto noi_engine::mesh::unbind() const -> void
+{
 	glBindVertexArray(0);
 }
 
