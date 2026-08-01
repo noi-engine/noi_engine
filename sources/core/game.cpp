@@ -103,9 +103,9 @@ auto noi_engine::game::run(const int argc, char** argv) -> int
 		process_events();
 		update(dt);
 
-		this->m_renderer->begin_frame();
+		renderer::begin_frame();
 		render();
-		this->m_renderer->end_frame();
+		renderer::end_frame();
 
 		this->m_window->swap_buffers();
 

@@ -13,9 +13,9 @@ namespace noi_engine
 
 		virtual ~renderer() = default;
 
-		auto begin_frame() -> void;
+		static auto begin_frame() -> void;
 
-		auto end_frame() -> void;
+		static auto end_frame() -> void;
 
 		auto draw_test() -> void;
 	};
