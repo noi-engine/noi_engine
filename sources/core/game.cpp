@@ -69,7 +69,6 @@ noi_engine::game::game(const std::string& title, int width, int height,
     this->m_renderer = std::make_unique<renderer>(*this->m_resources);
 
     glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     this->m_conf = conf;

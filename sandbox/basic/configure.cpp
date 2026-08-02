@@ -10,7 +10,6 @@
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/components/render_layer.hpp>
-#include <noi_engine/core/components/follow_target.hpp>
 #include <noi_engine/core/model/material.hpp>
 
 #include "components/player_controller.hpp"
@@ -31,7 +30,6 @@ static auto movable_player_quad(sandbox::game& game) -> void
 {
     auto scene = std::make_unique<sandbox::basic::player_scene>();
     auto& world = scene->get_world();
-    const auto camera_entity = scene->get_camera_entity();
     game.set_scene(std::move(scene));
 
     auto& resources = game.resources();
@@ -63,6 +61,4 @@ static auto movable_player_quad(sandbox::game& game) -> void
     world.add(player, sandbox::basic::player_controller{.speed = 3.0f});
     world.add(player, noi_engine::render_layer{.order = 0});
     world.add(player, noi_engine::mesh_renderer{.m_mesh = quad_mesh, .m_material = green_material_handle});
-
-    world.add(camera_entity, noi_engine::follow_target{.target = player});
 }

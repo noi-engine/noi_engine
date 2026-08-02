@@ -14,22 +14,31 @@
 #include <stdexcept>
 #include <algorithm>
 
-auto noi_engine::render_system::sorted_renderables(world& world) -> std::vector<entity>
+#include "../glad/glad.h"
+
+auto noi_engine::render_system::sorted_renderables(world& world) -> const std::vector<entity>&
 {
-    std::vector<entity> renderables;
+    thread_local std::vector<entity> renderables;
+    renderables.clear();
 
     for (const auto e : world.view<transform, mesh_renderer>())
         renderables.push_back(e);
 
     std::ranges::stable_sort(renderables, [&world](const entity lhs, const entity rhs)
-    -> bool {
-        const auto lhs_order = world.has<render_layer>(lhs) ? world.get<render_layer>(lhs).order : 0;
-        const auto rhs_order = world.has<render_layer>(rhs) ? world.get<render_layer>(rhs).order : 0;
-        return lhs_order < rhs_order;
-    });
+                             -> bool
+                             {
+                                 const auto lhs_order = world.has<render_layer>(lhs)
+                                                            ? world.get<render_layer>(lhs).order
+                                                            : 0;
+                                 const auto rhs_order = world.has<render_layer>(rhs)
+                                                            ? world.get<render_layer>(rhs).order
+                                                            : 0;
+                                 return lhs_order < rhs_order;
+                             });
 
     return renderables;
 }
+
 
 auto noi_engine::render_system::render(world& world, renderer& renderer, const entity& active_camera) -> void
 {
@@ -38,11 +47,13 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
 
     if (world.has<camera_2d>(active_camera))
     {
+        glDisable(GL_DEPTH_TEST);
         view = camera_2d_system::view_matrix(world, active_camera);
         projection = camera_2d_system::projection_matrix(world, active_camera);
     }
     else if (world.has<camera_3d>(active_camera))
     {
+        glEnable(GL_DEPTH_TEST);
         view = camera_3d_system::view_matrix(world, active_camera);
         projection = camera_3d_system::projection_matrix(world, active_camera);
     }

@@ -18,6 +18,6 @@ namespace noi_engine
 
         static auto render(world& world, renderer& renderer, const entity& active_camera) -> void;
 
-        [[nodiscard]] static auto sorted_renderables(world& world) -> std::vector<entity>;
+        [[nodiscard]] static auto sorted_renderables(world& world) -> const std::vector<entity>&;
     };
 }
