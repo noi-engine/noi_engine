@@ -38,7 +38,6 @@ auto noi_engine::game::process_events() -> void
         }
 
         this->m_input.process_event(event);
-        this->m_input.process_event(event);
     }
 }
 
