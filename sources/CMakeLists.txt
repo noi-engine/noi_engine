@@ -20,6 +20,8 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
+        core/systems/follow_target_system.cpp
+        core/systems/camera_2d_debug_controller_system.cpp
         core/assets/filesystem_asset_provider.cpp
         core/assets/texture_loader.cpp
         core/resource_system.cpp

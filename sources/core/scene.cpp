@@ -3,16 +3,17 @@
 //
 
 #include <utility>
+#include "systems/render_system.hpp"
+#include "systems/camera_3d_system.hpp"
+#include "systems/camera_2d_system.hpp"
+#include "systems/follow_target_system.hpp"
+#include "systems/transform_system.hpp"
+
 #include <noi_engine/core/scene.hpp>
-#include <noi_engine/core/systems/render_system.hpp>
-#include <noi_engine/core/systems/camera_3d_system.hpp>
-#include <noi_engine/core/systems/camera_2d_system.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/camera_3d.hpp>
-
-#include "noi_engine/core/components/dirty.hpp"
-#include "noi_engine/core/components/world_matrix.hpp"
-#include "noi_engine/core/systems/transform_system.hpp"
+#include <noi_engine/core/components/dirty.hpp>
+#include <noi_engine/core/components/world_matrix.hpp>
 
 noi_engine::scene::scene(std::string name) : m_name(std::move(name))
 {
@@ -29,6 +30,7 @@ auto noi_engine::scene::render(renderer& renderer) -> void
 
 auto noi_engine::scene::update(float dt, const input_state& input) -> void
 {
+    follow_target_system::update(m_world, dt);
     transform_system::sync(m_world);
 
     if (m_world.has<camera_2d>(m_camera_entity))

@@ -2,11 +2,10 @@
 // Created by ricka on 8/2/26.
 //
 
-#include <noi_engine/core/systems/camera_3d_system.hpp>
+#include "camera_3d_system.hpp"
+#include "orbit_camera_system.hpp"
 #include <noi_engine/core/components/camera_3d.hpp>
-#include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/orbit_camera.hpp>
-#include <noi_engine/core/systems/orbit_camera_system.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 

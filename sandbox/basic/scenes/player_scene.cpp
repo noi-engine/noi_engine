@@ -12,7 +12,6 @@
 sandbox::basic::player_scene::player_scene() : scene("player_scene")
 {
     m_world.add<noi_engine::camera_2d>(m_camera_entity, noi_engine::camera_2d{
-                                           .position = {0.0f, 0.0f},
                                            .orthographic_size = 5.0f
                                        });
 }

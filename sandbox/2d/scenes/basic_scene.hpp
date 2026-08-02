@@ -6,6 +6,7 @@
 
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
+#include <noi_engine/core/components/camera_2d_debug_controller.hpp>
 
 namespace sandbox::twod::scenes
 {
@@ -15,9 +16,9 @@ namespace sandbox::twod::scenes
         basic_scene() : scene("basic_scene")
         {
             m_world.add<noi_engine::camera_2d>(m_camera_entity, noi_engine::camera_2d{
-                                                   .position = {0.0f, 0.0f},
                                                    .orthographic_size = 5.0f
-                                               });;
+                                               });
+            m_world.add(m_camera_entity, noi_engine::camera_2d_debug_controller{});
         }
     };
 }

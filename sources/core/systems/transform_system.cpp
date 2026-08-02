@@ -2,7 +2,7 @@
 // Created by ricka on 8/2/26.
 //
 
-#include <noi_engine/core/systems/transform_system.hpp>
+#include "transform_system.hpp"
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/components/dirty.hpp>

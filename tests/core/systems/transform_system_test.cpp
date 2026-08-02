@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 
 #include <noi_engine/core/ecs/world.hpp>
-#include <noi_engine/core/systems/transform_system.hpp>
+#include <../../../sources/core/systems/transform_system.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/components/dirty.hpp>

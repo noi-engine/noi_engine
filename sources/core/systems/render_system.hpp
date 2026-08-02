@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <vector>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/renderer/renderer.hpp>
@@ -15,6 +16,8 @@ namespace noi_engine
     public:
         render_system() = delete;
 
-        static auto render(world& world, renderer& renderer, const entity &active_camera) -> void;
+        static auto render(world& world, renderer& renderer, const entity& active_camera) -> void;
+
+        [[nodiscard]] static auto sorted_renderables(world& world) -> std::vector<entity>;
     };
 }
