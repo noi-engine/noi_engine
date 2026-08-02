@@ -26,6 +26,8 @@ namespace noi_engine
 
         virtual auto update(float dt, const input_state& input) -> void;
 
+        virtual auto on_resize(int width, int height) -> void;
+
         [[nodiscard]] auto get_world() -> world&;
 
         [[nodiscard]] auto get_camera_entity() const -> entity;

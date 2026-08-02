@@ -35,6 +35,6 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
 
     for (const auto entity : world.view<transform, mesh_renderer>())
     {
-        renderer.draw(world.get<transform>(entity), world.get<mesh_renderer>(entity), view, projection);
+        renderer.draw(world.get<world_matrix>(entity), world.get<mesh_renderer>(entity), view, projection);
     }
 }

@@ -26,7 +26,7 @@ auto noi_engine::renderer::end_frame() -> void
 {
 }
 
-auto noi_engine::renderer::draw(const transform& transform, const mesh_renderer& mesh_renderer, const glm::mat4& view,
+auto noi_engine::renderer::draw(const world_matrix& model, const mesh_renderer& mesh_renderer, const glm::mat4& view,
                                 const glm::mat4& projection) -> void
 {
     const auto& mesh = m_resources.meshes.get(mesh_renderer.m_mesh);
@@ -35,8 +35,8 @@ auto noi_engine::renderer::draw(const transform& transform, const mesh_renderer&
 
     shader.use();
 
-    shader.set_mat4("u_model", transform.model());
     shader.set_mat4("u_view", view);
+    shader.set_mat4("u_model", model.value);
     shader.set_mat4("u_projection", projection);
 
     mesh.bind();

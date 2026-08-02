@@ -18,6 +18,7 @@ set(CORE_SOURCES
         core/systems/render_system.cpp
         core/systems/orbit_camera_system.cpp
         core/systems/camera_2d_system.cpp
+        core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
 )
 

@@ -3,6 +3,8 @@
 //
 
 #include <noi_engine/core/model/mesh.hpp>
+#include <noi_engine/core/components/dirty.hpp>
+
 #include "noi_game.hpp"
 #include "scenes/test_scene.hpp"
 
@@ -140,6 +142,8 @@ auto main(const int argc, char* argv[]) -> int
                   .rotation = {0.5f, 0.5f, 0.0f},
                   .scale = {0.8f, 0.8f, 0.8f}
               });
+    world.add(cube, noi_engine::world_matrix{});
+    world.add(cube, noi_engine::dirty<noi_engine::transform>{});
 
     world.add(
         cube,

@@ -24,3 +24,11 @@ auto noi_engine::scene_manager::render(renderer& renderer) const -> void
         this->m_current->render(renderer);
     }
 }
+
+auto noi_engine::scene_manager::on_resize(const int width, const int height) const -> void
+{
+    if (this->m_current)
+    {
+        this->m_current->on_resize(width, height);
+    }
+}

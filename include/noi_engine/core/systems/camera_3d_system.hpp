@@ -7,6 +7,7 @@
 #include <glm/mat4x4.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/ecs/entity.hpp>
+#include <noi_engine/core/input/input_state.hpp>
 
 namespace noi_engine
 {

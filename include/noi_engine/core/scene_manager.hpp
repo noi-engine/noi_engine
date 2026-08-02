@@ -25,5 +25,7 @@ namespace noi_engine
         auto update(float dt, const input_state& input) const -> void;
 
         auto render(renderer& renderer) const -> void;
+
+        auto on_resize(int width, int height) const -> void;
     };
 }

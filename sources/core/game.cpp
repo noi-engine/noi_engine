@@ -28,6 +28,16 @@ auto noi_engine::game::process_events() -> void
             m_running = false;
             return;
         }
+
+        if (event.type == SDL_WINDOWEVENT &&
+            (event.window.event == SDL_WINDOWEVENT_RESIZED ||
+                event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED))
+        {
+            glViewport(0, 0, event.window.data1, event.window.data2);
+            m_scene_manager.on_resize(event.window.data1, event.window.data2);
+        }
+
+        this->m_input.process_event(event);
         this->m_input.process_event(event);
     }
 }
