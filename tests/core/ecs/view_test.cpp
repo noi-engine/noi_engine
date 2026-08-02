@@ -8,7 +8,7 @@
 
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/transform.hpp>
-#include <noi_engine/core/components/camera.hpp>
+#include <noi_engine/core/components/camera_3d.hpp>
 
 using namespace noi_engine;
 
@@ -58,13 +58,13 @@ TEST(ViewTest, MultipleComponents)
 	const auto e3 = w.create_entity();
 
 	w.add(e1, transform{ .position = { 1, 2, 3 } });
-	w.add(e1, camera{});
+	w.add(e1, camera_3d{});
 
 	w.add(e2, transform{ .position = { 4, 5, 6 } });
 
-	w.add(e3, camera{});
+	w.add(e3, camera_3d{});
 
-	auto view = w.view<transform, camera>();
+	auto view = w.view<transform, camera_3d>();
 
 	std::vector<entity> entities;
 
@@ -85,9 +85,9 @@ TEST(ViewTest, ViewReflectsNewComponents)
 
 	w.add(e, transform{ .position = { 1, 2, 3 } });
 
-	auto view = w.view<transform, camera>();
+	auto view = w.view<transform, camera_3d>();
 
-	w.add(e, camera{});
+	w.add(e, camera_3d{});
 
 	int count = 0;
 
@@ -106,9 +106,9 @@ TEST(ViewTest, RemoveComponentRemovesEntityFromView)
 	const auto e = w.create_entity();
 
 	w.add(e, transform{ .position = { 1, 2, 3 } });
-	w.add(e, camera{});
+	w.add(e, camera_3d{});
 
-	auto view = w.view<transform, camera>();
+	auto view = w.view<transform, camera_3d>();
 
 	int before = 0;
 
@@ -119,7 +119,7 @@ TEST(ViewTest, RemoveComponentRemovesEntityFromView)
 
 	EXPECT_EQ(before, 1);
 
-	w.pool<camera>().remove(e);
+	w.pool<camera_3d>().remove(e);
 
 	int after = 0;
 
@@ -145,18 +145,18 @@ TEST(ViewTest, IterationReturnsCorrectEntities)
 
 		if (i % 2 == 0)
 		{
-			w.add(e, camera{});
+			w.add(e, camera_3d{});
 		}
 	}
 
-	auto view = w.view<transform, camera>();
+	auto view = w.view<transform, camera_3d>();
 
 	int result = 0;
 
 	for (const auto e : view)
 	{
 		EXPECT_TRUE(w.pool<transform>().has(e));
-		EXPECT_TRUE(w.pool<camera>().has(e));
+		EXPECT_TRUE(w.pool<camera_3d>().has(e));
 
 		++result;
 	}

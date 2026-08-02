@@ -5,15 +5,19 @@
 #include <utility>
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/systems/render_system.hpp>
-#include <noi_engine/core/components/orbit_camera.hpp>
-#include <noi_engine/core/systems/orbit_camera_system.hpp>
+#include <noi_engine/core/systems/camera_3d_system.hpp>
 #include <noi_engine/core/systems/camera_2d_system.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
+#include <noi_engine/core/components/camera_3d.hpp>
+
+#include "noi_engine/core/components/world_matrix.hpp"
+#include "noi_engine/core/systems/transform_system.hpp"
 
 noi_engine::scene::scene(std::string name) : m_name(std::move(name))
 {
-    m_camera_entity = m_world.create_entity();
+    this->m_camera_entity = m_world.create_entity();
     m_world.add(m_camera_entity, transform{});
+    m_world.add(m_camera_entity, world_matrix{});
 }
 
 auto noi_engine::scene::render(renderer& renderer) -> void
@@ -23,13 +27,15 @@ auto noi_engine::scene::render(renderer& renderer) -> void
 
 auto noi_engine::scene::update(float dt, const input_state& input) -> void
 {
+    transform_system::sync(m_world);
+
     if (m_world.pool<camera_2d>().has(m_camera_entity))
     {
         camera_2d_system::update(m_world, m_camera_entity, input);
     }
-    else if (m_world.pool<orbit_camera>().has(m_camera_entity))
+    else if (m_world.pool<camera_3d>().has(m_camera_entity))
     {
-        orbit_camera_system::update(m_world, m_camera_entity, input);
+        camera_3d_system::update(m_world, m_camera_entity, input);
     }
 }
 

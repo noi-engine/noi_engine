@@ -13,16 +13,15 @@ set(CORE_SOURCES
         core/model/texture.cpp
         core/model/shader.cpp
         core/model/material.cpp
-        core/components/transform.cpp
+        core/input/input_state.cpp
+        core/components/world_matrix.cpp
         core/systems/render_system.cpp
         core/systems/orbit_camera_system.cpp
-        core/input/input_state.cpp
         core/systems/camera_2d_system.cpp
+        core/systems/transform_system.cpp
 )
 
-set(NOI_ENGINE_SOURCES
-        ${CORE_SOURCES}
-)
+set(NOI_ENGINE_SOURCES ${CORE_SOURCES})
 
 if (BUILD_SHARED_LIBS)
     add_library(${NOI_ENGINE_LIB_NAME} SHARED ${NOI_ENGINE_SOURCES})

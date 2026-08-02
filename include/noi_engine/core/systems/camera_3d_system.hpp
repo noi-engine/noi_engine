@@ -1,0 +1,24 @@
+//
+// Created by ricka on 8/2/26.
+//
+
+#pragma once
+
+#include <glm/mat4x4.hpp>
+#include <noi_engine/core/ecs/world.hpp>
+#include <noi_engine/core/ecs/entity.hpp>
+
+namespace noi_engine
+{
+    class camera_3d_system
+    {
+    public:
+        camera_3d_system() = delete;
+
+        [[nodiscard]] static auto view_matrix(world& world, entity camera_entity) -> glm::mat4;
+
+        [[nodiscard]] static auto projection_matrix(world& world, entity camera_entity) -> glm::mat4;
+
+        static auto update(world& world, entity camera_entity, const input_state& input) -> void;
+    };
+}

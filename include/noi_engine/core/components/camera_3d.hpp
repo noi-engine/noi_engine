@@ -6,7 +6,7 @@
 
 namespace noi_engine
 {
-    struct camera
+    struct camera_3d
     {
         float fov{45.0f};
         float near_plane{0.1f};
