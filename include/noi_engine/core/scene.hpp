@@ -28,6 +28,8 @@ namespace noi_engine
 
         [[nodiscard]] auto get_world() -> world&;
 
+        [[nodiscard]] auto get_camera_entity() const -> entity;
+
         virtual ~scene() = default;
     };
 }
