@@ -11,6 +11,7 @@ auto noi_engine::texture_loader::load(const std::span<const std::byte> data) -> 
     int height;
     int channels;
 
+    stbi_set_flip_vertically_on_load(true);
     const auto pixels = stbi_load_from_memory(
         reinterpret_cast<const unsigned char*>(data.data()),
         static_cast<int>(data.size()),

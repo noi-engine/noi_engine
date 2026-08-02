@@ -11,14 +11,16 @@
 #include "resources/shaders.hpp"
 #include "scenes/basic_scene.hpp"
 
-static auto blue_cube_on_basic_scene(sandbox::game& game) -> void;
+static auto blue_quad_on_basic_scene(sandbox::game& game) -> void;
+static auto textured_quad_on_basic_scene(sandbox::game& game) -> void;
 
 auto sandbox::twod::configure(game& game) -> void
 {
-    blue_cube_on_basic_scene(game);
+    //blue_quad_on_basic_scene(game);
+    textured_quad_on_basic_scene(game);
 }
 
-static auto blue_cube_on_basic_scene(sandbox::game& game) -> void
+static auto blue_quad_on_basic_scene(sandbox::game& game) -> void
 {
     auto scene = std::make_unique<sandbox::twod::scenes::basic_scene>();
     auto& world = scene->get_world();
@@ -33,18 +35,50 @@ static auto blue_cube_on_basic_scene(sandbox::game& game) -> void
     blue_material.set_color("u_color", {0.0f, 0.0f, 1.0f, 1.0f});
 
     const auto blue_material_handle = resources.add(std::move(blue_material));
-    const auto cube = world.create_entity();
+    const auto quad = world.create_entity();
 
-    world.add(cube, noi_engine::transform{.scale = {0.8f, 0.8f, 0.8f}});
-    world.add(cube, noi_engine::world_matrix{});
-    world.add(cube, noi_engine::dirty<noi_engine::transform>{});
+    world.add(quad, noi_engine::transform{.scale = {0.8f, 0.8f, 0.8f}});
+    world.add(quad, noi_engine::world_matrix{});
+    world.add(quad, noi_engine::dirty<noi_engine::transform>{});
 
     world.add(
-        cube,
+        quad,
         noi_engine::mesh_renderer
         {
             .m_mesh = quad_mesh,
             .m_material = blue_material_handle
+        }
+    );
+}
+
+static auto textured_quad_on_basic_scene(sandbox::game& game) -> void
+{
+    auto scene = std::make_unique<sandbox::twod::scenes::basic_scene>();
+    auto& world = scene->get_world();
+    game.set_scene(std::move(scene));
+
+    auto& resources = game.resources();
+    const auto quad_mesh = resources.add(sandbox::twod::meshes::quad());
+    const auto texture_shader = resources.add(sandbox::twod::shaders::texture_shader());
+    const auto texture = resources.add_texture("assets/2d/images/opengl.png"); //TODO
+
+    noi_engine::material texture_material;
+    texture_material.set_shader(texture_shader);
+    texture_material.set_texture("u_texture", texture);
+
+    const auto texture_material_handle = resources.add(std::move(texture_material));
+    const auto quad = world.create_entity();
+
+    world.add(quad, noi_engine::transform{.scale = {0.8f, 0.8f, 0.8f}});
+    world.add(quad, noi_engine::world_matrix{});
+    world.add(quad, noi_engine::dirty<noi_engine::transform>{});
+
+    world.add(
+        quad,
+        noi_engine::mesh_renderer
+        {
+            .m_mesh = quad_mesh,
+            .m_material = texture_material_handle
         }
     );
 }

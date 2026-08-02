@@ -9,4 +9,5 @@
 namespace sandbox::twod::shaders
 {
     auto color_shader() -> noi_engine::shader;
+    auto texture_shader() -> noi_engine::shader;
 }
