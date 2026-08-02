@@ -15,8 +15,8 @@ namespace noi_engine
     class resource_system
     {
     public:
-        resource_manager<shader> shaders{};
         resource_manager<mesh> meshes{};
+        resource_manager<shader> shaders{};
         resource_manager<texture> textures{};
         resource_manager<material> materials{};
 

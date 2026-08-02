@@ -10,6 +10,7 @@
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/camera_3d.hpp>
 
+#include "noi_engine/core/components/dirty.hpp"
 #include "noi_engine/core/components/world_matrix.hpp"
 #include "noi_engine/core/systems/transform_system.hpp"
 
@@ -18,6 +19,7 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
     this->m_camera_entity = m_world.create_entity();
     m_world.add(m_camera_entity, transform{});
     m_world.add(m_camera_entity, world_matrix{});
+    m_world.add(m_camera_entity, dirty<transform>{});
 }
 
 auto noi_engine::scene::render(renderer& renderer) -> void

@@ -1,5 +1,8 @@
 set(SANDBOX_SOURCES
         main.cpp
+        3d/resources/meshes.cpp
+        3d/resources/shaders.cpp
+        3d/configure.cpp
 )
 
 add_executable(sandbox ${SANDBOX_SOURCES})
