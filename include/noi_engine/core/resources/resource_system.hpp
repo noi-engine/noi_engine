@@ -30,6 +30,7 @@ namespace noi_engine
         [[nodiscard]] auto add(T resource) -> resource_handle<T>;
 
         [[nodiscard]] auto add_texture(std::string_view path) -> resource_handle<texture>;
+        [[nodiscard]] auto add_mesh(std::string_view path) -> resource_handle<mesh>;
     };
 
     template <>

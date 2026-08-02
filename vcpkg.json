@@ -6,6 +6,7 @@
     "gtest",
     "sdl2",
     "glm",
-    "stb"
+    "stb",
+    "tinyobjloader"
   ]
 }

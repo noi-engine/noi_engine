@@ -26,6 +26,7 @@ set(CORE_SOURCES
         core/assets/texture_loader.cpp
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
+        core/assets/mesh_loader.cpp
 )
 
 set(NOI_ENGINE_SOURCES ${CORE_SOURCES})
@@ -49,6 +50,7 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
 
+target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE tinyobjloader::tinyobjloader)
 
 set_target_properties(
         ${NOI_ENGINE_LIB_NAME}

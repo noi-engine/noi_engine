@@ -12,8 +12,8 @@ auto main(const int argc, char* argv[]) -> int
     sandbox::game my_game;
 
     //sandbox::twod::configure(my_game);
-    //sandbox::threed::configure(my_game);
-    sandbox::basic::configure(my_game);
+    sandbox::threed::configure(my_game);
+    //sandbox::basic::configure(my_game);
 
     return my_game.run(argc, argv);
 }

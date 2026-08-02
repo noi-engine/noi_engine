@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(Stb REQUIRED)
+find_package(tinyobjloader CONFIG REQUIRED)
 
 set(NOI_ENGINE_LIB_NAME noi_engine)
 set(NOI_ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
