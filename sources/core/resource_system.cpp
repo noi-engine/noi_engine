@@ -25,5 +25,7 @@ auto noi_engine::resource_system::add_mesh(std::string_view path) -> resource_ha
     auto data = this->m_asset_provider->read(path);
     auto mapped = mesh_loader::load(data);
 
+    mapped.upload(); //TODO
+
     return this->add<mesh>(std::move(mapped));
 }
