@@ -18,6 +18,7 @@
 
 #include "../2d/resources/meshes.hpp"
 #include "../2d/resources/shaders.hpp"
+#include "noi_engine/core/components/follow_target.hpp"
 
 static auto movable_player_quad(sandbox::game& game) -> void;
 
@@ -30,7 +31,7 @@ static auto movable_player_quad(sandbox::game& game) -> void
 {
     auto scene = std::make_unique<sandbox::basic::player_scene>();
     auto& world = scene->get_world();
-    game.set_scene(std::move(scene));
+    auto camera = scene->get_camera_entity();
 
     auto& resources = game.resources();
     const auto quad_mesh = resources.add(sandbox::twod::meshes::quad());
@@ -61,4 +62,12 @@ static auto movable_player_quad(sandbox::game& game) -> void
     world.add(player, sandbox::basic::player_controller{.speed = 3.0f});
     world.add(player, noi_engine::render_layer{.order = 0});
     world.add(player, noi_engine::mesh_renderer{.m_mesh = quad_mesh, .m_material = green_material_handle});
+
+    world.add(camera, noi_engine::follow_target{
+                  .target = player,
+                  .offset = {0.3, 0.3, 0.0},
+                  .smoothing = 0.3f
+              });
+
+    game.set_scene(std::move(scene));
 }
