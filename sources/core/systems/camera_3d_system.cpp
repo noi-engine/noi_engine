@@ -13,7 +13,7 @@
 
 auto noi_engine::camera_3d_system::view_matrix(world& world, const entity camera_entity) -> glm::mat4
 {
-    if (world.pool<orbit_camera>().has(camera_entity))
+    if (world.has<orbit_camera>(camera_entity))
     {
         return orbit_camera_system::view_matrix(world, camera_entity);
     }

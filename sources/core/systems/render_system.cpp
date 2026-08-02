@@ -18,12 +18,12 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
     glm::mat4 view;
     glm::mat4 projection;
 
-    if (world.pool<camera_2d>().has(active_camera))
+    if (world.has<camera_2d>(active_camera))
     {
         view = camera_2d_system::view_matrix(world, active_camera);
         projection = camera_2d_system::projection_matrix(world, active_camera);
     }
-    else if (world.pool<camera_3d>().has(active_camera))
+    else if (world.has<camera_3d>(active_camera))
     {
         view = camera_3d_system::view_matrix(world, active_camera);
         projection = camera_3d_system::projection_matrix(world, active_camera);

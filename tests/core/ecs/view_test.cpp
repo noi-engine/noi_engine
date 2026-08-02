@@ -42,7 +42,7 @@ TEST(ViewTest, SingleComponent)
 
 	for (const auto e : view)
 	{
-		EXPECT_TRUE(w.pool<transform>().has(e));
+		EXPECT_TRUE(w.has<transform>(e));
 		++count;
 	}
 
@@ -119,7 +119,7 @@ TEST(ViewTest, RemoveComponentRemovesEntityFromView)
 
 	EXPECT_EQ(before, 1);
 
-	w.pool<camera_3d>().remove(e);
+	w.remove<camera_3d>(e);
 
 	int after = 0;
 
@@ -155,8 +155,8 @@ TEST(ViewTest, IterationReturnsCorrectEntities)
 
 	for (const auto e : view)
 	{
-		EXPECT_TRUE(w.pool<transform>().has(e));
-		EXPECT_TRUE(w.pool<camera_3d>().has(e));
+		EXPECT_TRUE(w.has<transform>(e));
+		EXPECT_TRUE(w.has<camera_3d>(e));
 
 		++result;
 	}

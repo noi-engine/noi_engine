@@ -22,7 +22,7 @@ TEST(WorldTest, AddTransformAndMesh)
 	EXPECT_FLOAT_EQ(position.y, 2.0f);
 	EXPECT_FLOAT_EQ(position.z, 3.0f);
 
-	EXPECT_TRUE(w.pool<camera_3d>().has(e));
+	EXPECT_TRUE(w.has<camera_3d>(e));
 }
 
 

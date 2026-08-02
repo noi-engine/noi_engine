@@ -29,11 +29,11 @@ auto noi_engine::scene::update(float dt, const input_state& input) -> void
 {
     transform_system::sync(m_world);
 
-    if (m_world.pool<camera_2d>().has(m_camera_entity))
+    if (m_world.has<camera_2d>(m_camera_entity))
     {
         camera_2d_system::update(m_world, m_camera_entity, input);
     }
-    else if (m_world.pool<camera_3d>().has(m_camera_entity))
+    else if (m_world.has<camera_3d>(m_camera_entity))
     {
         camera_3d_system::update(m_world, m_camera_entity, input);
     }
@@ -41,12 +41,12 @@ auto noi_engine::scene::update(float dt, const input_state& input) -> void
 
 auto noi_engine::scene::on_resize(const int width, const int height) -> void
 {
-    if (m_world.pool<camera_2d>().has(m_camera_entity))
+    if (m_world.has<camera_2d>(m_camera_entity))
     {
         auto& cam = m_world.get<camera_2d>(m_camera_entity);
         cam.aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
     }
-    else if (m_world.pool<camera_3d>().has(m_camera_entity))
+    else if (m_world.has<camera_3d>(m_camera_entity))
     {
         auto& cam = m_world.get<camera_3d>(m_camera_entity);
         cam.aspect_ratio = static_cast<float>(width) / static_cast<float>(height);

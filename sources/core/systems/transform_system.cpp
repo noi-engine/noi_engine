@@ -12,6 +12,6 @@ auto noi_engine::transform_system::sync(world& world) -> void
     for (const auto e : world.view<transform, dirty<transform>>())
     {
         world.get<world_matrix>(e).value = world_matrix::from(world.get<transform>(e));
-        world.pool<dirty<transform>>().remove(e);
+        world.remove<dirty<transform>>(e);
     }
 }
