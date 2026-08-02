@@ -5,6 +5,7 @@
 #pragma once
 
 #include <glm/vec3.hpp>
+#include <noi_engine/core/components/component.hpp>
 
 namespace noi_engine
 {

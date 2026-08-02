@@ -4,10 +4,12 @@
 
 #pragma once
 
+#include <noi_engine/core/components/component.hpp>
+
 namespace noi_engine
 {
     template <typename T>
-    struct dirty
+    struct dirty : component
     {
     };
 }

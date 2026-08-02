@@ -4,9 +4,11 @@
 
 #pragma once
 
+#include <noi_engine/core/components/component.hpp>
+
 namespace noi_engine
 {
-    struct camera_3d
+    struct camera_3d: component
     {
         float fov{45.0f};
         float near_plane{0.1f};

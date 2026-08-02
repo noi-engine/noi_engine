@@ -6,10 +6,11 @@
 
 #include <glm/mat4x4.hpp>
 #include <noi_engine/core/components/transform.hpp>
+#include <noi_engine/core/components/component.hpp>
 
 namespace noi_engine
 {
-    struct world_matrix
+    struct world_matrix : component
     {
         glm::mat4 value{1.0f};
 

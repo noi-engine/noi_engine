@@ -6,9 +6,11 @@
 
 #include <glm/vec2.hpp>
 
+#include <noi_engine/core/components/component.hpp>
+
 namespace noi_engine
 {
-    struct camera_2d
+    struct camera_2d : component
     {
         glm::vec2 position{0.0f};
         float zoom{1.0f};
