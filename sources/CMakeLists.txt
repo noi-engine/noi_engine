@@ -16,6 +16,7 @@ set(CORE_SOURCES
         core/components/transform.cpp
         core/systems/render_system.cpp
         core/systems/orbit_camera_system.cpp
+        core/input/input_state.cpp
 )
 
 set(NOI_ENGINE_SOURCES

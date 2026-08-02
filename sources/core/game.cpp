@@ -18,10 +18,7 @@ auto noi_engine::game::render() -> void
 
 auto noi_engine::game::process_events() -> void
 {
-    m_input.mouse_delta_x = 0.0f;
-    m_input.mouse_delta_y = 0.0f;
-    m_input.scroll_delta = 0.0f;
-
+    this->m_input.begin_frame();
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
@@ -29,32 +26,9 @@ auto noi_engine::game::process_events() -> void
         if (event.type == SDL_QUIT)
         {
             m_running = false;
+            return;
         }
-        else if (event.type == SDL_MOUSEMOTION)
-        {
-            m_input.mouse_delta_x += static_cast<float>(event.motion.xrel);
-            m_input.mouse_delta_y += static_cast<float>(event.motion.yrel);
-        }
-        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
-        {
-            m_input.left_mouse_held = true;
-        }
-        else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
-        {
-            m_input.left_mouse_held = false;
-        }
-        else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
-        {
-            m_input.right_mouse_held = true;
-        }
-        else if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_RIGHT)
-        {
-            m_input.right_mouse_held = false;
-        }
-        else if (event.type == SDL_MOUSEWHEEL)
-        {
-            m_input.scroll_delta += static_cast<float>(event.wheel.y);
-        }
+        this->m_input.process_event(event);
     }
 }
 

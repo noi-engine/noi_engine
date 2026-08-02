@@ -12,14 +12,15 @@ auto noi_engine::orbit_camera_system::update(world& world, const entity camera_e
 {
     auto& cam = world.get<orbit_camera>(camera_entity);
 
-    if (input.left_mouse_held)
+    if (input.is_mouse_button_down(SDL_BUTTON_LEFT))
     {
-        cam.yaw -= input.mouse_delta_x * cam.sensitivity * 0.01f;
-        cam.pitch -= input.mouse_delta_y * cam.sensitivity * 0.01f;
+        auto moused_delta = input.get_mouse_delta();
+        cam.yaw -= moused_delta.x * cam.sensitivity * 0.01f;
+        cam.pitch -= moused_delta.y * cam.sensitivity * 0.01f;
         cam.pitch = std::clamp(cam.pitch, cam.min_pitch, cam.max_pitch);
     }
 
-    cam.distance -= input.scroll_delta * cam.zoom_speed;
+    cam.distance -= input.get_scroll_delta() * cam.zoom_speed;
     cam.distance = std::clamp(cam.distance, cam.min_distance, cam.max_distance);
 }
 
