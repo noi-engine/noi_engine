@@ -1,0 +1,20 @@
+//
+// Created by ricka on 8/2/26.
+//
+
+#include <noi_engine/core/resources/resource_system.hpp>
+
+#include "assets/texture_loader.hpp"
+
+noi_engine::resource_system::resource_system(std::unique_ptr<asset_provider> assets) : m_asset_provider(
+    std::move(assets))
+{
+}
+
+auto noi_engine::resource_system::add_texture(const std::string_view path) -> resource_handle<texture>
+{
+    auto data = this->m_asset_provider->read(path);
+    auto mapped = texture_loader::load(data);
+
+    return this->add<texture>(std::move(mapped));
+}

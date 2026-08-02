@@ -6,6 +6,6 @@
     "gtest",
     "sdl2",
     "glm",
-    "sdl2-image"
+    "stb"
   ]
 }

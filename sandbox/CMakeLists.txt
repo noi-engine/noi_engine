@@ -17,3 +17,6 @@ target_link_libraries(
 )
 
 target_include_directories(sandbox PRIVATE ${NOI_ENGINE_SOURCE_DIR}/include)
+
+set_target_properties(sandbox PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <span>
 #include <string>
 
 namespace noi_engine
@@ -16,7 +17,7 @@ namespace noi_engine
         int m_height{ 0 };
 
     public:
-        explicit texture(const std::string& path);
+        explicit texture(int width,int height, std::span<const std::byte> pixels);
 
         ~texture();
 

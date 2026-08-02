@@ -2,55 +2,35 @@
 // Created by ricka on 8/1/26.
 //
 
-#include <SDL_surface.h>
-
 #include "../glad/glad.h"
-#include <stdexcept>
 #include <noi_engine/core/model/texture.hpp>
-#include <SDL2/SDL_image.h>
 
-static auto from_surface(GLuint& id, const SDL_Surface* surface) -> void
+noi_engine::texture::texture(const int width, const int height, const std::span<const std::byte> pixels)
+    : m_width(width),
+      m_height(height)
 {
-    if (!surface)
-    {
-        throw std::runtime_error("from_surface received null surface");
-    }
-
-    glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
-
-    const GLint format = surface->format->BytesPerPixel == 4 ? GL_RGBA : GL_RGB;
-
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 format,
-                 surface->w,
-                 surface->h,
-                 0,
-                 format,
-                 GL_UNSIGNED_BYTE,
-                 surface->pixels);
+    glGenTextures(1, &m_id);
+    glBindTexture(GL_TEXTURE_2D, m_id);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-}
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
 
-noi_engine::texture::texture(const std::string& path)
-{
-    SDL_Surface* surface = IMG_Load(path.c_str());
-    if (!surface)
-    {
-        throw std::runtime_error("Failed to load image: " + path);
-    }
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8,
+        width,
+        height,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        pixels.data()
+    );
 
-    GLuint id;
-    from_surface(id, surface);
-
-    this->m_id = id;
-    this->m_width = surface->w;
-    this->m_height = surface->h;
-
-    SDL_FreeSurface(surface);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 noi_engine::texture::~texture()

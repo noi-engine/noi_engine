@@ -26,11 +26,11 @@ namespace noi_engine
         bool m_running{false};
 
         input_state m_input{};
-        resource_system m_resources{};
         scene_manager m_scene_manager{};
 
         std::unique_ptr<window> m_window{nullptr};
         std::unique_ptr<renderer> m_renderer{nullptr};
+        std::unique_ptr<resource_system> m_resources{nullptr};
 
     protected:
         virtual auto render() -> void;
@@ -51,7 +51,7 @@ namespace noi_engine
 
         [[nodiscard]] auto get_window() const -> const window&;
 
-        [[nodiscard]] auto resources() noexcept -> resource_system&;
+        [[nodiscard]] auto resources() const noexcept -> resource_system&;
 
         [[nodiscard]] auto input() -> input_state&;
 

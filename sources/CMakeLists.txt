@@ -20,6 +20,10 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
+        core/assets/filesystem_asset_provider.cpp
+        core/assets/texture_loader.cpp
+        core/resource_system.cpp
+        core/stb_image/stb_image.cpp
 )
 
 set(NOI_ENGINE_SOURCES ${CORE_SOURCES})
@@ -30,6 +34,8 @@ else ()
     add_library(${NOI_ENGINE_LIB_NAME} STATIC ${NOI_ENGINE_SOURCES})
 endif ()
 
+target_include_directories(${NOI_ENGINE_LIB_NAME} PRIVATE ${Stb_INCLUDE_DIR})
+
 target_link_libraries(${NOI_ENGINE_LIB_NAME}
         PUBLIC
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
@@ -37,8 +43,6 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME}
 )
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
-
-target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>)
 
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
