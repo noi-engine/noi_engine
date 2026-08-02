@@ -6,7 +6,7 @@
 
 #include "../sandbox_game.hpp"
 
-namespace sandbox
+namespace sandbox::threed
 {
-    auto configure_3d(game& game) -> void;
+    auto configure(game& game) -> void;
 }

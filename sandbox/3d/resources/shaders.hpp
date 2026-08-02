@@ -6,7 +6,7 @@
 
 #include <noi_engine/core/model/shader.hpp>
 
-namespace sandbox::shaders
+namespace sandbox::threed::shaders
 {
     auto color_shader() -> noi_engine::shader;
 }

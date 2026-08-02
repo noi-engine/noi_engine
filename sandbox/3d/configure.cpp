@@ -13,20 +13,20 @@
 
 static auto red_cube_on_orbit(sandbox::game& game) -> void;
 
-auto sandbox::configure_3d(game& game) -> void
+auto sandbox::threed::configure(game& game) -> void
 {
     red_cube_on_orbit(game);
 }
 
 static auto red_cube_on_orbit(sandbox::game& game) -> void
 {
-    auto scene = std::make_unique<sandbox::scenes::orbit_scene>();
+    auto scene = std::make_unique<sandbox::threed::scenes::orbit_scene>();
     auto& world = scene->get_world();
     game.set_scene(std::move(scene));
 
     auto& resources = game.resources();
-    const auto cube_mesh = resources.add(sandbox::meshes::cube());
-    const auto color_shader = resources.add(sandbox::shaders::color_shader());
+    const auto cube_mesh = resources.add(sandbox::threed::meshes::cube());
+    const auto color_shader = resources.add(sandbox::threed::shaders::color_shader());
 
     noi_engine::material red_material;
     red_material.set_shader(color_shader);

@@ -4,7 +4,7 @@
 
 #include "meshes.hpp"
 
-auto sandbox::meshes::cube() -> noi_engine::mesh
+auto sandbox::threed::meshes::cube() -> noi_engine::mesh
 {
     std::vector<noi_engine::vertex> vertices
     {

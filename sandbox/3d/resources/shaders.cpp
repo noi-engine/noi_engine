@@ -4,7 +4,7 @@
 
 #include "shaders.hpp"
 
-auto sandbox::shaders::color_shader() -> noi_engine::shader
+auto sandbox::threed::shaders::color_shader() -> noi_engine::shader
 {
     constexpr auto vertex_shader_source = R"(
 #version 330 core

@@ -8,7 +8,7 @@
 #include <noi_engine/core/components/camera_3d.hpp>
 #include <noi_engine/core/components/orbit_camera.hpp>
 
-namespace sandbox::scenes
+namespace sandbox::threed::scenes
 {
     class orbit_scene : public noi_engine::scene
     {
