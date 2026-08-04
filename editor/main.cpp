@@ -1,11 +1,19 @@
-//
-// Created by ricka on 8/4/26.
-//
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
-#include <iostream>
-
-auto main(const int argc, char* argv[]) -> int
+auto main(int argc, char* argv[]) -> int
 {
-    std::cout << "Hello World";
-    return 0;
+    const QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    QObject::connect(
+        &engine,
+        &QQmlApplicationEngine::objectCreationFailed,
+        &app,
+        []() -> void { QCoreApplication::exit(-1); },
+        Qt::QueuedConnection);
+
+    engine.loadFromModule("noi_engine_editor", "Main");
+
+    return QGuiApplication::exec();
 }
