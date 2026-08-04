@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include <core/systems/follow_target_system.hpp>
+#include <lib/core/systems/follow_target_system.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/follow_target.hpp>
 #include <noi_engine/core/components/transform.hpp>

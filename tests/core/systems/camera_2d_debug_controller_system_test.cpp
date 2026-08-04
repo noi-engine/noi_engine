@@ -11,7 +11,7 @@
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/input/input_state.hpp>
-#include <core/systems/camera_2d_debug_controller_system.hpp>
+#include <lib/core/systems/camera_2d_debug_controller_system.hpp>
 
 using namespace noi_engine;
 

@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include <core/systems/render_system.hpp>
+#include <lib/core/systems/render_system.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
