@@ -22,7 +22,7 @@ namespace noi_engine
 
         auto set_scene(std::unique_ptr<scene> scene) -> void;
 
-        auto update(float dt, const input_state& input) const -> void;
+        auto update(float dt, input_state& input) const -> void;
 
         auto render(renderer& renderer) const -> void;
 

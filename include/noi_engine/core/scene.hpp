@@ -24,7 +24,7 @@ namespace noi_engine
 
         virtual auto render(renderer& renderer) -> void;
 
-        virtual auto update(float dt, const input_state& input) -> void;
+        virtual auto update(float dt, input_state& input) -> void;
 
         virtual auto on_resize(int width, int height) -> void;
 

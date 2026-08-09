@@ -13,6 +13,6 @@ namespace sandbox::basic
     public:
         player_scene();
 
-        auto update(float dt, const noi_engine::input_state& input) -> void override;
+        auto update(float dt, noi_engine::input_state& input) -> void override;
     };
 }

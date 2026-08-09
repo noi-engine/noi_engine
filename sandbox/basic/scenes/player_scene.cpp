@@ -16,7 +16,7 @@ sandbox::basic::player_scene::player_scene() : scene("player_scene")
                                        });
 }
 
-auto sandbox::basic::player_scene::update(const float dt, const noi_engine::input_state& input) -> void
+auto sandbox::basic::player_scene::update(const float dt, noi_engine::input_state& input) -> void
 {
     player_controller_system::update(m_world, input);
     movement_system::update(m_world, dt);

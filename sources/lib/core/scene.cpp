@@ -23,9 +23,14 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
     m_world.add(m_camera_entity, dirty<transform>{});
 }
 
-auto noi_engine::scene::update(const float dt, const input_state& input) -> void
+auto noi_engine::scene::update(const float dt, input_state& input) -> void
 {
-    script_system::before_update(m_world, dt);
+    script_system::before_update({
+                                     .world = &m_world,
+                                     .scene = this,
+                                     .input = &input
+                                 }, dt);
+
     script_system::update(m_world, dt);
 
     transform_system::sync(m_world);

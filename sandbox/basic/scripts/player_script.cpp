@@ -47,7 +47,7 @@ auto sandbox::basic::player_script::on_update(const float dt) -> void
 
     if (has<dirty<transform>>())
     {
-        this->emit<moved_signal>(moved_signal{self});
+        this->emit(moved_signal{self});
     }
 }
 

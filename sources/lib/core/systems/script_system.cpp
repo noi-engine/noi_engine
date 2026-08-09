@@ -7,31 +7,37 @@
 
 namespace
 {
-    auto ensure_created(noi_engine::world& world) -> void
+    auto ensure_created(const noi_engine::script_context& context) -> void
     {
-        for (const auto e : world.view<noi_engine::script_component>())
+        for (const auto e : context.world->view<noi_engine::script_component>())
         {
-            auto& comp = world.get<noi_engine::script_component>(e);
+            auto& comp = context.world->get<noi_engine::script_component>(e);
 
             if (!comp.instance || comp.created)
             {
                 continue;
             }
 
-            comp.instance->attach(world, e);
+            comp.instance->attach({
+                .self = e,
+                .world = context.world,
+                .scene = context.scene,
+                .input = context.input
+            });
+
             comp.instance->on_create();
             comp.created = true;
         }
     }
 }
 
-auto noi_engine::script_system::before_update(world& world, const float dt) -> void
+auto noi_engine::script_system::before_update(const script_context& context, const float dt) -> void
 {
-    ensure_created(world);
+    ensure_created(context);
 
-    for (const auto e : world.view<script_component>())
+    for (const auto e : context.world->view<script_component>())
     {
-        if (const auto& comp = world.get<script_component>(e); comp.instance)
+        if (const auto& comp = context.world->get<script_component>(e); comp.instance)
         {
             comp.instance->on_before_update(dt);
         }
