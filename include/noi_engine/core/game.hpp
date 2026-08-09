@@ -5,7 +5,6 @@
 #pragma once
 
 #include <memory>
-#include <noi_engine/core/window.hpp>
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/scene_manager.hpp>
 #include <noi_engine/core/renderer/renderer.hpp>
@@ -16,45 +15,34 @@ namespace noi_engine
 {
     struct game_conf
     {
-        int max_fps{60};
-        bool v_sync{true};
     };
 
     class game
     {
         game_conf m_conf{};
-        bool m_running{false};
 
         input_state m_input{};
         scene_manager m_scene_manager{};
 
-        std::unique_ptr<window> m_window{nullptr};
         std::unique_ptr<renderer> m_renderer{nullptr};
         std::unique_ptr<resource_system> m_resources{nullptr};
 
     protected:
         virtual auto render() -> void;
 
-        virtual auto process_events() -> void;
-
         virtual auto update(float dt) -> void;
 
     public:
-        explicit game(const std::string& title, int width, int height,
-                      const game_conf& conf = game_conf());
+        explicit game(const game_conf& conf = {});
 
-        virtual ~game();
+        virtual ~game() = default;
 
         auto set_scene(std::unique_ptr<scene> scene) -> void;
-
-        [[nodiscard]] auto get_window() -> window&;
-
-        [[nodiscard]] auto get_window() const -> const window&;
 
         [[nodiscard]] auto resources() const noexcept -> resource_system&;
 
         [[nodiscard]] auto input() -> input_state&;
 
-        virtual auto run(int argc, char** argv) -> int;
+        friend class sdl_game;
     };
 }

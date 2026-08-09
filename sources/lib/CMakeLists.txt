@@ -27,6 +27,8 @@ set(CORE_SOURCES
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
         core/assets/mesh_loader.cpp
+        core/sdl_game.cpp
+        core/sdl_event_processor.cpp
 )
 
 set(NOI_ENGINE_SOURCES ${CORE_SOURCES})

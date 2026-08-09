@@ -4,104 +4,99 @@
 
 #include <noi_engine/core/input/input_state.hpp>
 
-auto noi_engine::input_state::begin_frame() -> void
+namespace noi_engine
 {
-	m_keys_pressed.fill(false);
-	m_keys_released.fill(false);
-	m_mouse_buttons_pressed.fill(false);
-	m_mouse_buttons_released.fill(false);
-	m_mouse_delta = glm::vec2{ 0.0f };
-	m_scroll_delta = 0.0f;
-}
+    auto input_state::begin_frame() -> void
+    {
+        m_keys_pressed.fill(false);
+        m_keys_released.fill(false);
 
-auto noi_engine::input_state::process_event(const SDL_Event& event) -> void
-{
-	switch (event.type)
-	{
-	case SDL_KEYDOWN:
-		if (!event.key.repeat)
-		{
-			m_keys_down[event.key.keysym.scancode] = true;
-			m_keys_pressed[event.key.keysym.scancode] = true;
-		}
-		break;
+        m_mouse_buttons_pressed.fill(false);
+        m_mouse_buttons_released.fill(false);
 
-	case SDL_KEYUP:
-		m_keys_down[event.key.keysym.scancode] = false;
-		m_keys_released[event.key.keysym.scancode] = true;
-		break;
+        m_mouse_delta = glm::vec2{0.0f};
+        m_scroll_delta = 0.0f;
+    }
 
-	case SDL_MOUSEBUTTONDOWN:
-		m_mouse_buttons_down[event.button.button] = true;
-		m_mouse_buttons_pressed[event.button.button] = true;
-		break;
+    auto input_state::set_key_pressed(key_code key) -> void
+    {
+        const auto idx = static_cast<size_t>(key);
+        if (idx >= KEY_COUNT) return;
 
-	case SDL_MOUSEBUTTONUP:
-		m_mouse_buttons_down[event.button.button] = false;
-		m_mouse_buttons_released[event.button.button] = true;
-		break;
+        m_keys_pressed[idx] = true;
+        m_keys_down[idx] = true;
+    }
 
-	case SDL_MOUSEMOTION:
-		m_mouse_position = glm::vec2{
-			static_cast<float>(event.motion.x),
-			static_cast<float>(event.motion.y)
-		};
-		m_mouse_delta += glm::vec2{
-			static_cast<float>(event.motion.xrel),
-			static_cast<float>(event.motion.yrel)
-		};
-		break;
+    auto input_state::set_key_released(key_code key) -> void
+    {
+        const auto idx = static_cast<size_t>(key);
+        if (idx >= KEY_COUNT) return;
 
-	case SDL_MOUSEWHEEL:
-		m_scroll_delta += static_cast<float>(event.wheel.y);
-		break;
+        m_keys_released[idx] = true;
+        m_keys_down[idx] = false;
+    }
 
-	default:
-		break;
-	}
-}
+    auto input_state::set_mouse_button_pressed(mouse_button button) -> void
+    {
+        const auto idx = static_cast<size_t>(button);
+        if (idx >= MOUSE_BUTTON_COUNT) return;
 
-auto noi_engine::input_state::is_key_down(const SDL_Scancode key) const -> bool
-{
-	return m_keys_down[key];
-}
+        m_mouse_buttons_pressed[idx] = true;
+        m_mouse_buttons_down[idx] = true;
+    }
 
-auto noi_engine::input_state::is_key_pressed(const SDL_Scancode key) const -> bool
-{
-	return m_keys_pressed[key];
-}
+    auto input_state::set_mouse_button_released(mouse_button button) -> void
+    {
+        const auto idx = static_cast<size_t>(button);
+        if (idx >= MOUSE_BUTTON_COUNT) return;
 
-auto noi_engine::input_state::is_key_released(const SDL_Scancode key) const -> bool
-{
-	return m_keys_released[key];
-}
+        m_mouse_buttons_released[idx] = true;
+        m_mouse_buttons_down[idx] = false;
+    }
 
-auto noi_engine::input_state::is_mouse_button_down(const uint8_t button) const -> bool
-{
-	return m_mouse_buttons_down[button];
-}
+    auto input_state::set_mouse_position(glm::vec2 position) -> void
+    {
+        m_mouse_delta = position - m_mouse_position;
+        m_mouse_position = position;
+    }
 
-auto noi_engine::input_state::is_mouse_button_pressed(const uint8_t button) const -> bool
-{
-	return m_mouse_buttons_pressed[button];
-}
+    auto input_state::add_scroll_delta(float delta) -> void
+    {
+        m_scroll_delta += delta;
+    }
 
-auto noi_engine::input_state::is_mouse_button_released(const uint8_t button) const -> bool
-{
-	return m_mouse_buttons_released[button];
-}
 
-auto noi_engine::input_state::get_mouse_position() const -> glm::vec2
-{
-	return m_mouse_position;
-}
+    auto input_state::is_key_down(key_code key) const -> bool
+    {
+        return m_keys_down[static_cast<size_t>(key)];
+    }
 
-auto noi_engine::input_state::get_mouse_delta() const -> glm::vec2
-{
-	return m_mouse_delta;
-}
+    auto input_state::is_key_pressed(key_code key) const -> bool
+    {
+        return m_keys_pressed[static_cast<size_t>(key)];
+    }
 
-auto noi_engine::input_state::get_scroll_delta() const -> float
-{
-	return m_scroll_delta;
+    auto input_state::is_key_released(key_code key) const -> bool
+    {
+        return m_keys_released[static_cast<size_t>(key)];
+    }
+
+    auto input_state::is_mouse_button_down(mouse_button button) const -> bool
+    {
+        return m_mouse_buttons_down[static_cast<size_t>(button)];
+    }
+
+    auto input_state::is_mouse_button_pressed(mouse_button button) const -> bool
+    {
+        return m_mouse_buttons_pressed[static_cast<size_t>(button)];
+    }
+
+    auto input_state::is_mouse_button_released(mouse_button button) const -> bool
+    {
+        return m_mouse_buttons_released[static_cast<size_t>(button)];
+    }
+
+    auto input_state::get_mouse_position() const -> glm::vec2 { return m_mouse_position; }
+    auto input_state::get_mouse_delta() const -> glm::vec2 { return m_mouse_delta; }
+    auto input_state::get_scroll_delta() const -> float { return m_scroll_delta; }
 }
