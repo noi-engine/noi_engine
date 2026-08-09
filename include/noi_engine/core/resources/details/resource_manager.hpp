@@ -7,7 +7,7 @@
 #include <vector>
 #include <noi_engine/core/resources/resource_handle.hpp>
 
-namespace noi_engine
+namespace noi_engine::details
 {
     template<typename T>
     class resource_manager

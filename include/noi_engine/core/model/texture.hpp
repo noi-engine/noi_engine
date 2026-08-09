@@ -6,7 +6,6 @@
 
 #include <cstdint>
 #include <span>
-#include <string>
 
 namespace noi_engine
 {

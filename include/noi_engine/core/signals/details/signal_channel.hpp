@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace noi_engine
+namespace noi_engine::details
 {
     class signal_channel_base
     {

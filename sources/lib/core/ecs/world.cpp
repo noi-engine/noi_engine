@@ -11,7 +11,7 @@ auto noi_engine::world::create_entity() const -> entity
     return m_entity_manager->create();
 }
 
-auto noi_engine::world::signals() -> signal_bus&
+auto noi_engine::world::signals() -> details::signal_bus&
 {
     return this->m_signals;
 }

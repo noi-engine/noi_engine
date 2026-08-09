@@ -3,9 +3,9 @@
 //
 
 #include <ranges>
-#include <noi_engine/core/signals/signal_bus.hpp>
+#include <noi_engine/core/signals/details/signal_bus.hpp>
 
-auto noi_engine::signal_bus::dispatch(const float dt) -> void
+auto noi_engine::details::signal_bus::dispatch(const float dt) -> void
 {
     for (const auto& channel : m_channels | std::views::values)
     {

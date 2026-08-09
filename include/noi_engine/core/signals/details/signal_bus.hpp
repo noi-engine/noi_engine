@@ -9,9 +9,9 @@
 #include <typeindex>
 #include <unordered_map>
 #include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/core/signals/signal_channel.hpp>
+#include <noi_engine/core/signals/details/signal_channel.hpp>
 
-namespace noi_engine
+namespace noi_engine::details
 {
     template <typename Signal>
     concept is_signal = requires(Signal signal)

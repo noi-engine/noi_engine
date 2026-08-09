@@ -48,7 +48,7 @@ namespace noi_engine
         }
 
         template <typename Signal>
-            requires is_signal<Signal>
+            requires details::is_signal<Signal>
         auto emit(Signal signal) -> void
         {
             signal.source = m_self;
@@ -56,14 +56,14 @@ namespace noi_engine
         }
 
         template <typename Signal>
-            requires is_signal<Signal>
+            requires details::is_signal<Signal>
         auto connect(const entity source, std::function<void(float dt, const Signal&)> callback)
         {
             return m_world->signals().connect<Signal>(source, std::move(callback));
         }
 
         template <typename Signal>
-            requires is_signal<Signal>
+            requires details::is_signal<Signal>
         auto connect(std::function<void(const float dt, const Signal&)> callback)
         {
             return m_world->signals().connect<Signal>(std::move(callback));

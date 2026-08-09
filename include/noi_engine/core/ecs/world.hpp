@@ -9,7 +9,7 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/ecs/details/view.hpp>
 #include <noi_engine/core/ecs/details/component_pool.hpp>
-#include <noi_engine/core/signals/signal_bus.hpp>
+#include <noi_engine/core/signals/details/signal_bus.hpp>
 
 namespace noi_engine
 {
@@ -17,7 +17,7 @@ namespace noi_engine
 
     class world
     {
-        signal_bus m_signals{};
+        details::signal_bus m_signals{};
         std::unordered_map<std::type_index, std::unique_ptr<
                                details::component_pool_base>> m_pools;
 
@@ -39,10 +39,9 @@ namespace noi_engine
 
     public:
         [[nodiscard]] auto create_entity() const -> entity;
-        [[nodiscard]] auto signals() -> signal_bus&;
+        [[nodiscard]] auto signals() -> details::signal_bus&;
 
         auto destroy_entity(entity entity) -> void;
-
 
         template <typename T>
         auto add(entity e, const T& comp) -> void
@@ -55,7 +54,6 @@ namespace noi_engine
         {
             return pool<T>().get(e);
         }
-
 
         template <typename... Components>
         auto view()

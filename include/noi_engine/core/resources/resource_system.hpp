@@ -5,7 +5,7 @@
 #pragma once
 
 #include <memory>
-#include <noi_engine/core/resources/resource_manager.hpp>
+#include <noi_engine/core/resources/details/resource_manager.hpp>
 #include <noi_engine/core/model/mesh.hpp>
 #include <noi_engine/core/model/texture.hpp>
 #include <noi_engine/core/model/material.hpp>
@@ -19,10 +19,10 @@ namespace noi_engine
         std::unique_ptr<asset_provider> m_asset_provider;
 
     public:
-        resource_manager<mesh> meshes{};
-        resource_manager<shader> shaders{};
-        resource_manager<texture> textures{};
-        resource_manager<material> materials{};
+        details::resource_manager<mesh> meshes{};
+        details::resource_manager<shader> shaders{};
+        details::resource_manager<texture> textures{};
+        details::resource_manager<material> materials{};
 
         explicit resource_system(std::unique_ptr<asset_provider> assets);
 

@@ -12,8 +12,8 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view_iterator.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/world.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal_channel.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal_bus.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/details/signal_channel.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/details/signal_bus.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scripts/script.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/transform.hpp
@@ -26,7 +26,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_manager.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_system.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/assets/asset_provider.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_codes.hpp
