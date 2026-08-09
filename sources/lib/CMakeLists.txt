@@ -56,6 +56,7 @@ set(CORE_PRIVATE_HEADERS
         core/assets/filesystem_asset_provider.hpp
         core/assets/texture_loader.hpp
         core/assets/mesh_loader.hpp
+        core/input/input_state_impl.hpp
 )
 
 set(CORE_SOURCES
@@ -88,6 +89,7 @@ set(CORE_SOURCES
         core/scripts/scripts.cpp
         core/systems/script_system.cpp
         core/ecs/entity.cpp
+        core/input/input_state_impl.cpp
 )
 
 set(NOI_ENGINE_SDL_HEADERS

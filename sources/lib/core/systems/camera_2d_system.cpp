@@ -3,19 +3,14 @@
 //
 
 #include "camera_2d_system.hpp"
-#include "camera_2d_debug_controller_system.hpp"
 #include <noi_engine/core/components/camera_2d.hpp>
-#include <noi_engine/core/components/camera_2d_debug_controller.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
-auto noi_engine::camera_2d_system::update(world& world, const entity camera_entity, const input_state& input) -> void
+auto noi_engine::camera_2d_system::update([[maybe_unused]] world& world, [[maybe_unused]] const entity camera_entity,
+                                          [[maybe_unused]] const input_state& input) -> void
 {
-    if (world.has<camera_2d_debug_controller>(camera_entity))
-    {
-        camera_2d_debug_controller_system::update(world, camera_entity, input);
-    }
 }
 
 auto noi_engine::camera_2d_system::view_matrix(world& world, const entity camera_entity) -> glm::mat4

@@ -3,8 +3,6 @@
 //
 
 #include <noi_engine/core/game.hpp>
-
-#include "glad/glad.h"
 #include "assets/filesystem_asset_provider.hpp"
 
 auto noi_engine::game::render() -> void

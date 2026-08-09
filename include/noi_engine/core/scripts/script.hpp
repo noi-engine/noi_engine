@@ -23,7 +23,7 @@ namespace noi_engine
         virtual auto on_after_render() -> void;
         virtual auto on_destroy() -> void;
 
-        auto attach(world& world, input_state &input_state, renderer &renderer, entity self) noexcept -> void;
+        auto attach(world& world, entity self) noexcept -> void;
 
     protected:
         [[nodiscard]] auto get_world() const -> world*;
@@ -64,15 +64,13 @@ namespace noi_engine
 
         template <typename Signal>
             requires is_signal<Signal>
-        auto connect(std::function<void(float dt, const Signal&)> callback)
+        auto connect(std::function<void(const float dt, const Signal&)> callback)
         {
             return m_world->signals().connect<Signal>(std::move(callback));
         }
 
     private:
-        entity m_self{};
         world* m_world{nullptr};
-        renderer* m_renderer{nullptr};
-        input_state* m_input_state{nullptr};
+        entity m_self{};
     };
 }
