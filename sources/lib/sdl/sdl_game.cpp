@@ -3,12 +3,12 @@
 //
 
 #include <SDL2/SDL.h>
-#include <noi_engine/core/sdl_game.hpp>
+#include <noi_engine/sdl/sdl_game.hpp>
 
-#include "timer.hpp"
-#include "glad/glad.h"
-#include "frame_limiter.hpp"
-#include "sdl_event_processor.hpp"
+#include "../core/timer.hpp"
+#include "../core/glad/glad.h"
+#include "../core/frame_limiter.hpp"
+#include "../core/sdl_event_processor.hpp"
 
 auto noi_engine::sdl_game::process_events() -> void
 {
@@ -49,7 +49,7 @@ noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height, 
                         SDL_GL_CONTEXT_PROFILE_CORE);
 
     this->m_conf = game_conf;
-    this->m_window = std::make_unique<window>(title, width, height);
+    this->m_window = std::make_unique<sdl_window>(title, width, height);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -87,12 +87,12 @@ noi_engine::sdl_game::~sdl_game()
     SDL_Quit();
 }
 
-auto noi_engine::sdl_game::get_window() -> window&
+auto noi_engine::sdl_game::get_window() -> sdl_window&
 {
     return *this->m_window;
 }
 
-auto noi_engine::sdl_game::get_window() const -> const window&
+auto noi_engine::sdl_game::get_window() const -> const sdl_window&
 {
     return *this->m_window;
 }

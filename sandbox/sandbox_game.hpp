@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <noi_engine/core/sdl_game.hpp>
+#include <noi_engine/sdl/sdl_game.hpp>
 
 namespace sandbox
 {

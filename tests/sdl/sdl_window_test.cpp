@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <gtest/gtest.h>
-#include <noi_engine/core/window.hpp>
+#include <noi_engine/sdl/sdl_window.hpp>
 
 class WindowTest : public ::testing::Test
 {
@@ -25,7 +25,7 @@ TEST_F(WindowTest, CreateWindowWithCorrectSize)
 {
 	GTEST_SKIP();
 
-	const noi_engine::window window("Test Window", 800, 600);
+	const noi_engine::sdl_window window("Test Window", 800, 600);
 
 	const auto [width, height] = window.get_size();
 

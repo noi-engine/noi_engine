@@ -9,24 +9,23 @@
 #include <string>
 #include <noi_engine/core/model/size_2d.hpp>
 
-//TODO: maybe rename to sdl_window
 namespace noi_engine
 {
-    struct window_conf
+    struct sdl_window_conf
     {
     };
 
-    class window
+    class sdl_window
     {
     protected:
-        SDL_Window* sdl_window = nullptr;
+        SDL_Window* sdl_raw_window = nullptr;
         SDL_GLContext gl_context = nullptr;
 
     public:
-        virtual ~window();
+        virtual ~sdl_window();
 
-        explicit window(const std::string& title, int width, int height,
-                        const window_conf& conf = window_conf());
+        explicit sdl_window(const std::string& title, int width, int height,
+                            const sdl_window_conf& conf = {});
 
         [[nodiscard]] auto get_size() const -> size_2d;
 

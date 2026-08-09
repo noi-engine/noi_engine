@@ -6,7 +6,7 @@
 
 #include <memory>
 #include <noi_engine/core/game.hpp>
-#include <noi_engine/core/window.hpp>
+#include <noi_engine/sdl/sdl_window.hpp>
 
 namespace noi_engine
 {
@@ -16,7 +16,7 @@ namespace noi_engine
         bool v_sync{false};
     };
 
-    class sdl_game: public game
+    class sdl_game : public game
     {
         bool m_running{false};
 
@@ -24,16 +24,16 @@ namespace noi_engine
 
     protected:
         sdl_game_conf m_conf{};
-        std::unique_ptr<window> m_window{nullptr};
+        std::unique_ptr<sdl_window> m_window{nullptr};
 
     public:
         explicit sdl_game(const std::string& title, int width, int height, const sdl_game_conf& game_conf = {});
 
         virtual auto run(int argc, char** argv) -> int;
 
-        [[nodiscard]] auto get_window() -> window&;
-        [[nodiscard]] auto get_window() const -> const window&;
+        [[nodiscard]] auto get_window() -> sdl_window&;
+        [[nodiscard]] auto get_window() const -> const sdl_window&;
 
-        virtual ~sdl_game();
+        ~sdl_game() override;
     };
 }

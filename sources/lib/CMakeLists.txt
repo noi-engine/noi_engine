@@ -1,7 +1,6 @@
 set(CORE_SOURCES
         core/glad/glad.cpp
         core/game.cpp
-        core/window.cpp
         core/scene.cpp
         core/timer.cpp
         core/frame_limiter.cpp
@@ -27,11 +26,15 @@ set(CORE_SOURCES
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
         core/assets/mesh_loader.cpp
-        core/sdl_game.cpp
+)
+
+set(NOI_ENGINE_SDL_SOURCES
+        sdl/sdl_game.cpp
+        sdl/sdl_window.cpp
         core/sdl_event_processor.cpp
 )
 
-set(NOI_ENGINE_SOURCES ${CORE_SOURCES})
+set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_SDL_SOURCES})
 
 if (BUILD_SHARED_LIBS)
     add_library(${NOI_ENGINE_LIB_NAME} SHARED ${NOI_ENGINE_SOURCES})

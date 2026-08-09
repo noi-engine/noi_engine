@@ -1,7 +1,7 @@
 find_package(GTest CONFIG REQUIRED)
 
 set(NOI_ENGINE_TEST_SOURCES
-        core/window_test.cpp
+        sdl/sdl_window_test.cpp
         core/frame_limiter_test.cpp
         core/ecs/entity_manager_test.cpp
         core/ecs/entity_test.cpp
@@ -11,7 +11,6 @@ set(NOI_ENGINE_TEST_SOURCES
         core/systems/transform_system_test.cpp
         core/systems/follow_target_system_test.cpp
         core/systems/render_system_test.cpp
-        core/systems/camera_2d_debug_controller_system_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
