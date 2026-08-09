@@ -6,9 +6,10 @@
 #include <chrono>
 #include <iostream>
 
-#include <noi_engine/core/ecs/component_pool.hpp>
+#include <noi_engine/core/ecs/details/component_pool.hpp>
 
 using namespace noi_engine;
+using namespace noi_engine::details;
 
 TEST(ComponentPoolTest, AddHasGetRemove)
 {

@@ -5,7 +5,6 @@
 #include <ranges>
 #include "entity_manager.hpp"
 #include <noi_engine/core/ecs/world.hpp>
-#include <noi_engine/core/ecs/component_pool.hpp>
 
 auto noi_engine::world::create_entity() const -> entity
 {

@@ -7,9 +7,9 @@
 #include <memory>
 #include <typeindex>
 #include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/core/ecs/component_pool.hpp>
+#include <noi_engine/core/ecs/details/view.hpp>
+#include <noi_engine/core/ecs/details/component_pool.hpp>
 #include <noi_engine/core/signals/signal_bus.hpp>
-#include <noi_engine/core/ecs/view.hpp>
 
 namespace noi_engine
 {
@@ -19,22 +19,22 @@ namespace noi_engine
     {
         signal_bus m_signals{};
         std::unordered_map<std::type_index, std::unique_ptr<
-                               component_pool_base>> m_pools;
+                               details::component_pool_base>> m_pools;
 
         std::unique_ptr<entity_manager> m_entity_manager{nullptr};
 
     protected:
         template <typename T>
-        auto pool() -> component_pool<T>&
+        auto pool() -> details::component_pool<T>&
         {
             const auto id = std::type_index(typeid(T));
 
             if (!m_pools.contains(id))
             {
-                m_pools[id] = std::make_unique<component_pool<T>>();
+                m_pools[id] = std::make_unique<details::component_pool<T>>();
             }
 
-            return *static_cast<component_pool<T>*>(m_pools[id].get());
+            return *static_cast<details::component_pool<T>*>(m_pools[id].get());
         }
 
     public:
@@ -60,7 +60,7 @@ namespace noi_engine
         template <typename... Components>
         auto view()
         {
-            return noi_engine::view<Components...>(pool<Components>()...);
+            return details::view<Components...>(pool<Components>()...);
         }
 
         template <typename T>

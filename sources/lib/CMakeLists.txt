@@ -7,9 +7,9 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/texture.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/material.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/entity.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/component_pool.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/view.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/view_iterator.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/component_pool.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view_iterator.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/world.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal_channel.hpp

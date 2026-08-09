@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <noi_engine/core/ecs/entity.hpp>
 
-namespace noi_engine
+namespace noi_engine::details
 {
 	class component_pool_base
 	{

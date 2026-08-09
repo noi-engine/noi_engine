@@ -2,10 +2,10 @@
 
 #include <tuple>
 #include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/core/ecs/component_pool.hpp>
-#include <noi_engine/core/ecs/view_iterator.hpp>
+#include <noi_engine/core/ecs/details/component_pool.hpp>
+#include <noi_engine/core/ecs/details/view_iterator.hpp>
 
-namespace noi_engine
+namespace noi_engine::details
 {
 	template<typename... Components>
 	class view
