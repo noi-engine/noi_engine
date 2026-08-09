@@ -3,7 +3,7 @@
 //
 #include <gtest/gtest.h>
 
-#include "lib/core/frame_limiter.hpp"
+#include "../../include/noi_engine/core/frame_limiter.hpp"
 
 #include <chrono>
 #include <thread>

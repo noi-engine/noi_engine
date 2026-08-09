@@ -4,11 +4,11 @@
 
 #include <SDL2/SDL.h>
 #include <noi_engine/sdl/sdl_game.hpp>
+#include <noi_engine/core/timer.hpp>
+#include <noi_engine/core/frame_limiter.hpp>
 
-#include "../core/timer.hpp"
 #include "../core/glad/glad.h"
-#include "../core/frame_limiter.hpp"
-#include "../core/sdl_event_processor.hpp"
+#include "sdl_event_processor.hpp"
 
 auto noi_engine::sdl_game::process_events() -> void
 {

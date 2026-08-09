@@ -2,7 +2,7 @@
 // Created by ricka on 2026-07-30.
 //
 
-#include "frame_limiter.hpp"
+#include <noi_engine/core/frame_limiter.hpp>
 #include <thread>
 
 noi_engine::frame_limiter::frame_limiter(const int max_fps) : m_frame_time(

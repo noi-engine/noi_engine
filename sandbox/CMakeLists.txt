@@ -1,3 +1,22 @@
+set(SANDBOX_HEADERS
+        sandbox_game.hpp
+        3d/resources/meshes.hpp
+        3d/resources/shaders.hpp
+        3d/configure.hpp
+        3d/scenes/orbit_scene.hpp
+        2d/resources/meshes.hpp
+        2d/resources/shaders.hpp
+        2d/configure.hpp
+        2d/scenes/basic_scene.hpp
+        basic/configure.hpp
+        basic/components/velocity.hpp
+        basic/components/player_controller.hpp
+        basic/systems/player_controller_system.hpp
+        basic/systems/movement_system.hpp
+        basic/scenes/player_scene.hpp
+        basic/scripts/scripts.hpp
+)
+
 set(SANDBOX_SOURCES
         main.cpp
         3d/resources/meshes.cpp
@@ -15,7 +34,7 @@ set(SANDBOX_SOURCES
         basic/scripts/background_script.cpp
 )
 
-add_executable(sandbox ${SANDBOX_SOURCES})
+add_executable(sandbox ${SANDBOX_SOURCES} ${SANDBOX_HEADERS})
 
 target_link_libraries(
         sandbox

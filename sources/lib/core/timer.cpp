@@ -2,7 +2,7 @@
 // Created by ricka on 2026-07-30.
 //
 
-#include "timer.hpp"
+#include <noi_engine/core/timer.hpp>
 
 noi_engine::timer::timer() : m_last(std::chrono::steady_clock::now())
 {
