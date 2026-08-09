@@ -23,7 +23,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/render_layer.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/dirty.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_2d.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_2d_debug_controller.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_3d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
@@ -53,7 +52,6 @@ set(CORE_PRIVATE_HEADERS
         core/systems/camera_2d_system.hpp
         core/systems/camera_3d_system.hpp
         core/systems/transform_system.hpp
-        core/systems/camera_2d_debug_controller_system.hpp
         core/systems/script_system.hpp
         core/assets/filesystem_asset_provider.hpp
         core/assets/texture_loader.hpp
@@ -81,7 +79,6 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
-        core/systems/camera_2d_debug_controller_system.cpp
         core/assets/filesystem_asset_provider.cpp
         core/assets/texture_loader.cpp
         core/resource_system.cpp
@@ -90,6 +87,7 @@ set(CORE_SOURCES
         core/signals/signal_bus.cpp
         core/scripts/scripts.cpp
         core/systems/script_system.cpp
+        core/ecs/entity.cpp
 )
 
 set(NOI_ENGINE_SDL_HEADERS
