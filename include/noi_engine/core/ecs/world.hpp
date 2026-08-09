@@ -8,18 +8,20 @@
 #include <typeindex>
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/ecs/component_pool.hpp>
-#include <noi_engine/core/ecs/entity_manager.hpp>
 #include <noi_engine/core/signals/signal_bus.hpp>
 #include <noi_engine/core/ecs/view.hpp>
 
 namespace noi_engine
 {
+    class entity_manager;
+
     class world
     {
         signal_bus m_signals{};
-        entity_manager m_entity_manager{};
         std::unordered_map<std::type_index, std::unique_ptr<
                                component_pool_base>> m_pools;
+
+        std::unique_ptr<entity_manager> m_entity_manager{nullptr};
 
     protected:
         template <typename T>
@@ -36,7 +38,7 @@ namespace noi_engine
         }
 
     public:
-        [[nodiscard]] auto create_entity() -> entity;
+        [[nodiscard]] auto create_entity() const -> entity;
         [[nodiscard]] auto signals() -> signal_bus&;
 
         auto destroy_entity(entity entity) -> void;
@@ -75,6 +77,7 @@ namespace noi_engine
 
         [[nodiscard]] auto get_entities() const -> const std::vector<entity>&;
 
-        world() = default;
+        world();
+        virtual ~world();
     };
 }

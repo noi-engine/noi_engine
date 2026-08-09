@@ -7,7 +7,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/texture.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/material.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/entity.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/entity_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/component_pool.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/view.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/view_iterator.hpp
@@ -51,6 +50,7 @@ set(CORE_PRIVATE_HEADERS
         core/systems/orbit_camera_system.hpp
         core/systems/camera_2d_system.hpp
         core/systems/camera_3d_system.hpp
+        core/ecs/entity_manager.hpp
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
         core/assets/filesystem_asset_provider.hpp
