@@ -3,6 +3,7 @@
 //
 
 #include "orbit_camera_system.hpp"
+#include <noi_engine/core/input/input_codes.hpp>
 #include <noi_engine/core/components/orbit_camera.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <algorithm>
@@ -12,7 +13,7 @@ auto noi_engine::orbit_camera_system::update(world& world, const entity camera_e
 {
     auto& cam = world.get<orbit_camera>(camera_entity);
 
-    if (input.is_mouse_button_down(SDL_BUTTON_LEFT))
+    if (input.is_mouse_button_down(mouse_button::left))
     {
         auto moused_delta = input.get_mouse_delta();
         cam.yaw -= moused_delta.x * cam.sensitivity * 0.01f;

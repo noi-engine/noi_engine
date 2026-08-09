@@ -3,11 +3,11 @@
 //
 
 #include "camera_2d_debug_controller_system.hpp"
+#include <noi_engine/core/input/input_codes.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/camera_2d_debug_controller.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/dirty.hpp>
-#include <SDL2/SDL_mouse.h>
 #include <algorithm>
 
 auto noi_engine::camera_2d_debug_controller_system::update(world& world, const entity camera_entity,
@@ -16,7 +16,7 @@ auto noi_engine::camera_2d_debug_controller_system::update(world& world, const e
     auto& cam = world.get<camera_2d>(camera_entity);
     const auto& ctrl = world.get<camera_2d_debug_controller>(camera_entity);
 
-    if (input.is_mouse_button_down(SDL_BUTTON_MIDDLE))
+    if (input.is_mouse_button_down(mouse_button::middle))
     {
         const auto delta = input.get_mouse_delta();
         auto& tr = world.get<transform>(camera_entity);

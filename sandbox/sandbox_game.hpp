@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <noi_engine/core/game.hpp>
+#include <noi_engine/core/sdl_game.hpp>
 
 namespace sandbox
 {
-    class game : public noi_engine::game
+    class game : public noi_engine::sdl_game
     {
     public:
-        game() : noi_engine::game("sandbox_game", 800, 600)
+        game() : sdl_game("sandbox_game", 800, 600)
         {
         }
     };

@@ -27,9 +27,6 @@ noi_engine::game::game(const game_conf& conf)
             )
         ); //TODO: should be another provider on release
     this->m_renderer = std::make_unique<renderer>(*this->m_resources);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) -> void
