@@ -6,10 +6,13 @@ set(SANDBOX_SOURCES
         2d/resources/meshes.cpp
         2d/resources/shaders.cpp
         2d/configure.cpp
+        basic/configure.cpp
         basic/systems/player_controller_system.cpp
         basic/systems/movement_system.cpp
         basic/scenes/player_scene.cpp
-        basic/configure.cpp
+        basic/scripts/player_script.cpp
+        basic/scripts/camera_script.cpp
+        basic/scripts/background_script.cpp
 )
 
 add_executable(sandbox ${SANDBOX_SOURCES})

@@ -9,12 +9,14 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/ecs/component_pool.hpp>
 #include <noi_engine/core/ecs/entity_manager.hpp>
+#include <noi_engine/core/signals/signal_bus.hpp>
 #include <noi_engine/core/ecs/view.hpp>
 
 namespace noi_engine
 {
     class world
     {
+        signal_bus m_signals{};
         entity_manager m_entity_manager{};
         std::unordered_map<std::type_index, std::unique_ptr<
                                component_pool_base>> m_pools;
@@ -35,8 +37,10 @@ namespace noi_engine
 
     public:
         [[nodiscard]] auto create_entity() -> entity;
+        [[nodiscard]] auto signals() -> signal_bus&;
 
         auto destroy_entity(entity entity) -> void;
+
 
         template <typename T>
         auto add(entity e, const T& comp) -> void

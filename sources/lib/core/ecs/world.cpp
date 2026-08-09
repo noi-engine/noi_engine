@@ -9,20 +9,25 @@
 
 auto noi_engine::world::create_entity() -> entity
 {
-	return m_entity_manager.create();
+    return m_entity_manager.create();
+}
+
+auto noi_engine::world::signals() -> signal_bus&
+{
+    return this->m_signals;
 }
 
 auto noi_engine::world::destroy_entity(const entity entity) -> void
 {
-	for (const auto& pool : m_pools | std::views::values)
-	{
-		pool->remove(entity);
-	}
+    for (const auto& pool : m_pools | std::views::values)
+    {
+        pool->remove(entity);
+    }
 
-	m_entity_manager.destroy(entity);
+    m_entity_manager.destroy(entity);
 }
 
 auto noi_engine::world::get_entities() const -> const std::vector<entity>&
 {
-	return this->m_entity_manager.get_entities();
+    return this->m_entity_manager.get_entities();
 }

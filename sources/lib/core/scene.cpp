@@ -6,8 +6,8 @@
 #include "systems/render_system.hpp"
 #include "systems/camera_3d_system.hpp"
 #include "systems/camera_2d_system.hpp"
-#include "systems/follow_target_system.hpp"
 #include "systems/transform_system.hpp"
+#include "systems/script_system.hpp"
 
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
@@ -23,16 +23,12 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
     m_world.add(m_camera_entity, dirty<transform>{});
 }
 
-auto noi_engine::scene::render(renderer& renderer) -> void
+auto noi_engine::scene::update(const float dt, const input_state& input) -> void
 {
-    render_system::render(this->m_world, renderer, this->m_camera_entity);
-}
+    script_system::before_update(m_world, dt);
+    script_system::update(m_world, dt);
 
-auto noi_engine::scene::update(float dt, const input_state& input) -> void
-{
-    follow_target_system::update(m_world, dt);
     transform_system::sync(m_world);
-
     if (m_world.has<camera_2d>(m_camera_entity))
     {
         camera_2d_system::update(m_world, m_camera_entity, input);
@@ -41,6 +37,16 @@ auto noi_engine::scene::update(float dt, const input_state& input) -> void
     {
         camera_3d_system::update(m_world, m_camera_entity, input);
     }
+
+    script_system::after_update(m_world, dt);
+    m_world.signals().dispatch(dt);
+}
+
+auto noi_engine::scene::render(renderer& renderer) -> void
+{
+    script_system::before_render(m_world);
+    render_system::render(this->m_world, renderer, this->m_camera_entity);
+    script_system::after_render(m_world);
 }
 
 auto noi_engine::scene::on_resize(const int width, const int height) -> void

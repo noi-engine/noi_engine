@@ -9,7 +9,6 @@ set(NOI_ENGINE_TEST_SOURCES
         core/ecs/component_pool_test.cpp
         core/ecs/view_test.cpp
         core/systems/transform_system_test.cpp
-        core/systems/follow_target_system_test.cpp
         core/systems/render_system_test.cpp
 )
 

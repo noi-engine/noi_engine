@@ -19,13 +19,15 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
-        core/systems/follow_target_system.cpp
         core/systems/camera_2d_debug_controller_system.cpp
         core/assets/filesystem_asset_provider.cpp
         core/assets/texture_loader.cpp
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
         core/assets/mesh_loader.cpp
+        core/signals/signal_bus.cpp
+        core/scripts/scripts.cpp
+        core/systems/script_system.cpp
 )
 
 set(NOI_ENGINE_SDL_SOURCES
@@ -34,7 +36,11 @@ set(NOI_ENGINE_SDL_SOURCES
         core/sdl_event_processor.cpp
 )
 
-set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_SDL_SOURCES})
+set(NOI_ENGINE_BUILTIN_SOURCES
+        builtin/actions/follow.cpp
+)
+
+set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_SDL_SOURCES} ${NOI_ENGINE_BUILTIN_SOURCES})
 
 if (BUILD_SHARED_LIBS)
     add_library(${NOI_ENGINE_LIB_NAME} SHARED ${NOI_ENGINE_SOURCES})
