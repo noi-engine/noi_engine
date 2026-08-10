@@ -9,6 +9,10 @@
 #include <unordered_map>
 #include <vector>
 
+#ifdef emit
+#  undef emit
+#endif
+
 namespace noi_engine::details
 {
     class signal_channel_base

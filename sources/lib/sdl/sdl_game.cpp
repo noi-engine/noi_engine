@@ -50,9 +50,6 @@ noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height, 
 
     this->m_conf = game_conf;
     this->m_window = std::make_unique<sdl_window>(title, width, height);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 auto noi_engine::sdl_game::run([[maybe_unused]] int argc, [[maybe_unused]] char** argv) -> int

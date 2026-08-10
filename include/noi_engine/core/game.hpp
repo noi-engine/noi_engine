@@ -13,6 +13,8 @@
 
 namespace noi_engine
 {
+    using opengl_context_loader = void* (*)(const char* name);
+
     struct game_conf
     {
     };
@@ -42,6 +44,8 @@ namespace noi_engine
         [[nodiscard]] auto resources() const noexcept -> resource_system&;
 
         [[nodiscard]] auto input() -> input_state&;
+
+        static auto init(opengl_context_loader loader) -> void;
 
         friend class sdl_game;
     };

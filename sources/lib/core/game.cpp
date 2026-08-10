@@ -2,6 +2,7 @@
 // Created by ricka on 2026-07-30.
 //
 
+#include "glad/glad.h"
 #include <noi_engine/core/game.hpp>
 #include "assets/filesystem_asset_provider.hpp"
 
@@ -41,4 +42,16 @@ auto noi_engine::game::resources() const noexcept -> resource_system&
 auto noi_engine::game::input() -> input_state&
 {
     return this->m_input;
+}
+
+auto noi_engine::game::init(const opengl_context_loader loader) -> void
+{
+    if (gladLoadGLLoader(loader) == 0)
+    {
+        throw std::runtime_error("Failed to initialize OpenGL");
+    }
+
+    //TODO: check if necessary
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

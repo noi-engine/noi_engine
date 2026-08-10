@@ -11,6 +11,10 @@
 #include <noi_engine/core/ecs/details/component_pool.hpp>
 #include <noi_engine/core/signals/details/signal_bus.hpp>
 
+#ifdef signals
+#  undef signals
+#endif
+
 namespace noi_engine
 {
     class entity_manager;

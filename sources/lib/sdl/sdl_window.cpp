@@ -2,12 +2,12 @@
 // Created by ricka on 2026-07-30.
 //
 
+#include <noi_engine/core/game.hpp>
 #include <noi_engine/sdl/sdl_window.hpp>
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
 #include <gtest/internal/gtest-param-util.h>
-#include "../core/glad/glad.h"
 
 noi_engine::sdl_window::~sdl_window()
 {
@@ -43,7 +43,11 @@ noi_engine::sdl_window::sdl_window(const std::string& title, const int width, co
     this->gl_context = SDL_GL_CreateContext(this->sdl_raw_window);
     SDL_GL_MakeCurrent(this->sdl_raw_window, this->gl_context);
 
-    if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
+    try
+    {
+        game::init(SDL_GL_GetProcAddress);
+    }
+    catch ([[maybe_unused]] std::runtime_error& e)
     {
         SDL_GL_DeleteContext(this->gl_context);
         SDL_DestroyWindow(this->sdl_raw_window);

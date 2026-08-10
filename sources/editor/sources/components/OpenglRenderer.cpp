@@ -1,29 +1,33 @@
 #include "OpenglRenderer.hpp"
-
 #include <QOpenGLContext>
+#include <noi_engine/core/game.hpp>
 
 namespace noi_engine_editor
 {
-	OpenGLRenderer::OpenGLRenderer()
-	{
-		initializeOpenGLFunctions();
-	}
+    OpenGLRenderer::OpenGLRenderer()
+    {
+        noi_engine::game::init(
+            [](const char* name) -> void*
+            {
+                auto* currentCtx = QOpenGLContext::currentContext();
+                if (!currentCtx) return nullptr;
 
-	void OpenGLRenderer::render()
-	{
-		glClearColor(1.f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                return reinterpret_cast<void*>(currentCtx->getProcAddress(name));
+            });
+    }
 
-		update();
-	}
+    void OpenGLRenderer::render()
+    {
+        update();
+    }
 
-	QOpenGLFramebufferObject* OpenGLRenderer::createFramebufferObject(const QSize& size)
-	{
-		QOpenGLFramebufferObjectFormat format;
+    QOpenGLFramebufferObject* OpenGLRenderer::createFramebufferObject(const QSize& size)
+    {
+        QOpenGLFramebufferObjectFormat format;
 
-		format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-		format.setInternalTextureFormat(GL_RGBA8);
+        format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+        format.setInternalTextureFormat(GL_RGBA8);
 
-		return new QOpenGLFramebufferObject(size, format);
-	}
+        return new QOpenGLFramebufferObject(size, format);
+    }
 }
