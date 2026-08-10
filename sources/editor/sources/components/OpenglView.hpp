@@ -1,11 +1,12 @@
 #pragma once
 
 #include <QQuickItem>
+#include <QtQml/qqmlregistration.h>
 #include <QQuickFramebufferObject>
 
 namespace noi_engine_editor
 {
-	class OpenGLView final : public QQuickFramebufferObject
+	class OpenGLView : public QQuickFramebufferObject
 	{
 	Q_OBJECT
 	QML_ELEMENT

@@ -21,6 +21,9 @@ set_source_files_properties(${NOI_ENGINE_EDITOR_QML_SINGLETONS} PROPERTIES QT_QM
 
 qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         URI noi_engine_editor
+        VERSION 0.0.1
+        DEPENDENCIES
+        QtQuick
         QML_FILES
         Main.qml
         ${NOI_ENGINE_EDITOR_QML_SINGLETONS}
@@ -49,7 +52,13 @@ set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
 )
 # TODO(end): review
 
-target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/components
+        ${NOI_ENGINE_SOURCE_DIR}/include
+)
 
 target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         PRIVATE
@@ -58,9 +67,5 @@ target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         Qt6::QuickWidgets
         ${NOI_ENGINE_LIB_NAME}
 )
-
-
-
-target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE ${NOI_ENGINE_SOURCE_DIR}/include)
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/editor/bin")

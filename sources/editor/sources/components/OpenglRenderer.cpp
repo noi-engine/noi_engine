@@ -9,15 +9,9 @@ namespace noi_engine_editor
 		initializeOpenGLFunctions();
 	}
 
-	void OpenGLRenderer::initialize()
-	{
-		if (initialized_) return;
-		initialized_ = true;
-	}
-
 	void OpenGLRenderer::render()
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(1.f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		update();
