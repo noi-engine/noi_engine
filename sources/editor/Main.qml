@@ -1,17 +1,22 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.Basic
+
+import noi_engine_editor
 
 ApplicationWindow {
-    id: window
-    width: 640
-    height: 480
-    minimumWidth: 200
-    minimumHeight: 250
-    visible: true
-    title: qsTr("Hello World")
+    id: root
 
-    Text {
-        text: "Hello World"
+    visible: true
+    color: Theme.bgPrimary
+
+    StackView { id: stackView; anchors.fill: parent }
+
+    Component.onCompleted: {
+        Router.stackView = stackView
+
+        Theme.setup()
+
+        Router.replace("/");
     }
 }
