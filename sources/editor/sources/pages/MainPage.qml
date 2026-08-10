@@ -6,7 +6,8 @@ CustomPage {
 
     title: "MainPage"
 
-    Text {
-        text: "Hello World"
+    MuiIcon {
+        id: iconTest
+        name: "add"
     }
 }

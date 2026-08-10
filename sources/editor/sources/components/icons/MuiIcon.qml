@@ -1,6 +1,6 @@
 import QtQuick
 
-import noiengine
+import noi_engine_editor
 
 Text {
     id: root

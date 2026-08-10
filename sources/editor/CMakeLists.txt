@@ -1,6 +1,7 @@
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(NOI_ENGINE_EDITOR_PROJECT_NAME noi_engine_editor)
+set(QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/sources/editor" CACHE STRING "QML Import Path" FORCE)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
@@ -40,11 +41,15 @@ set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
 )
 # TODO(end): review
 
+target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         PRIVATE
         Qt6::Quick
         ${NOI_ENGINE_LIB_NAME}
 )
+
+
 
 target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE ${NOI_ENGINE_SOURCE_DIR}/include)
 
