@@ -28,7 +28,7 @@ auto noi_engine::sdl_game::process_events() -> void
                 event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED))
         {
             glViewport(0, 0, event.window.data1, event.window.data2);
-            this->m_scene_manager.on_resize(event.window.data1, event.window.data2);
+            this->m_scene_manager->on_resize(event.window.data1, event.window.data2);
         }
 
         sdl_event_processor::process(event, this->m_input);

@@ -24,7 +24,7 @@ namespace sandbox::basic
         auto on_update(float dt) -> void override;
 
         explicit player_script(
-            noi_engine::resource_system &resources,
+            noi_engine::resource_system *resources,
             noi_engine::resource_handle<noi_engine::mesh> mesh,
             noi_engine::resource_handle<noi_engine::shader> color_shader);
     };
@@ -49,7 +49,7 @@ namespace sandbox::basic
         auto on_create() -> void override;
 
         explicit background_script(
-            noi_engine::resource_system &resources,
+            noi_engine::resource_system *resources,
             noi_engine::resource_handle<noi_engine::mesh> mesh,
             noi_engine::resource_handle<noi_engine::shader> color_shader);
     };

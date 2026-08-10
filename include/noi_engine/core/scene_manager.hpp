@@ -13,10 +13,11 @@ namespace noi_engine
 {
     class scene_manager
     {
+        resource_system* m_resources{nullptr};
         std::unique_ptr<scene> m_current{nullptr};
 
     public:
-        scene_manager() = default;
+        scene_manager(resource_system *resources);
 
         virtual ~scene_manager() = default;
 

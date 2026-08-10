@@ -7,12 +7,12 @@
 
 auto noi_engine::game::render() -> void
 {
-    this->m_scene_manager.render(*this->m_renderer);
+    this->m_scene_manager->render(*this->m_renderer);
 }
 
 auto noi_engine::game::update(const float dt) -> void
 {
-    this->m_scene_manager.update(dt, m_input);
+    this->m_scene_manager->update(dt, m_input);
 }
 
 noi_engine::game::game(const game_conf& conf)
@@ -25,11 +25,12 @@ noi_engine::game::game(const game_conf& conf)
             )
         ); //TODO: should be another provider on release
     this->m_renderer = std::make_unique<renderer>(*this->m_resources);
+    this->m_scene_manager = std::make_unique<scene_manager>(this->m_resources.get());
 }
 
 auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) -> void
 {
-    this->m_scene_manager.set_scene(std::move(scene));
+    this->m_scene_manager->set_scene(std::move(scene));
 }
 
 auto noi_engine::game::resources() const noexcept -> resource_system&

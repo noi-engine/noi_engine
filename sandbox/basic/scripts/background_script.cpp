@@ -38,9 +38,9 @@ auto sandbox::basic::background_script::on_create() -> void
     add(mesh_renderer{.m_mesh = m_quad_mesh, .m_material = background_material_handle});
 }
 
-sandbox::basic::background_script::background_script(noi_engine::resource_system& resources,
+sandbox::basic::background_script::background_script(noi_engine::resource_system* resources,
                                                      const noi_engine::resource_handle<noi_engine::mesh> mesh,
                                                      const noi_engine::resource_handle<noi_engine::shader> color_shader)
-    : m_resources(&resources), m_quad_mesh(mesh), m_color_shader(color_shader)
+    : m_resources(resources), m_quad_mesh(mesh), m_color_shader(color_shader)
 {
 }

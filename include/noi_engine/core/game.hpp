@@ -22,10 +22,10 @@ namespace noi_engine
         game_conf m_conf{};
 
         input_state m_input{};
-        scene_manager m_scene_manager{};
 
         std::unique_ptr<renderer> m_renderer{nullptr};
         std::unique_ptr<resource_system> m_resources{nullptr};
+        std::unique_ptr<scene_manager> m_scene_manager{nullptr};
 
     protected:
         virtual auto render() -> void;

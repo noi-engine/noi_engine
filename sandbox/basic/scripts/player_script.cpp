@@ -51,9 +51,9 @@ auto sandbox::basic::player_script::on_update(const float dt) -> void
     }
 }
 
-sandbox::basic::player_script::player_script(noi_engine::resource_system& resources,
+sandbox::basic::player_script::player_script(noi_engine::resource_system* resources,
                                              const noi_engine::resource_handle<noi_engine::mesh> mesh,
                                              const noi_engine::resource_handle<noi_engine::shader> color_shader)
-    : m_resources(&resources), m_quad_mesh(mesh), m_color_shader(color_shader)
+    : m_resources(resources), m_quad_mesh(mesh), m_color_shader(color_shader)
 {
 }

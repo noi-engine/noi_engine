@@ -54,6 +54,14 @@ auto noi_engine::scene::render(renderer& renderer) -> void
     script_system::after_render(m_world);
 }
 
+auto noi_engine::scene::on_enter([[maybe_unused]] resource_system* resources) -> void
+{
+}
+
+auto noi_engine::scene::on_exit([[maybe_unused]] resource_system* resources) -> void
+{
+}
+
 auto noi_engine::scene::on_resize(const int width, const int height) -> void
 {
     if (m_world.has<camera_2d>(m_camera_entity))

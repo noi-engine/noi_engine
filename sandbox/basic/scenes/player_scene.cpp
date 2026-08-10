@@ -5,7 +5,11 @@
 #include "player_scene.hpp"
 
 #include <noi_engine/core/components/camera_2d.hpp>
+#include <noi_engine/core/components/script_component.hpp>
 
+#include "../scripts/scripts.hpp"
+#include "../../2d/resources/meshes.hpp"
+#include "../../2d/resources/shaders.hpp"
 #include "../systems/movement_system.hpp"
 #include "../systems/player_controller_system.hpp"
 
@@ -22,4 +26,34 @@ auto sandbox::basic::player_scene::update(const float dt, noi_engine::input_stat
     movement_system::update(m_world, dt);
 
     scene::update(dt, input);
+}
+
+void sandbox::basic::player_scene::on_enter(noi_engine::resource_system* resources)
+{
+    this->m_quad_mesh = resources->add(twod::meshes::quad());
+    this->m_color_shader = resources->add(twod::shaders::color_shader());
+
+    const auto background = this->m_world.create_entity();
+    this->m_world.add(background, noi_engine::script_component{
+                          .instance = std::make_shared<background_script>(
+                              resources,
+                              m_quad_mesh,
+                              m_color_shader
+                          )
+                      });
+
+    const auto player = this->m_world.create_entity();
+    this->m_world.add(player, noi_engine::script_component{
+                          .instance = std::make_shared<player_script>(
+                              resources,
+                              m_quad_mesh,
+                              m_color_shader
+                          )
+                      });
+
+
+    this->m_world.add(this->get_camera_entity(),
+                      noi_engine::script_component{.instance = std::make_shared<camera_script>(player)});
+
+    scene::on_enter(resources);
 }

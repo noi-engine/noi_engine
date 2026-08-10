@@ -4,9 +4,18 @@
 
 #include <noi_engine/core/scene_manager.hpp>
 
+noi_engine::scene_manager::scene_manager(resource_system* resources) : m_resources(resources)
+{
+}
+
 auto noi_engine::scene_manager::set_scene(std::unique_ptr<scene> scene) -> void
 {
+    if (this->m_current)
+    {
+        this->m_current->on_exit(this->m_resources);
+    }
     this->m_current = std::move(scene);
+    this->m_current->on_enter(this->m_resources);
 }
 
 auto noi_engine::scene_manager::update(const float dt, input_state& input) const -> void
