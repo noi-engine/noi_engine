@@ -17,6 +17,6 @@ ApplicationWindow {
 
         Theme.setup()
 
-        Router.replace("/test");
+        Router.replace("/");
     }
 }

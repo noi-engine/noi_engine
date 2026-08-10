@@ -22,18 +22,29 @@ set_source_files_properties(${NOI_ENGINE_EDITOR_QML_SINGLETONS} PROPERTIES QT_QM
 qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         URI noi_engine_editor
         VERSION 0.0.1
-        DEPENDENCIES
-        QtQuick
         QML_FILES
         Main.qml
         ${NOI_ENGINE_EDITOR_QML_SINGLETONS}
+
+        # components
         sources/components/icons/IconLoaderCreator.js
         sources/components/icons/MaterialSymbolsRegular/codepoints.js
         sources/components/icons/MuiIcon.qml
         sources/components/CustomPage.qml
+        sources/components/AppButton.qml
+        sources/components/IconBadge.qml
+        sources/components/SearchField.qml
+
+        # home
+        sources/components/home/ActionCard.qml
+        sources/components/home/EmptyState.qml
+        sources/components/home/HeroHeader.qml
+        sources/components/home/RecentProjectItem.qml
+        sources/components/home/RecentProjectsSection.qml
+        sources/components/home/QuickActionsRow.qml
+        sources/pages/HomePage.qml
 
         # Pages
-        sources/pages/MainPage.qml
         sources/pages/OpenglTestPage.qml
 
         SOURCES
