@@ -18,7 +18,8 @@ QtObject {
     }
 
     readonly property var routes: ({
-        "/": "pages/MainPage.qml"
+        "/": "pages/MainPage.qml",
+        "/test": "pages/OpenglTestPage.qml",
     })
 
     function updateCurrentPath() {

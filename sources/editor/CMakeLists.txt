@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(NOI_ENGINE_EDITOR_PROJECT_NAME noi_engine_editor)
 set(QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/sources/editor" CACHE STRING "QML Import Path" FORCE)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick OpenGL QuickWidgets)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
@@ -28,8 +28,16 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/components/icons/MaterialSymbolsRegular/codepoints.js
         sources/components/icons/MuiIcon.qml
         sources/components/CustomPage.qml
+
+        # Pages
         sources/pages/MainPage.qml
+        sources/pages/OpenglTestPage.qml
+
         SOURCES
+        sources/components/OpenglView.hpp
+        sources/components/OpenglView.cpp
+        sources/components/OpenglRenderer.hpp
+        sources/components/OpenglRenderer.cpp
 )
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
@@ -46,6 +54,8 @@ target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE ${CMAKE_CUR
 target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         PRIVATE
         Qt6::Quick
+        Qt6::OpenGL
+        Qt6::QuickWidgets
         ${NOI_ENGINE_LIB_NAME}
 )
 
