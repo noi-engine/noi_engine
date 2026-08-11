@@ -9,28 +9,9 @@ CustomPage {
 
     title: qsTr("HomePage")
 
-    property var recentProjects: [
-        {
-            name: "Space Explorer",
-            path: "~/Projects/SpaceExplorer",
-            date: qsTr("Today")
-        },
-        {
-            name: "My First Game",
-            path: "~/Projects/MyFirstGame",
-            date: qsTr("Yesterday")
-        },
-        {
-            name: "Platformer",
-            path: "~/Projects/Platformer",
-            date: qsTr("3 days ago")
-        },
-        {
-            name: "Test Project",
-            path: "~/Projects/TestProject",
-            date: qsTr("Last week")
-        }
-    ]
+    RecentProjectsModel {
+        id: recentProjectsModel
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -71,14 +52,19 @@ CustomPage {
 
             QuickActionsRow {
                 Layout.fillWidth: true
-                onCreateProjectRequested: {}
+                onCreateProjectRequested: {
+                    console.log("HelloWorld");
+                    RecentProjectsManager.addProject("Nouveau Projet", "/home/user/Projects/NouveauProjet")
+                }
                 onOpenProjectRequested: {}
             }
 
             RecentProjectsSection {
                 Layout.fillWidth: true
-                projects: root.recentProjects
-                onProjectClicked: project => {}
+                model: recentProjectsModel
+                onProjectClicked: (path) => {
+                    console.log("Ouverture du projet:", path)
+                }
             }
 
             Item {

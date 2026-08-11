@@ -6,7 +6,9 @@ import noi_engine_editor
 Rectangle {
     id: root
 
-    required property var project
+    required property string projectName
+    required property string projectPath
+    required property string projectDate
 
     signal clicked()
 
@@ -57,7 +59,7 @@ Rectangle {
             spacing: 3
 
             Text {
-                text: root.project.name
+                text: root.projectName
 
                 font.pixelSize: 14
                 font.weight: Font.DemiBold
@@ -68,7 +70,7 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
 
-                text: root.project.path
+                text: root.projectPath
 
                 elide: Text.ElideMiddle
 
@@ -79,7 +81,7 @@ Rectangle {
         }
 
         Text {
-            text: root.project.date
+            text: root.projectDate
 
             font.pixelSize: 12
 

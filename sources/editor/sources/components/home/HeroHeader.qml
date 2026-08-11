@@ -10,25 +10,13 @@ ColumnLayout {
 
     spacing: 7
 
-    RowLayout {
-        spacing: 12
+    Text {
+        text: qsTr("Noi Engine")
 
-        MuiIcon {
-            name: "deployed_code"
+        font.pixelSize: root.width >= 1200 ? 40 : 34
+        font.weight: Font.Bold
 
-            font.pixelSize: 42
-
-            color: Theme.primaryColor
-        }
-
-        Text {
-            text: qsTr("Noi Engine")
-
-            font.pixelSize: root.width >= 1200 ? 40 : 34
-            font.weight: Font.Bold
-
-            color: Theme.white
-        }
+        color: Theme.white
     }
 
     Text {

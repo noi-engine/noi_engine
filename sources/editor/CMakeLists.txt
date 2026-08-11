@@ -3,11 +3,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(NOI_ENGINE_EDITOR_PROJECT_NAME noi_engine_editor)
 set(QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/sources/editor" CACHE STRING "QML Import Path" FORCE)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick OpenGL QuickWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Quick OpenGL)
 
 qt_standard_project_setup(REQUIRES 6.10)
-
-# TODO(begin): review
 qt_add_executable(${NOI_ENGINE_EDITOR_PROJECT_NAME} resources.qrc main.cpp)
 
 set(NOI_ENGINE_EDITOR_QML_SINGLETONS
@@ -48,10 +46,20 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/pages/OpenglTestPage.qml
 
         SOURCES
+        # components
         sources/components/OpenglView.hpp
         sources/components/OpenglView.cpp
         sources/components/OpenglRenderer.hpp
         sources/components/OpenglRenderer.cpp
+
+        #managers
+        sources/managers/ProjectInfo.hpp
+        sources/managers/RecentProjectsManager.hpp
+        sources/managers/RecentProjectsManager.cpp
+
+        # home
+        sources/components/home/RecentProjectsModel.hpp
+        sources/components/home/RecentProjectsModel.cpp
 )
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
@@ -61,22 +69,30 @@ set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
         MACOSX_BUNDLE TRUE
         WIN32_EXECUTABLE TRUE
 )
-# TODO(end): review
 
-target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME} PRIVATE
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/components
-        ${NOI_ENGINE_SOURCE_DIR}/include
+# TODO(begin): find a better way
+file(GLOB_RECURSE ALL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.hpp")
+
+set(INCLUDE_DIRS "")
+foreach(HEADER_FILE ${ALL_HEADERS})
+    get_filename_component(HEADER_DIR ${HEADER_FILE} DIRECTORY)
+    list(APPEND INCLUDE_DIRS ${HEADER_DIR})
+endforeach()
+list(REMOVE_DUPLICATES INCLUDE_DIRS)
+
+target_include_directories(${NOI_ENGINE_EDITOR_PROJECT_NAME}
+    PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${INCLUDE_DIRS}
+    ${NOI_ENGINE_SOURCE_DIR}/include
 )
+# TODO(end): find a better way
 
 target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
-        PRIVATE
-        Qt6::Quick
-        Qt6::OpenGL
-        Qt6::QuickWidgets
-        ${NOI_ENGINE_LIB_NAME}
+    PRIVATE
+    Qt6::Quick
+    Qt6::OpenGL
+    ${NOI_ENGINE_LIB_NAME}
 )
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/editor/bin")
