@@ -5,22 +5,40 @@ namespace noi_engine_editor
     RecentProjectsModel::RecentProjectsModel(QObject* parent)
         : QAbstractListModel(parent)
     {
-        m_manager = qobject_cast<RecentProjectsManager*>(
-            qmlEngine(this)
-                ? qmlEngine(this)->singletonInstance<RecentProjectsManager*>(
-                    "noi_engine_editor", "RecentProjectsManager")
-                : nullptr
-        );
+    }
+
+    auto RecentProjectsModel::manager() const -> RecentProjectsManager*
+    {
+        return m_manager;
+    }
+
+    auto RecentProjectsModel::setManager(RecentProjectsManager* manager) -> void
+    {
+        if (m_manager == manager)
+        {
+            return;
+        }
+
+        if (m_manager)
+        {
+            disconnect(m_manager, &RecentProjectsManager::projectsChanged, this, &RecentProjectsModel::refreshModel);
+        }
+
+        m_manager = manager;
+
+        if (m_manager)
+        {
+            connect(m_manager, &RecentProjectsManager::projectsChanged, this, &RecentProjectsModel::refreshModel);
+        }
+
+        emit managerChanged();
         refreshModel();
     }
 
     auto RecentProjectsModel::refreshModel() -> void
     {
         beginResetModel();
-        if (m_manager)
-        {
-            m_cachedProjects = m_manager->projects();
-        }
+        m_cachedProjects = m_manager ? m_manager->projects() : QList<ProjectInfo>{};
         endResetModel();
     }
 

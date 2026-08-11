@@ -12,6 +12,8 @@ namespace noi_engine_editor
         Q_OBJECT
         QML_ELEMENT
 
+        Q_PROPERTY(RecentProjectsManager* manager READ manager WRITE setManager NOTIFY managerChanged)
+
     public:
         enum Roles
         {
@@ -27,6 +29,13 @@ namespace noi_engine_editor
         [[nodiscard]] auto rowCount(const QModelIndex& parent) const -> int override;
 
         [[nodiscard]] auto data(const QModelIndex& index, int role) const -> QVariant override;
+
+        [[nodiscard]] auto manager() const -> RecentProjectsManager*;
+
+        auto setManager(RecentProjectsManager* manager) -> void;
+
+    signals:
+        void managerChanged();
 
     private:
         auto refreshModel() -> void;

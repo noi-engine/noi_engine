@@ -11,7 +11,9 @@ CustomPage {
 
     RecentProjectsModel {
         id: recentProjectsModel
+        manager: RecentProjectsManager
     }
+
 
     Rectangle {
         anchors.fill: parent
@@ -53,7 +55,6 @@ CustomPage {
             QuickActionsRow {
                 Layout.fillWidth: true
                 onCreateProjectRequested: {
-                    console.log("HelloWorld");
                     RecentProjectsManager.addProject("Nouveau Projet", "/home/user/Projects/NouveauProjet")
                 }
                 onOpenProjectRequested: {}
