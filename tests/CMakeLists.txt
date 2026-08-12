@@ -14,7 +14,7 @@ set(NOI_ENGINE_TEST_SOURCES
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
 
-target_include_directories(noi_engine_tests PRIVATE ${NOI_ENGINE_SOURCE_DIR}/sources)
+target_include_directories(noi_engine_tests PRIVATE ${NOI_ENGINE_SOURCE_DIR}/noi_engine)
 
 target_link_directories(noi_engine_tests PRIVATE ${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(

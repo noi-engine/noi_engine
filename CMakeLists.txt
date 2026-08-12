@@ -31,12 +31,12 @@ if (BUILD_SHARED_LIBS)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif ()
 
-add_subdirectory(sources/lib)
+add_subdirectory(noi_engine/lib)
 
 option(NOI_ENGINE_BUILD_EDITOR "Build Noi Engine editor" ON)
 if (NOI_ENGINE_BUILD_EDITOR)
     add_subdirectory(external/Templi)
-    add_subdirectory(sources/editor)
+    add_subdirectory(noi_engine/editor)
 endif ()
 
 option(NOI_ENGINE_BUILD_TESTS "Build Noi Engine tests" ON)
