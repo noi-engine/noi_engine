@@ -27,19 +27,19 @@ if (NOI_ENGINE_IS_MAIN_PROJECT)
             ${NOI_ENGINE_SOURCE_DIR}/include/${NOI_ENGINE_LIB_NAME}/${NOI_ENGINE_LIB_NAME}Config.hpp @ONLY)
 endif ()
 
-if (BUILD_SHARED_LIBS)
+if (CMAKE_BUILD_SHARED_LIBS)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif ()
 
 add_subdirectory(sources)
 
-option(NOI_ENGINE_BUILD_TESTS "Build Noi Engine tests" ON)
+option(NOI_ENGINE_BUILD_TESTS "Build Noi Engine tests" OFF)
 if (NOI_ENGINE_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif ()
 
-option(NOI_ENGINE_BUILD_SANDBOX "Build Noi Engine sandbox" ON)
+option(NOI_ENGINE_BUILD_SANDBOX "Build Noi Engine sandbox" OFF)
 if (NOI_ENGINE_BUILD_SANDBOX)
     add_subdirectory(sandbox)
 endif ()
