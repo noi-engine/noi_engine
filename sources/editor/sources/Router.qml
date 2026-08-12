@@ -19,6 +19,7 @@ QtObject {
 
     readonly property var routes: ({
         "/": "pages/HomePage.qml",
+        "/create": "pages/CreateProjectPage.qml",
         "/test": "pages/OpenglTestPage.qml",
     })
 

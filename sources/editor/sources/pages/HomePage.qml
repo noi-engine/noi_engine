@@ -54,9 +54,7 @@ CustomPage {
 
             QuickActionsRow {
                 Layout.fillWidth: true
-                onCreateProjectRequested: {
-                    RecentProjectsManager.addProject("Nouveau Projet", "/home/user/Projects/NouveauProjet")
-                }
+                onCreateProjectRequested: Router.push("/create")
                 onOpenProjectRequested: {}
             }
 

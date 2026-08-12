@@ -44,6 +44,7 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
 
         # Pages
         sources/pages/OpenglTestPage.qml
+        sources/pages/CreateProjectPage.qml
 
         SOURCES
         # components
@@ -56,10 +57,14 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/managers/ProjectInfo.hpp
         sources/managers/RecentProjectsManager.hpp
         sources/managers/RecentProjectsManager.cpp
+        sources/managers/SettingsManager.hpp
+        sources/managers/SettingsManager.cpp
 
         # home
         sources/components/home/RecentProjectsModel.hpp
         sources/components/home/RecentProjectsModel.cpp
+        sources/managers/ProjectCreator.hpp
+        sources/managers/ProjectCreator.cpp
 )
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES
