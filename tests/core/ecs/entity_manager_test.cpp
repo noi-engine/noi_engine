@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "lib/core/ecs/entity_manager.hpp"
+#include "core/ecs/entity_manager.hpp"
 
 // Generated
 namespace noi_engine

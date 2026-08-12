@@ -138,7 +138,7 @@ target_sources(${NOI_ENGINE_LIB_NAME}
         PRIVATE
         FILE_SET private_headers
         TYPE HEADERS
-        BASE_DIRS ${NOI_ENGINE_SOURCE_DIR}/noi_engine/lib
+        BASE_DIRS ${NOI_ENGINE_SOURCE_DIR}/sources
         FILES ${NOI_ENGINE_PRIVATE_HEADERS}
 )
 target_include_directories(${NOI_ENGINE_LIB_NAME} PRIVATE ${Stb_INCLUDE_DIR})
