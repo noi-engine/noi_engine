@@ -14,7 +14,6 @@ CustomPage {
         manager: RecentProjectsManager
     }
 
-
     Rectangle {
         anchors.fill: parent
         color: Theme.bgPrimary
@@ -61,8 +60,10 @@ CustomPage {
             RecentProjectsSection {
                 Layout.fillWidth: true
                 model: recentProjectsModel
-                onProjectClicked: (path) => {
-                    console.log("Ouverture du projet:", path)
+                onProjectClicked: path => {
+                    if (CurrentProjectManager.openProject(path)) {
+                        Router.push("/editor");
+                    }
                 }
             }
 

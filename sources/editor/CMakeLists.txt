@@ -33,6 +33,12 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/components/IconBadge.qml
         sources/components/SearchField.qml
 
+        # Pages
+        sources/pages/OpenglTestPage.qml
+        sources/pages/CreateProjectPage.qml
+        sources/pages/ProjectEditorPage.qml
+        sources/pages/HomePage.qml
+
         # home
         sources/components/home/ActionCard.qml
         sources/components/home/EmptyState.qml
@@ -40,11 +46,6 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/components/home/RecentProjectItem.qml
         sources/components/home/RecentProjectsSection.qml
         sources/components/home/QuickActionsRow.qml
-        sources/pages/HomePage.qml
-
-        # Pages
-        sources/pages/OpenglTestPage.qml
-        sources/pages/CreateProjectPage.qml
 
         SOURCES
         # components
@@ -59,12 +60,14 @@ qt_add_qml_module(${NOI_ENGINE_EDITOR_PROJECT_NAME}
         sources/managers/RecentProjectsManager.cpp
         sources/managers/SettingsManager.hpp
         sources/managers/SettingsManager.cpp
+        sources/managers/ProjectCreator.hpp
+        sources/managers/ProjectCreator.cpp
+        sources/managers/CurrentProjectManager.hpp
+        sources/managers/CurrentProjectManager.cpp
 
         # home
         sources/components/home/RecentProjectsModel.hpp
         sources/components/home/RecentProjectsModel.cpp
-        sources/managers/ProjectCreator.hpp
-        sources/managers/ProjectCreator.cpp
 )
 
 set_target_properties(${NOI_ENGINE_EDITOR_PROJECT_NAME} PROPERTIES

@@ -14,13 +14,15 @@ CustomPage {
         id: projectCreator
 
         onProjectCreated: (name, path) => {
-            RecentProjectsManager.addProject(name, path)
-            Router.replace("/")
+            RecentProjectsManager.addProject(name, path);
+            if (CurrentProjectManager.openProject(path)) {
+                Router.push("/editor");
+            }
         }
 
-        onProjectCreationFailed: (reason) => {
-            errorLabel.text = reason
-            errorLabel.visible = true
+        onProjectCreationFailed: reason => {
+            errorLabel.text = reason;
+            errorLabel.visible = true;
         }
     }
 
@@ -28,7 +30,7 @@ CustomPage {
         id: folderDialog
 
         onAccepted: {
-            locationField.text = selectedFolder.toString().replace("file://", "")
+            locationField.text = selectedFolder.toString().replace("file://", "");
         }
     }
 
@@ -158,7 +160,9 @@ CustomPage {
 
             spacing: 12
 
-            Item { Layout.fillWidth: true }
+            Item {
+                Layout.fillWidth: true
+            }
 
             AppButton {
                 text: qsTr("Cancel")
@@ -171,16 +175,16 @@ CustomPage {
 
                 onClicked: {
                     if (nameField.text.trim() === "") {
-                        errorLabel.text = qsTr("Project name cannot be empty")
-                        errorLabel.visible = true
-                        return
+                        errorLabel.text = qsTr("Project name cannot be empty");
+                        errorLabel.visible = true;
+                        return;
                     }
 
                     if (defaultFolderCheckBox.checked) {
-                        SettingsManager.defaultProjectsPath = locationField.text
+                        SettingsManager.defaultProjectsPath = locationField.text;
                     }
 
-                    projectCreator.createProject(nameField.text.trim(), locationField.text)
+                    projectCreator.createProject(nameField.text.trim(), locationField.text);
                 }
             }
         }
