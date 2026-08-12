@@ -35,6 +35,7 @@ add_subdirectory(sources/lib)
 
 option(NOI_ENGINE_BUILD_EDITOR "Build Noi Engine editor" ON)
 if (NOI_ENGINE_BUILD_EDITOR)
+    add_subdirectory(external/Templi)
     add_subdirectory(sources/editor)
 endif ()
 
