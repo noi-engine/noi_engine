@@ -100,6 +100,7 @@ target_link_libraries(${NOI_ENGINE_EDITOR_PROJECT_NAME}
     PRIVATE
     Qt6::Quick
     Qt6::OpenGL
+    Templi
     ${NOI_ENGINE_LIB_NAME}
 )
 
