@@ -1,0 +1,3 @@
+[submodule "external/Templi"]
+	path = external/Templi
+	url = https://github.com/RickaPrincy/Templi
