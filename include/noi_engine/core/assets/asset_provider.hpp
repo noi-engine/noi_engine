@@ -7,10 +7,13 @@
 #include <string_view>
 #include <vector>
 
-class asset_provider
+namespace noi_engine
 {
-public:
-    virtual ~asset_provider() = default;
+    class asset_provider
+    {
+    public:
+        virtual ~asset_provider() = default;
 
-    virtual auto read(std::string_view path) -> std::vector<std::byte> = 0;
-};
+        virtual auto read(std::string_view path) -> std::vector<std::byte> = 0;
+    };
+}
