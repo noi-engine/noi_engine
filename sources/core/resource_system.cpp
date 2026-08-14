@@ -7,7 +7,7 @@
 #include "assets/mesh_loader.hpp"
 #include "assets/texture_loader.hpp"
 
-noi_engine::resource_system::resource_system(std::unique_ptr<asset_provider> assets) : m_asset_provider(
+noi_engine::resource_system::resource_system(std::shared_ptr<asset_provider> assets) : m_asset_provider(
     std::move(assets))
 {
 }

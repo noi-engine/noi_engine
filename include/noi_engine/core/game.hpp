@@ -10,6 +10,7 @@
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/resources/resource_system.hpp>
 #include <noi_engine/core/input/input_state.hpp>
+#include <noi_engine/core/assets/asset_provider.hpp>
 
 namespace noi_engine
 {
@@ -35,7 +36,7 @@ namespace noi_engine
         virtual auto update(float dt) -> void;
 
     public:
-        explicit game(const game_conf& conf = {});
+        explicit game(std::shared_ptr<asset_provider> asset_provider, const game_conf& conf = {});
 
         virtual ~game() = default;
 

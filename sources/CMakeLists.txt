@@ -29,6 +29,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_system.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/assets/asset_provider.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/assets/filesystem_asset_provider.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_codes.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_state.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/renderer/renderer.hpp
@@ -53,7 +54,6 @@ set(CORE_PRIVATE_HEADERS
         core/ecs/entity_manager.hpp
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
-        core/assets/filesystem_asset_provider.hpp
         core/assets/texture_loader.hpp
         core/assets/mesh_loader.hpp
         core/input/input_state_impl.hpp

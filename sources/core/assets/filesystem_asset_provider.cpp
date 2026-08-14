@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <utility>
 
-#include "filesystem_asset_provider.hpp"
+#include <noi_engine/core/assets/filesystem_asset_provider.hpp>
 
 noi_engine::filesystem_asset_provider::filesystem_asset_provider(std::filesystem::path root) : m_root(std::move(root))
 {

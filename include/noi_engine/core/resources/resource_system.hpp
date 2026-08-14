@@ -16,7 +16,7 @@ namespace noi_engine
 {
     class resource_system
     {
-        std::unique_ptr<asset_provider> m_asset_provider;
+        std::shared_ptr<asset_provider> m_asset_provider;
 
     public:
         details::resource_manager<mesh> meshes{};
@@ -24,7 +24,7 @@ namespace noi_engine
         details::resource_manager<texture> textures{};
         details::resource_manager<material> materials{};
 
-        explicit resource_system(std::unique_ptr<asset_provider> assets);
+        explicit resource_system(std::shared_ptr<asset_provider> assets);
 
         template <typename T>
         [[nodiscard]] auto add(T resource) -> resource_handle<T>;

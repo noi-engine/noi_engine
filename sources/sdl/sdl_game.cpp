@@ -35,8 +35,9 @@ auto noi_engine::sdl_game::process_events() -> void
     }
 }
 
-noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height, const sdl_game_conf& game_conf) :
-    game(game_conf)
+noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height,
+                               const std::shared_ptr<asset_provider>& asset_provider, const sdl_game_conf& game_conf) :
+    game(asset_provider, game_conf)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {

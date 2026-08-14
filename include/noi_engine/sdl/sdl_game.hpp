@@ -7,6 +7,7 @@
 #include <memory>
 #include <noi_engine/core/game.hpp>
 #include <noi_engine/sdl/sdl_window.hpp>
+#include <noi_engine/core/assets/filesystem_asset_provider.hpp>
 
 namespace noi_engine
 {
@@ -27,7 +28,13 @@ namespace noi_engine
         std::unique_ptr<sdl_window> m_window{nullptr};
 
     public:
-        explicit sdl_game(const std::string& title, int width, int height, const sdl_game_conf& game_conf = {});
+        explicit sdl_game(
+            const std::string& title,
+            int width,
+            int height,
+            const std::shared_ptr<asset_provider>& asset_provider = std::make_shared<filesystem_asset_provider>(
+                std::filesystem::current_path()),
+            const sdl_game_conf& game_conf = {});
 
         virtual auto run(int argc, char** argv) -> int;
 

@@ -4,7 +4,6 @@
 
 #include "glad/glad.h"
 #include <noi_engine/core/game.hpp>
-#include "assets/filesystem_asset_provider.hpp"
 
 auto noi_engine::game::render() -> void
 {
@@ -16,15 +15,10 @@ auto noi_engine::game::update(const float dt) -> void
     this->m_scene_manager->update(dt, m_input);
 }
 
-noi_engine::game::game(const game_conf& conf)
+noi_engine::game::game(std::shared_ptr<asset_provider> asset_provider, const game_conf& conf)
     : m_conf(conf)
 {
-    this->m_resources =
-        std::make_unique<resource_system>(
-            std::make_unique<filesystem_asset_provider>(
-                std::filesystem::current_path()
-            )
-        ); //TODO: should be another provider on release
+    this->m_resources = std::make_unique<resource_system>(asset_provider);
     this->m_renderer = std::make_unique<renderer>(*this->m_resources);
     this->m_scene_manager = std::make_unique<scene_manager>(this->m_resources.get());
 }
