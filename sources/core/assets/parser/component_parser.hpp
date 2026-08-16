@@ -1,0 +1,37 @@
+//
+// Created by ricka on 8/16/26.
+//
+
+#pragma once
+
+#include <nlohmann/json.hpp>
+#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/scene.hpp>
+
+namespace noi_engine
+{
+    class i_component_parser
+    {
+    public:
+        virtual ~i_component_parser() = default;
+
+        virtual auto parse(const entity& entity, scene& target_scene, resource_system* resources,
+                           const nlohmann::json& properties) -> void = 0;
+    };
+
+    class camera_2d_parser : public i_component_parser
+    {
+    public:
+        auto parse(const entity& entity, scene& target_scene, resource_system* resources,
+                   const nlohmann::json& properties)
+            -> void override;
+    };
+
+    class script_component_parser final : public i_component_parser
+    {
+    public:
+        auto parse(const entity& entity, scene& target_scene,
+                   resource_system* resources, const nlohmann::json& properties)
+            -> void override;
+    };
+} // namespace noi_engine

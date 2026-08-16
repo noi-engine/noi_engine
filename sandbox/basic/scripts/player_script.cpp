@@ -29,7 +29,6 @@ auto sandbox::basic::player_script::on_create(
 	noi_engine::entity self, const noi_engine::script_context& context) -> void
 {
 	const auto resources = context.resources;
-	;
 	add(self, context, velocity{});
 	add(self, context, world_matrix{});
 	add(self, context, dirty<transform>{});

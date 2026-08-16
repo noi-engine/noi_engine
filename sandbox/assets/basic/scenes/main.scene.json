@@ -24,10 +24,16 @@
             "near_plane": -1,
             "far_plane": 1,
             "orthographic_size": 5,
-            "aspect_ratio": {
-              "width": 16,
-              "height": 9
-            }
+            "aspect_ratio_width": 16,
+            "aspect_ratio_height": 9
+          }
+        },
+        {
+          "type": "scripts",
+          "properties": {
+            "names": [
+              "camera_script"
+            ]
           }
         }
       ]
