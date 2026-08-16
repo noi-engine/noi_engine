@@ -39,7 +39,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/game.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/signals/moved_signal.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/action_context.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/basic.hpp
 )
 
@@ -55,6 +54,7 @@ set(CORE_PRIVATE_HEADERS
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
         core/assets/texture_loader.hpp
+        core/assets/scene_loader.hpp
         core/assets/mesh_loader.hpp
         core/input/input_state_impl.hpp
 )
@@ -85,6 +85,7 @@ set(CORE_SOURCES
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
         core/assets/mesh_loader.cpp
+        core/assets/scene_loader.cpp
         core/signals/signal_bus.cpp
         core/scripts/scripts.cpp
         core/systems/script_system.cpp
@@ -150,6 +151,8 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME}
 )
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
+
+target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)

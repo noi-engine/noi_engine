@@ -66,9 +66,14 @@ namespace noi_engine
 			return handle;
 		}
 
+		//TODO: bad api
+		[[nodiscard]] auto load_scene(std::string_view path) const
+			-> std::unique_ptr<scene>;
+
 		[[nodiscard]] auto load_mesh(std::string_view name,
 									 std::string_view path)
 			-> resource_handle<mesh>;
+
 		[[nodiscard]] auto load_texture(std::string_view name,
 										std::string_view path)
 			-> resource_handle<texture>;

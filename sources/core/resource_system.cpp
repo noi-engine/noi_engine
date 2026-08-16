@@ -5,6 +5,7 @@
 #include <noi_engine/core/resources/resource_system.hpp>
 
 #include "assets/mesh_loader.hpp"
+#include "assets/scene_loader.hpp"
 #include "assets/texture_loader.hpp"
 
 noi_engine::resource_system::resource_system(
@@ -23,6 +24,13 @@ auto noi_engine::resource_system::add_script(const std::string_view name,
 	-> resource_handle<script>
 {
 	return this->add(name, std::move(value));
+}
+
+auto noi_engine::resource_system::load_scene(const std::string_view path) const
+	-> std::unique_ptr<scene>
+{
+	const auto data = this->m_asset_provider->read(std::string(path));
+	return scene_loader::load(data);
 }
 
 auto noi_engine::resource_system::load_texture(const std::string_view name,
