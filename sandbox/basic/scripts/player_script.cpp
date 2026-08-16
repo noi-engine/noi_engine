@@ -5,6 +5,7 @@
 #include <noi_engine/builtin/signals/moved_signal.hpp>
 #include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
+#include <noi_engine/core/components/name_component.hpp>
 #include <noi_engine/core/components/render_layer.hpp>
 #include <noi_engine/core/components/script_component.hpp>
 #include <noi_engine/core/components/transform.hpp>
@@ -17,12 +18,12 @@
 
 using noi_engine::dirty;
 using noi_engine::mesh_renderer;
+using noi_engine::moved_signal;
+using noi_engine::name_component;
 using noi_engine::render_layer;
 using noi_engine::script_component;
 using noi_engine::transform;
 using noi_engine::world_matrix;
-
-using noi_engine::moved_signal;
 
 auto sandbox::basic::player_script::on_create(
 	noi_engine::entity self, const noi_engine::script_context& context) -> void
@@ -35,6 +36,7 @@ auto sandbox::basic::player_script::on_create(
 	add(self, context, render_layer{ .order = 0 });
 	add(self, context, player_controller{ .speed = 3.0f });
 	add(self, context, transform{ .scale = { 0.8f, 0.8f, 0.8f } });
+	add(self, context, name_component{ .name = "player" });
 
 	noi_engine::material green_material;
 	green_material.set_shader(

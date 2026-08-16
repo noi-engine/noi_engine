@@ -44,6 +44,7 @@ namespace noi_engine
     public:
         [[nodiscard]] auto create_entity() const -> entity;
         [[nodiscard]] auto signals() -> details::signal_bus&;
+    	[[nodiscard]] auto find_by_name(std::string_view name) -> entity;
 
         auto destroy_entity(entity entity) -> void;
 
