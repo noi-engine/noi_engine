@@ -2,6 +2,7 @@
 // Created by ricka on 8/9/26.
 //
 
+#include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/scripts/script.hpp>
 
 auto noi_engine::script_context::get_world() const -> world&

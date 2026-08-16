@@ -4,15 +4,16 @@
 
 #pragma once
 
-#include <memory>
+#include <vector>
 #include <noi_engine/core/components/component.hpp>
+#include <noi_engine/core/resources/resource_handle.hpp>
 #include <noi_engine/core/scripts/script.hpp>
 
 namespace noi_engine
 {
-    struct script_component : component
-    {
-        std::shared_ptr<script> instance{};
-        bool created{false};
-    };
-}
+	struct script_component : component
+	{
+		std::vector<resource_handle<script>> scripts{};
+		bool created{ false };
+	};
+}  // namespace noi_engine

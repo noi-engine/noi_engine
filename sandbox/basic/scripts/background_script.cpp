@@ -9,8 +9,8 @@
 #include <noi_engine/core/components/script_component.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
+#include <noi_engine/core/resources/resource_system.hpp>
 
-#include "../components/velocity.hpp"
 #include "scripts.hpp"
 
 using noi_engine::dirty;
@@ -26,28 +26,21 @@ auto sandbox::basic::background_script::on_create(
 	const noi_engine::entity self, const noi_engine::script_context& context)
 	-> void
 {
+	const auto resources = context.resources;
 	add(self, context, world_matrix{});
 	add(self, context, render_layer{ .order = -1 });
 	add(self, context, transform{ .scale = { 8.0f, 8.0f, 1.0f } });
 	add(self, context, transform{ .scale = { 0.8f, 0.8f, 0.8f } });
 
 	noi_engine::material background_material;
-	background_material.set_shader(m_color_shader);
+	background_material.set_shader(
+		resources->get_handle<noi_engine::shader>("color_shader"));
 	background_material.set_color("u_color", { 0.15f, 0.15f, 0.2f, 1.0f });
-	const auto background_material_handle =
-		m_resources->add(std::move(background_material));
+	const auto background_material_handle = resources->add(
+		std::make_unique<noi_engine::material>(std::move(background_material)));
 
 	add(self, context,
-		mesh_renderer{ .m_mesh = m_quad_mesh,
+		mesh_renderer{ .m_mesh =
+						   resources->get_handle<noi_engine::mesh>("quad_mesh"),
 					   .m_material = background_material_handle });
-}
-
-sandbox::basic::background_script::background_script(
-	noi_engine::resource_system* resources,
-	const noi_engine::resource_handle<noi_engine::mesh> mesh,
-	const noi_engine::resource_handle<noi_engine::shader> color_shader)
-	: m_resources(resources),
-	  m_quad_mesh(mesh),
-	  m_color_shader(color_shader)
-{
 }

@@ -71,7 +71,5 @@ auto sandbox::threed::meshes::cube() -> noi_engine::mesh
         20, 21, 22,
         22, 23, 20
     };
-    auto mesh = noi_engine::mesh(std::move(vertices), std::move(indices));
-    mesh.upload();
-    return mesh;
+    return noi_engine::mesh(std::move(vertices), std::move(indices));
 }

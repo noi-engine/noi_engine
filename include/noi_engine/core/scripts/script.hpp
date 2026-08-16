@@ -4,15 +4,20 @@
 
 #pragma once
 
-#include <functional>
-#include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/core/ecs/world.hpp>
-#include <noi_engine/core/input/input_state.hpp>
-#include <noi_engine/core/scene.hpp>
 #include <utility>
+#include <functional>
+#include <noi_engine/core/ecs/world.hpp>
+#include <noi_engine/core/ecs/entity.hpp>
+#include <noi_engine/core/input/input_state.hpp>
 
 namespace noi_engine
 {
+	//TODO: bad api
+	class scene;
+	class renderer;
+	class input_state;
+	class resource_system;
+
 	struct script_context
 	{
 		scene* scene{ nullptr };
@@ -26,6 +31,12 @@ namespace noi_engine
 	class script
 	{
 	public:
+		script() = default;
+		script(const script&) = default;
+		script(script&&) noexcept = default;
+		auto operator=(const script&) -> script& = default;
+		auto operator=(script&&) noexcept -> script& = default;
+
 		virtual ~script() = default;
 
 		virtual auto on_create(entity self, const script_context& ctx) -> void;
@@ -90,5 +101,6 @@ namespace noi_engine
 			return ctx.get_world().signals().connect<Signal>(
 				std::move(callback));
 		}
+
 	};
 }  // namespace noi_engine

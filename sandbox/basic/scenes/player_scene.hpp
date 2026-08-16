@@ -5,21 +5,18 @@
 #pragma once
 
 #include <noi_engine/core/scene.hpp>
-#include <noi_engine/core/model/mesh.hpp>
-#include <noi_engine/core/model/shader.hpp>
 
 namespace sandbox::basic
 {
-    class player_scene : public noi_engine::scene
-    {
-        noi_engine::resource_handle<noi_engine::shader> m_color_shader;
-        noi_engine::resource_handle<noi_engine::mesh> m_quad_mesh;
+	class player_scene : public noi_engine::scene
+	{
+	public:
+		player_scene();
 
-    public:
-        player_scene();
+		auto update(const noi_engine::scene_context& context, float dt)
+			-> void override;
 
-        auto update(const noi_engine::scene_context& context, float dt) -> void override;
-
-        auto on_enter(const noi_engine::scene_context& context) -> void override;
-    };
-}
+		auto on_enter(const noi_engine::scene_context& context)
+			-> void override;
+	};
+}  // namespace sandbox::basic

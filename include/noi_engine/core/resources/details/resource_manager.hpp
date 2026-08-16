@@ -12,24 +12,24 @@ namespace noi_engine::details
     template<typename T>
     class resource_manager
     {
-        std::vector<T> m_resources{};
+        std::vector<std::unique_ptr<T>> m_resources{};
         std::vector<uint32_t> m_generations{};
         std::vector<uint32_t> m_free{};
 
     public:
-        [[nodiscard]] auto create(T resource) -> resource_handle<T>;
+        [[nodiscard]] auto create(std::unique_ptr<T> resource) -> resource_handle<T>;
 
         auto destroy(const resource_handle<T>& handle) -> void;
 
         [[nodiscard]] auto valid(const resource_handle<T>& handle) const -> bool;
 
-        [[nodiscard]] auto get(const resource_handle<T>& handle) -> T&;
+        [[nodiscard]] auto get(const resource_handle<T>& handle) -> T*;
 
-        [[nodiscard]] auto get(const resource_handle<T>& handle) const -> const T&;
+        [[nodiscard]] auto get(const resource_handle<T>& handle) const -> const T*;
     };
 
     template<typename T>
-    auto resource_manager<T>::create(T resource) -> resource_handle<T>
+    auto resource_manager<T>::create(std::unique_ptr<T> resource) -> resource_handle<T>
     {
         uint32_t id;
 
@@ -55,6 +55,7 @@ namespace noi_engine::details
         if (!valid(handle))
             return;
 
+        m_resources[handle.m_id].reset();
         ++m_generations[handle.m_id];
         m_free.push_back(handle.m_id);
     }
@@ -67,14 +68,14 @@ namespace noi_engine::details
     }
 
     template<typename T>
-    auto resource_manager<T>::get(const resource_handle<T>& handle) -> T&
+    auto resource_manager<T>::get(const resource_handle<T>& handle) -> T*
     {
-        return m_resources[handle.m_id];
+        return m_resources[handle.m_id].get();
     }
 
     template<typename T>
-    auto resource_manager<T>::get(const resource_handle<T>& handle) const -> const T&
+    auto resource_manager<T>::get(const resource_handle<T>& handle) const -> const T*
     {
-        return m_resources[handle.m_id];
+        return m_resources[handle.m_id].get();
     }
 }

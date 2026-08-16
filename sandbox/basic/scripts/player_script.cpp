@@ -9,6 +9,7 @@
 #include <noi_engine/core/components/script_component.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
+#include <noi_engine/core/resources/resource_system.hpp>
 
 #include "../components/player_controller.hpp"
 #include "../components/velocity.hpp"
@@ -26,6 +27,8 @@ using noi_engine::moved_signal;
 auto sandbox::basic::player_script::on_create(
 	noi_engine::entity self, const noi_engine::script_context& context) -> void
 {
+	const auto resources = context.resources;
+	;
 	add(self, context, velocity{});
 	add(self, context, world_matrix{});
 	add(self, context, dirty<transform>{});
@@ -34,13 +37,15 @@ auto sandbox::basic::player_script::on_create(
 	add(self, context, transform{ .scale = { 0.8f, 0.8f, 0.8f } });
 
 	noi_engine::material green_material;
-	green_material.set_shader(m_color_shader);
+	green_material.set_shader(
+		resources->get_handle<noi_engine::shader>("color_shader"));
 	green_material.set_color("u_color", { 0.0f, 1.0f, 0.0f, 1.0f });
 
-	const auto green_material_handle =
-		m_resources->add(std::move(green_material));
+	const auto green_material_handle = resources->add(
+		std::make_unique<noi_engine::material>(std::move(green_material)));
 	add(self, context,
-		mesh_renderer{ .m_mesh = m_quad_mesh,
+		mesh_renderer{ .m_mesh =
+						   resources->get_handle<noi_engine::mesh>("quad_mesh"),
 					   .m_material = green_material_handle });
 }
 
@@ -52,14 +57,4 @@ auto sandbox::basic::player_script::on_update(
 	{
 		this->emit(self, context, moved_signal{ self });
 	}
-}
-
-sandbox::basic::player_script::player_script(
-	noi_engine::resource_system* resources,
-	const noi_engine::resource_handle<noi_engine::mesh> mesh,
-	const noi_engine::resource_handle<noi_engine::shader> color_shader)
-	: m_resources(resources),
-	  m_quad_mesh(mesh),
-	  m_color_shader(color_shader)
-{
 }

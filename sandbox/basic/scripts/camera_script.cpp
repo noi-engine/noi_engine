@@ -2,21 +2,16 @@
 // Created by ricka on 8/9/26.
 //
 
-#include <noi_engine/builtin/actions/basic.hpp>
-#include <noi_engine/builtin/signals/moved_signal.hpp>
+// #include <noi_engine/builtin/signals/moved_signal.hpp>
+// #include <noi_engine/builtin/actions/basic.hpp>
 
 #include "scripts.hpp"
-
-sandbox::basic::camera_script::camera_script(const noi_engine::entity player)
-	: m_player(player)
-{
-}
 
 auto sandbox::basic::camera_script::on_create(
 	const noi_engine::entity self, const noi_engine::script_context& context)
 	-> void
 {
-	connect<noi_engine::moved_signal>(
+	/*connect<noi_engine::moved_signal>(
 		context, m_player,
 		[*this, context, self](const float dt,
 							   const noi_engine::moved_signal& signal) -> void
@@ -27,4 +22,5 @@ auto sandbox::basic::camera_script::on_create(
 										  .offset = { 0.3, 0.3, 0.0 },
 										  .smoothing = 0.3f });
 		});
+		*/
 }

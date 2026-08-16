@@ -13,14 +13,16 @@
 #include "../systems/movement_system.hpp"
 #include "../systems/player_controller_system.hpp"
 
+using namespace noi_engine;
+
 sandbox::basic::player_scene::player_scene() : scene("player_scene")
 {
-	m_world.add<noi_engine::camera_2d>(
-		m_camera_entity, noi_engine::camera_2d{ .orthographic_size = 5.0f });
+	m_world.add<camera_2d>(m_camera_entity,
+						   camera_2d{ .orthographic_size = 5.0f });
 }
 
-auto sandbox::basic::player_scene::update(
-	const noi_engine::scene_context& context, const float dt) -> void
+auto sandbox::basic::player_scene::update(const scene_context& context,
+										  const float dt) -> void
 {
 	player_controller_system::update(m_world, *context.input);
 	movement_system::update(m_world, dt);
@@ -28,29 +30,31 @@ auto sandbox::basic::player_scene::update(
 	scene::update(context, dt);
 }
 
-void sandbox::basic::player_scene::on_enter(
-	const noi_engine::scene_context& context)
+void sandbox::basic::player_scene::on_enter(const scene_context& context)
 {
-	auto resources = context.resources;
-	this->m_quad_mesh = resources->add(twod::meshes::quad());
-	this->m_color_shader = resources->add(twod::shaders::color_shader());
-
-	const auto background = this->m_world.create_entity();
-	this->m_world.add(background,
-					  noi_engine::script_component{
-						  .instance = std::make_shared<background_script>(
-							  resources, m_quad_mesh, m_color_shader) });
+	const auto resources = context.resources;
+	resources->add("quad_mesh", std::make_unique<mesh>(twod::meshes::quad()));
+	resources->add("color_shader",
+				   std::make_unique<shader>(twod::shaders::color_shader()));
 
 	const auto player = this->m_world.create_entity();
-	this->m_world.add(player,
-					  noi_engine::script_component{
-						  .instance = std::make_shared<player_script>(
-							  resources, m_quad_mesh, m_color_shader) });
+	const auto camera_script_handle =
+		resources->add_script(std::make_unique<camera_script>());
+	const auto player_script_handle =
+		resources->add_script(std::make_unique<player_script>());
+	const auto background_script_handle =
+		resources->add_script(std::make_unique<background_script>());
 
+	const auto background = this->m_world.create_entity();
 	this->m_world.add(
-		this->get_camera_entity(),
-		noi_engine::script_component{
-			.instance = std::make_shared<camera_script>(player) });
+		background,
+		script_component{ .scripts = { background_script_handle } });
+
+	this->m_world.add(player,
+					  script_component{ .scripts = { player_script_handle } });
+
+	this->m_world.add(this->get_camera_entity(),
+					  script_component{ .scripts = { camera_script_handle } });
 
 	scene::on_enter(context);
 }

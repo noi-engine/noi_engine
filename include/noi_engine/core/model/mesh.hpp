@@ -18,6 +18,8 @@ namespace noi_engine
         uint32_t m_vbo{0};
         uint32_t m_ebo{0};
 
+        auto upload() -> void;
+
     public:
         explicit mesh(std::vector<vertex> vertices, std::vector<uint32_t> indices);
 
@@ -30,8 +32,6 @@ namespace noi_engine
         mesh(mesh&& other) noexcept;
 
         auto operator=(mesh&& other) noexcept -> mesh&;
-
-        auto upload() -> void;
 
         auto bind() const -> void;
 

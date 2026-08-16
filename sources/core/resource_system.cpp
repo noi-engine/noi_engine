@@ -7,25 +7,56 @@
 #include "assets/mesh_loader.hpp"
 #include "assets/texture_loader.hpp"
 
-noi_engine::resource_system::resource_system(std::shared_ptr<asset_provider> assets) : m_asset_provider(
-    std::move(assets))
+noi_engine::resource_system::resource_system(
+	std::shared_ptr<asset_provider> assets)
+	: m_asset_provider(std::move(assets))
 {
 }
-
-auto noi_engine::resource_system::add_texture(const std::string_view path) -> resource_handle<texture>
+auto noi_engine::resource_system::add_script(std::unique_ptr<script> value)
+	-> resource_handle<script>
 {
-    auto data = this->m_asset_provider->read(path);
-    auto mapped = texture_loader::load(data);
-
-    return this->add<texture>(std::move(mapped));
+	return this->add<script>(std::move(value));
 }
 
-auto noi_engine::resource_system::add_mesh(std::string_view path) -> resource_handle<mesh>
+auto noi_engine::resource_system::add_script(const std::string_view name,
+											 std::unique_ptr<script> value)
+	-> resource_handle<script>
 {
-    auto data = this->m_asset_provider->read(path);
-    auto mapped = mesh_loader::load(data);
+	return this->add(name, std::move(value));
+}
 
-    mapped.upload(); //TODO
+auto noi_engine::resource_system::load_texture(const std::string_view name,
+											   const std::string_view path)
+	-> resource_handle<texture>
+{
+	const auto handle = this->load_texture(path);
+	this->bind<texture>(name, handle);
+	return handle;
+}
 
-    return this->add<mesh>(std::move(mapped));
+auto noi_engine::resource_system::load_mesh(const std::string_view name,
+											const std::string_view path)
+	-> resource_handle<mesh>
+{
+	const auto handle = this->load_mesh(path);
+	this->bind<mesh>(name, handle);
+	return handle;
+}
+
+auto noi_engine::resource_system::load_texture(const std::string_view path)
+	-> resource_handle<texture>
+{
+	auto data = this->m_asset_provider->read(path);
+	auto mapped = texture_loader::load(data);
+
+	return this->add<texture>(std::make_unique<texture>(std::move(mapped)));
+}
+
+auto noi_engine::resource_system::load_mesh(std::string_view path)
+	-> resource_handle<mesh>
+{
+	auto data = this->m_asset_provider->read(path);
+	auto mapped = mesh_loader::load(data);
+
+	return this->add<mesh>(std::make_unique<mesh>(std::move(mapped)));
 }

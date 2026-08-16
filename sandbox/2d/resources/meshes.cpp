@@ -21,12 +21,5 @@ auto sandbox::twod::meshes::quad() -> noi_engine::mesh
         2, 3, 0
     };
 
-    noi_engine::mesh mesh(
-        std::move(vertices),
-        std::move(indices)
-    );
-
-    mesh.upload();
-
-    return mesh;
+    return noi_engine::mesh(std::move(vertices),std::move(indices));
 }

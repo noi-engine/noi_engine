@@ -9,6 +9,7 @@
 noi_engine::mesh::mesh(std::vector<vertex> vertices, std::vector<uint32_t> indices)
 	: m_vertices(std::move(vertices)), m_indices(std::move(indices))
 {
+	this->upload();
 }
 
 noi_engine::mesh::~mesh()
