@@ -12,6 +12,13 @@
 
 namespace noi_engine
 {
+	struct scene_context
+	{
+		renderer* renderer{nullptr};
+		input_state* input{nullptr};
+		resource_system* resources{nullptr};
+	};
+
     class scene
     {
     protected:
@@ -22,14 +29,14 @@ namespace noi_engine
     public:
         explicit scene(std::string name);
 
-        virtual auto render(renderer& renderer) -> void;
+        virtual auto render(const scene_context& context) -> void;
 
-        virtual auto on_enter(resource_system* resources) -> void;
-        virtual auto on_exit(resource_system* resources) -> void;
+        virtual auto on_enter(const scene_context& context) -> void;
+        virtual auto on_exit(const scene_context& context) -> void;
 
-        virtual auto update(float dt, input_state& input) -> void;
+        virtual auto update(const scene_context& context, float dt) -> void;
 
-        virtual auto on_resize(int width, int height) -> void;
+        virtual auto on_resize(const scene_context& context, int width, int height) -> void;
 
         [[nodiscard]] auto get_world() -> world&;
 

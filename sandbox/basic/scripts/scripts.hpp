@@ -20,8 +20,8 @@ namespace sandbox::basic
         noi_engine::resource_handle<noi_engine::shader> m_color_shader;
 
     public:
-        auto on_create() -> void override;
-        auto on_update(float dt) -> void override;
+        auto on_create(noi_engine::entity self, const noi_engine::script_context &context) -> void override;
+        auto on_update(noi_engine::entity self, const noi_engine::script_context &context, float dt) -> void override;
 
         explicit player_script(
             noi_engine::resource_system *resources,
@@ -34,7 +34,7 @@ namespace sandbox::basic
         noi_engine::entity m_player;
 
     public:
-        auto on_create() -> void override;
+        auto on_create(noi_engine::entity self, const noi_engine::script_context &context) -> void override;
 
         explicit camera_script(noi_engine::entity player);
     };
@@ -46,7 +46,7 @@ namespace sandbox::basic
         noi_engine::resource_handle<noi_engine::shader> m_color_shader;
 
     public:
-        auto on_create() -> void override;
+        auto on_create(noi_engine::entity self, const noi_engine::script_context &context) -> void override;
 
         explicit background_script(
             noi_engine::resource_system *resources,

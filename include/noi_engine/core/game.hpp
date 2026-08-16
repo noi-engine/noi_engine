@@ -40,7 +40,7 @@ namespace noi_engine
 
         virtual ~game() = default;
 
-        auto set_scene(std::unique_ptr<scene> scene) -> void;
+        auto set_scene(std::unique_ptr<scene> scene) const -> void;
 
         [[nodiscard]] auto resources() const noexcept -> resource_system&;
 

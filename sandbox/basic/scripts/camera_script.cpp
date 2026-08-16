@@ -2,29 +2,29 @@
 // Created by ricka on 8/9/26.
 //
 
-#include "scripts.hpp"
-#include <noi_engine/builtin/signals/moved_signal.hpp>
 #include <noi_engine/builtin/actions/basic.hpp>
+#include <noi_engine/builtin/signals/moved_signal.hpp>
 
-sandbox::basic::camera_script::camera_script(const noi_engine::entity player) : m_player(player)
+#include "scripts.hpp"
+
+sandbox::basic::camera_script::camera_script(const noi_engine::entity player)
+	: m_player(player)
 {
 }
 
-auto sandbox::basic::camera_script::on_create() -> void
+auto sandbox::basic::camera_script::on_create(
+	const noi_engine::entity self, const noi_engine::script_context& context)
+	-> void
 {
-    connect<noi_engine::moved_signal>(
-        m_player,
-        [*this](const float dt, const noi_engine::moved_signal& signal) -> void
-        {
-            noi_engine::actions::follow({
-                                            .dt = dt,
-                                            .world = get_world(),
-                                        },
-                                        {
-                                            .target = signal.source,
-                                            .follower = get_self(),
-                                            .offset = {0.3, 0.3, 0.0},
-                                            .smoothing = 0.3f
-                                        });
-        });
+	connect<noi_engine::moved_signal>(
+		context, m_player,
+		[*this, context, self](const float dt,
+							   const noi_engine::moved_signal& signal) -> void
+		{
+			noi_engine::actions::follow(dt, context,
+										{ .target = signal.source,
+										  .follower = self,
+										  .offset = { 0.3, 0.3, 0.0 },
+										  .smoothing = 0.3f });
+		});
 }

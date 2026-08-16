@@ -18,8 +18,8 @@ namespace sandbox::basic
     public:
         player_scene();
 
-        auto update(float dt, noi_engine::input_state& input) -> void override;
+        auto update(const noi_engine::scene_context& context, float dt) -> void override;
 
-        auto on_enter(noi_engine::resource_system* resources) -> void override;
+        auto on_enter(const noi_engine::scene_context& context) -> void override;
     };
 }

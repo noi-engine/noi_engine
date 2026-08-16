@@ -6,17 +6,18 @@
 
 #include <glm/vec3.hpp>
 #include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/builtin/actions/action_context.hpp>
+#include <noi_engine/core/scripts/script.hpp>
 
 namespace noi_engine::actions
 {
-    struct follow_actions_params
-    {
-        entity target{};
-        entity follower{};
-        glm::vec3 offset{0.0f};
-        float smoothing{0.0f};
-    };
+	struct follow_actions_params
+	{
+		entity target{};
+		entity follower{};
+		glm::vec3 offset{ 0.0f };
+		float smoothing{ 0.0f };
+	};
 
-    auto follow(const action_context& context, const follow_actions_params& params) -> void;
-}
+	auto follow(float dt, const script_context& context,
+				const follow_actions_params& params) -> void;
+}  // namespace noi_engine::actions

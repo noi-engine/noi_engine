@@ -15,10 +15,10 @@ namespace noi_engine
 
         static auto before_update(const script_context& context, float dt) -> void;
 
-        static auto after_render(world& world) -> void;
-        static auto before_render(world& world) -> void;
-        static auto update(world& world, float dt) -> void;
-        static auto after_update(world& world, float dt) -> void;
-        static auto destroy(world& world, entity target) -> void;
+        static auto after_render(const script_context& context) -> void;
+        static auto before_render(const script_context& context) -> void;
+        static auto update(const script_context& context, float dt) -> void;
+        static auto after_update(const script_context& context, float dt) -> void;
+        static auto destroy(const script_context& context, entity target) -> void;
     };
 }
