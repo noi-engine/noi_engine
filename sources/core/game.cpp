@@ -23,7 +23,8 @@ noi_engine::game::game(std::shared_ptr<asset_provider> asset_provider,
 	this->m_resources = std::make_unique<resource_system>(asset_provider);
 	this->m_renderer = std::make_unique<renderer>(*this->m_resources);
 
-	const scene_context context{ .renderer = this->m_renderer.get(),
+	const scene_context context{ .game = this,
+								 .renderer = this->m_renderer.get(),
 								 .input = &this->m_input,
 								 .resources = this->m_resources.get() };
 	this->m_scene_manager = std::make_unique<scene_manager>(std::move(context));

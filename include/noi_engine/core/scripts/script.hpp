@@ -13,6 +13,7 @@
 namespace noi_engine
 {
 	//TODO: bad api
+	class game;
 	class scene;
 	class renderer;
 	class input_state;
@@ -20,6 +21,7 @@ namespace noi_engine
 
 	struct script_context
 	{
+		game* game{ nullptr };
 		scene* scene{ nullptr };
 		input_state* input{ nullptr };
 		renderer* renderer{ nullptr };

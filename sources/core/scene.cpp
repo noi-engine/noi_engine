@@ -20,7 +20,8 @@ static auto to_base_script_context(const noi_engine::scene_context& context,
 								   noi_engine::scene* scene)
 	-> noi_engine::script_context
 {
-	return { .scene = scene,
+	return { .game = context.game,
+			 .scene = scene,
 			 .input = context.input,
 			 .renderer = context.renderer,
 			 .resources = context.resources };
