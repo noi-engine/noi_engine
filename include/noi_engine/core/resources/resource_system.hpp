@@ -18,8 +18,11 @@ namespace noi_engine
 {
 	class resource_system
 	{
-		std::shared_ptr<asset_provider> m_asset_provider;
-		std::unordered_map<std::string, std::any> m_registry;
+		std::shared_ptr<asset_provider> m_asset_provider{};
+		std::unordered_map<std::string, std::any> m_registry{};
+		std::unordered_map<std::string,
+						   std::function<std::unique_ptr<script>()>>
+			m_script_factories{};
 
 	public:
 		details::resource_manager<mesh> meshes{};
@@ -37,6 +40,17 @@ namespace noi_engine
 			m_registry[std::string(name)] = handle;
 		}
 
+		template<typename T, typename... Args>
+			requires std::derived_from<T, script>
+		void register_script(const std::string_view name, Args&&... args)
+		{
+			m_script_factories[std::string(name)] =
+				[... args = std::forward<Args>(args)]() mutable
+			{ return std::make_unique<T>(args...); };
+		}
+
+		auto load_script(std::string_view name) -> resource_handle<script>;
+
 		template<typename T>
 		[[nodiscard]] auto get_handle(std::string_view name) const
 			-> resource_handle<T>
@@ -49,16 +63,17 @@ namespace noi_engine
 			return {};
 		}
 
-		auto add_script(std::unique_ptr<script> value) -> resource_handle<script>;
-		auto add_script(std::string_view name, std::unique_ptr<script> value) -> resource_handle<script>;
+		auto add_script(std::unique_ptr<script> value)
+			-> resource_handle<script>;
+		auto add_script(std::string_view name, std::unique_ptr<script> value)
+			-> resource_handle<script>;
 
 		template<typename T>
 		[[nodiscard]] auto add(std::unique_ptr<T> resource)
 			-> resource_handle<T>;
 
 		template<typename T>
-		auto add(const std::string_view name,
-							   std::unique_ptr<T> resource)
+		auto add(const std::string_view name, std::unique_ptr<T> resource)
 			-> resource_handle<T>
 		{
 			const auto handle = this->add<T>(std::move(resource));
@@ -66,7 +81,7 @@ namespace noi_engine
 			return handle;
 		}
 
-		//TODO: bad api
+		// TODO: bad api
 		[[nodiscard]] auto load_scene(std::string_view path) const
 			-> std::unique_ptr<scene>;
 

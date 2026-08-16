@@ -13,6 +13,17 @@ noi_engine::resource_system::resource_system(
 	: m_asset_provider(std::move(assets))
 {
 }
+auto noi_engine::resource_system::load_script(std::string_view name)
+	-> resource_handle<script>
+{
+	const auto it = m_script_factories.find(std::string(name));
+	if (it != m_script_factories.end())
+	{
+		return this->add<script>(it->second());
+	}
+	return {};
+}
+
 auto noi_engine::resource_system::add_script(std::unique_ptr<script> value)
 	-> resource_handle<script>
 {
