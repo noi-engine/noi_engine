@@ -49,6 +49,9 @@ namespace noi_engine
 			{ return std::make_unique<T>(args...); };
 		}
 
+		auto load_shader(std::string_view path) -> resource_handle<shader>;
+		auto load_shader(std::string_view name, std::string_view path) -> resource_handle<shader>;
+
 		auto load_script(std::string_view name) -> resource_handle<script>;
 
 		template<typename T>

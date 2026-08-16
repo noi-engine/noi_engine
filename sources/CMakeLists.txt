@@ -55,6 +55,7 @@ set(CORE_PRIVATE_HEADERS
         core/systems/script_system.hpp
         core/assets/texture_loader.hpp
         core/assets/scene_loader.hpp
+        core/assets/shader_loader.hpp
         core/assets/mesh_loader.hpp
         core/input/input_state_impl.hpp
 )
@@ -86,6 +87,7 @@ set(CORE_SOURCES
         core/stb_image/stb_image.cpp
         core/assets/mesh_loader.cpp
         core/assets/scene_loader.cpp
+        core/assets/shader_loader.cpp
         core/signals/signal_bus.cpp
         core/scripts/scripts.cpp
         core/systems/script_system.cpp

@@ -6,6 +6,7 @@
 
 #include "assets/mesh_loader.hpp"
 #include "assets/scene_loader.hpp"
+#include "assets/shader_loader.hpp"
 #include "assets/texture_loader.hpp"
 
 noi_engine::resource_system::resource_system(
@@ -13,6 +14,25 @@ noi_engine::resource_system::resource_system(
 	: m_asset_provider(std::move(assets))
 {
 }
+
+auto noi_engine::resource_system::load_shader(std::string_view path)
+	-> resource_handle<shader>
+{
+	auto data = this->m_asset_provider->read(std::string(path));
+	auto shader = shader_loader::load(this->m_asset_provider, data);
+
+	return this->add(std::move(shader));
+}
+
+auto noi_engine::resource_system::load_shader(std::string_view name,
+											  std::string_view path)
+	-> resource_handle<shader>
+{
+	const auto handle = this->load_shader(path);
+	this->bind(name, handle);
+	return handle;
+}
+
 auto noi_engine::resource_system::load_script(std::string_view name)
 	-> resource_handle<script>
 {
