@@ -44,10 +44,10 @@ namespace noi_engine
         std::vector<resource_handle<script>> scripts{};
         for (const auto& script_name : properties["names"])
         {
-            auto script_handle = resources->get_handle(script_name.get<std::string>());
+            auto script_handle = resources->get_handle<script>(script_name.get<std::string>());
             scripts.push_back(script_handle);
         }
 
-        target_scene.get_world.add<script_component>(entity, script_component{.scripts = scripts});
+        target_scene.get_world().add<script_component>(entity, script_component{.scripts = scripts});
     }
 }

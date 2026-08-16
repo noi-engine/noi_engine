@@ -33,6 +33,9 @@ namespace noi_engine
 
 		explicit resource_system(std::shared_ptr<asset_provider> assets);
 
+		resource_system(const resource_system&) = delete;
+		auto operator=(const resource_system&) -> resource_system& = delete;
+
 		template<typename T>
 		auto bind(const std::string_view name, resource_handle<T> handle)
 			-> void
