@@ -8,5 +8,5 @@
 
 namespace sandbox::basic
 {
-    auto configure(game& game) -> void;
+    auto configure(const game& game) -> void;
 }

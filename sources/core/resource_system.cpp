@@ -57,11 +57,10 @@ auto noi_engine::resource_system::add_script(const std::string_view name,
 	return this->add(name, std::move(value));
 }
 
-auto noi_engine::resource_system::load_scene(const std::string_view path) const
-	-> std::unique_ptr<scene>
+auto noi_engine::resource_system::load_scene(const std::string_view path) -> std::unique_ptr<scene>
 {
 	const auto data = this->m_asset_provider->read(std::string(path));
-	return scene_loader::load(data);
+	return scene_loader::load(this, data);
 }
 
 auto noi_engine::resource_system::load_texture(const std::string_view name,

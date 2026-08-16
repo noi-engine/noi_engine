@@ -5,7 +5,6 @@
 #pragma once
 
 #include <noi_engine/core/ecs/entity.hpp>
-#include <noi_engine/core/model/mesh.hpp>
 #include <noi_engine/core/scripts/script.hpp>
 
 namespace sandbox::basic

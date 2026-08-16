@@ -1,4 +1,36 @@
 {
   "name": "MainScene",
-  "active-resources": []
+  "resources": {
+    "textures": [],
+    "scripts": [
+      "player_script",
+      "camera_script"
+    ],
+    "shaders": [
+      {
+        "name": "color_shader",
+        "path": "assets/basic/shaders/color_shader/index.json"
+      }
+    ]
+  },
+  "entities": [
+    {
+      "name": "main_camera",
+      "components": [
+        {
+          "type": "camera_2d",
+          "properties": {
+            "zoom": 1,
+            "near_plane": -1,
+            "far_plane": 1,
+            "orthographic_size": 5,
+            "aspect_ratio": {
+              "width": 16,
+              "height": 9
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -40,17 +40,17 @@ namespace noi_engine
 			m_registry[std::string(name)] = handle;
 		}
 
-		template<typename T, typename... Args>
+		template<typename T>
 			requires std::derived_from<T, script>
-		void register_script(const std::string_view name, Args&&... args)
+		void register_script(const std::string_view name)
 		{
-			m_script_factories[std::string(name)] =
-				[... args = std::forward<Args>(args)]() mutable
-			{ return std::make_unique<T>(args...); };
+			this->m_script_factories[std::string(name)] = []()
+			{ return std::make_unique<T>(); };
 		}
 
 		auto load_shader(std::string_view path) -> resource_handle<shader>;
-		auto load_shader(std::string_view name, std::string_view path) -> resource_handle<shader>;
+		auto load_shader(std::string_view name, std::string_view path)
+			-> resource_handle<shader>;
 
 		auto load_script(std::string_view name) -> resource_handle<script>;
 
@@ -66,8 +66,9 @@ namespace noi_engine
 			return {};
 		}
 
-		auto add_script(std::unique_ptr<script> value)
+		[[nodiscard]] auto add_script(std::unique_ptr<script> value)
 			-> resource_handle<script>;
+
 		auto add_script(std::string_view name, std::unique_ptr<script> value)
 			-> resource_handle<script>;
 
@@ -84,16 +85,13 @@ namespace noi_engine
 			return handle;
 		}
 
-		// TODO: bad api
-		[[nodiscard]] auto load_scene(std::string_view path) const
+		[[nodiscard]] auto load_scene(std::string_view path)
 			-> std::unique_ptr<scene>;
 
-		[[nodiscard]] auto load_mesh(std::string_view name,
-									 std::string_view path)
+		auto load_mesh(std::string_view name, std::string_view path)
 			-> resource_handle<mesh>;
 
-		[[nodiscard]] auto load_texture(std::string_view name,
-										std::string_view path)
+		auto load_texture(std::string_view name, std::string_view path)
 			-> resource_handle<texture>;
 
 		[[nodiscard]] auto load_mesh(std::string_view path)

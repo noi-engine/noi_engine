@@ -10,12 +10,14 @@
 
 namespace noi_engine
 {
+	class resource_system;
+
 	class scene_loader
 	{
 	public:
 		scene_loader() = delete;
 
-		[[nodiscard]] static auto load(std::span<const std::byte> data)
+		[[nodiscard]] static auto load(resource_system* resources, std::span<const std::byte> data)
 			-> std::unique_ptr<scene>;
 	};
 }  // namespace noi_engine

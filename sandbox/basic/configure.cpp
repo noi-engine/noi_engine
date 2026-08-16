@@ -5,20 +5,24 @@
 #include "configure.hpp"
 
 #include <memory>
-#include <noi_engine/core/scripts/script.hpp>
 
-#include "scenes/player_scene.hpp"
+#include "scripts/scripts.hpp"
 
 using namespace sandbox::basic;
 
-static auto movable_player_quad(sandbox::game& game) -> void;
+static auto movable_player_quad(const sandbox::game& game) -> void;
 
-auto sandbox::basic::configure(game& game) -> void
+auto sandbox::basic::configure(const game& game) -> void
 {
-    movable_player_quad(game);
+	movable_player_quad(game);
 }
 
-static auto movable_player_quad(sandbox::game& game) -> void
+static auto movable_player_quad(const sandbox::game& game) -> void
 {
-    game.set_scene(std::move(std::make_unique<player_scene>()));
+	auto resources = game.resources();
+
+	NOI_ENGINE_REGISTER_SCRIPT(player_script);
+	NOI_ENGINE_REGISTER_SCRIPT(camera_script);
+
+	game.set_scene(resources.load_scene("assets/basic/scenes/main.scene.json"));
 }
