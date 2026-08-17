@@ -20,7 +20,7 @@ noi_engine::game::game(std::unique_ptr<resource_loader> resource_loader,
 					   const game_conf& conf)
 	: m_conf(conf)
 {
-	this->m_resources = std::make_unique<resource_system>(std::move(resource_loader));
+	this->m_resources = std::make_unique<resources>(std::move(resource_loader));
 	this->m_renderer = std::make_unique<renderer>(*this->m_resources);
 
 	const scene_context context{ .game = this,
@@ -35,7 +35,7 @@ auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) const -> void
 	this->m_scene_manager->set_scene(std::move(scene));
 }
 
-auto noi_engine::game::resources() const noexcept -> resource_system&
+auto noi_engine::game::resources() const noexcept -> resources&
 {
 	return *this->m_resources;
 }

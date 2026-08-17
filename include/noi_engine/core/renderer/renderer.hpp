@@ -7,17 +7,17 @@
 #include <glm/mat4x4.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 
 namespace noi_engine
 {
     class renderer
     {
     protected:
-        resource_system& m_resources;
+        resources& m_resources;
 
     public:
-        explicit renderer(resource_system& resources);
+        explicit renderer(resources& resources);
 
         virtual ~renderer() = default;
 

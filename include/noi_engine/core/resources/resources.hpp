@@ -16,7 +16,7 @@
 
 namespace noi_engine
 {
-    class resource_system
+    class resources
     {
         std::unique_ptr<resource_loader> m_resource_loader{};
         std::unordered_map<std::string, std::any> m_registry{};
@@ -31,10 +31,10 @@ namespace noi_engine
         details::resource_manager<texture> textures{};
         details::resource_manager<material> materials{};
 
-        resource_system(const resource_system&) = delete;
-        auto operator=(const resource_system&) -> resource_system& = delete;
+        resources(const resources&) = delete;
+        auto operator=(const resources&) -> resources& = delete;
 
-        explicit resource_system(std::unique_ptr<resource_loader> resource_loader) : m_resource_loader(
+        explicit resources(std::unique_ptr<resource_loader> resource_loader) : m_resource_loader(
             std::move(resource_loader))
         {
         }
@@ -95,63 +95,63 @@ namespace noi_engine
     };
 
     template <>
-    inline auto resource_system::load_instance(std::unique_ptr<shader> resource)
+    inline auto resources::load_instance(std::unique_ptr<shader> resource)
         -> resource_handle<shader>
     {
         return shaders.create(std::move(resource));
     }
 
     template <>
-    inline auto resource_system::load_instance(std::unique_ptr<mesh> resource)
+    inline auto resources::load_instance(std::unique_ptr<mesh> resource)
         -> resource_handle<mesh>
     {
         return meshes.create(std::move(resource));
     }
 
     template <>
-    inline auto resource_system::load_instance(std::unique_ptr<script> resource)
+    inline auto resources::load_instance(std::unique_ptr<script> resource)
         -> resource_handle<script>
     {
         return scripts.create(std::move(resource));
     }
 
     template <>
-    inline auto resource_system::load_instance(std::unique_ptr<texture> resource)
+    inline auto resources::load_instance(std::unique_ptr<texture> resource)
         -> resource_handle<texture>
     {
         return textures.create(std::move(resource));
     }
 
     template <>
-    inline auto resource_system::load_instance(std::unique_ptr<material> resource)
+    inline auto resources::load_instance(std::unique_ptr<material> resource)
         -> resource_handle<material>
     {
         return materials.create(std::move(resource));
     }
 
     template <>
-    inline auto resource_system::load_from_path(const std::string_view path) -> resource_handle<texture>
+    inline auto resources::load_from_path(const std::string_view path) -> resource_handle<texture>
     {
         auto instance = m_resource_loader->load_texture(path, this);
         return this->load_instance(std::move(instance));
     }
 
     template <>
-    inline auto resource_system::load_from_path(const std::string_view path) -> resource_handle<shader>
+    inline auto resources::load_from_path(const std::string_view path) -> resource_handle<shader>
     {
         auto instance = m_resource_loader->load_shader(path, this);
         return this->load_instance(std::move(instance));
     }
 
     template <>
-    inline auto resource_system::load_from_path(const std::string_view path) -> resource_handle<mesh>
+    inline auto resources::load_from_path(const std::string_view path) -> resource_handle<mesh>
     {
         auto instance = m_resource_loader->load_mesh_2d(path, this); //TODO: maybe load mesh 3d or 2d
         return this->load_instance(std::move(instance));
     }
 
     template <>
-    inline auto resource_system::load_from_path(const std::string_view path) -> resource_handle<script>
+    inline auto resources::load_from_path(const std::string_view path) -> resource_handle<script>
     {
         auto instance = this->m_script_factories[std::string(path)]();
         return this->load_instance(std::move(instance));

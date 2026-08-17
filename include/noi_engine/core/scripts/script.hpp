@@ -17,7 +17,7 @@ namespace noi_engine
 	class scene;
 	class renderer;
 	class input_state;
-	class resource_system;
+	class resources;
 
 	struct script_context
 	{
@@ -25,7 +25,7 @@ namespace noi_engine
 		scene* scene{ nullptr };
 		input_state* input{ nullptr };
 		renderer* renderer{ nullptr };
-		resource_system* resources{ nullptr };
+		resources* resources{ nullptr };
 
 		[[nodiscard]] auto get_world() const -> world&;
 	};

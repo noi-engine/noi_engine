@@ -6,7 +6,7 @@
 
 #include "../glad/glad.h"
 
-noi_engine::renderer::renderer(resource_system& resources)
+noi_engine::renderer::renderer(resources& resources)
 	: m_resources(resources)
 {
 }

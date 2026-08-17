@@ -5,8 +5,7 @@
 #pragma once
 
 #include <nlohmann/json.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
-#include <noi_engine/core/scene.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 
 namespace noi_engine
 {
@@ -15,14 +14,14 @@ namespace noi_engine
     public:
         virtual ~i_component_parser() = default;
 
-        virtual auto parse(const entity& entity, scene& target_scene, resource_system* resources,
+        virtual auto parse(const entity& entity, scene& target_scene, resources* resources,
                            const nlohmann::json& properties) -> void = 0;
     };
 
     class camera_2d_parser : public i_component_parser
     {
     public:
-        auto parse(const entity& entity, scene& target_scene, resource_system* resources,
+        auto parse(const entity& entity, scene& target_scene, resources* resources,
                    const nlohmann::json& properties)
             -> void override;
     };
@@ -31,7 +30,7 @@ namespace noi_engine
     {
     public:
         auto parse(const entity& entity, scene& target_scene,
-                   resource_system* resources, const nlohmann::json& properties)
+                   resources* resources, const nlohmann::json& properties)
             -> void override;
     };
 
@@ -39,7 +38,7 @@ namespace noi_engine
     {
     public:
         auto parse(const entity& entity, scene& target_scene,
-                   resource_system* resources, const nlohmann::json& properties)
+                   resources* resources, const nlohmann::json& properties)
             -> void override;
     };
 
@@ -47,7 +46,7 @@ namespace noi_engine
     {
     public:
         auto parse(const entity& entity, scene& target_scene,
-                   resource_system* resources, const nlohmann::json& properties)
+                   resources* resources, const nlohmann::json& properties)
             -> void override;
     };
 
@@ -55,7 +54,7 @@ namespace noi_engine
     {
     public:
         auto parse(const entity& entity, scene& target_scene,
-                   resource_system* resources, const nlohmann::json& properties)
+                   resources* resources, const nlohmann::json& properties)
             -> void override;
     };
 } // namespace noi_engine

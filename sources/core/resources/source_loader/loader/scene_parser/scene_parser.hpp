@@ -6,26 +6,26 @@
 
 #include <nlohmann/json.hpp>
 #include <noi_engine/core/scene.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 
 namespace noi_engine
 {
     class scene_parser
     {
-        resource_system* m_resources{nullptr};
+        resources* m_resources{nullptr};
 
     public:
-        explicit scene_parser(resource_system* resources);
+        explicit scene_parser(resources* resources);
 
-        [[nodiscard]] auto parse(const nlohmann::json& root_json) -> std::unique_ptr<scene>;
+        [[nodiscard]] auto parse(const nlohmann::json& root_json) const -> std::unique_ptr<scene>;
 
         auto parse_resources(const nlohmann::json& res_json) const -> void;
 
         [[nodiscard]] static auto is_main_camera(const std::string& name) -> bool;
 
-        auto parse_entity(scene& target_scene, const nlohmann::json& entity_json) -> void;
+        auto parse_entity(scene& target_scene, const nlohmann::json& entity_json) const -> void;
 
-        auto parse_entities(scene& target_scene, const nlohmann::json& entities_json) -> void;
+        auto parse_entities(scene& target_scene, const nlohmann::json& entities_json) const -> void;
 
         auto parse_component(scene& target_scene, const entity& entity, const nlohmann::json& comp_json) const -> void;
     };

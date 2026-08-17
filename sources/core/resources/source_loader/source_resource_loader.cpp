@@ -2,11 +2,15 @@
 // Created by ricka on 8/17/26.
 //
 
-#include <noi_engine/core/resources/resource_loader.hpp>
 #include <fstream>
 #include <stdexcept>
 #include <utility>
-#include ""
+#include <noi_engine/core/resources/resource_loader.hpp>
+
+#include "loader/mesh_loader.hpp"
+#include "loader/shader_loader.hpp"
+#include "loader/texture_loader.hpp"
+#include "loader/mesh_2d_loader.hpp"
 
 namespace noi_engine
 {
@@ -14,7 +18,7 @@ namespace noi_engine
     {
     }
 
-    auto source_resource_loader::load(std::string_view path) -> std::vector<std::byte>
+    auto source_resource_loader::load(const std::string_view path) -> std::vector<std::byte>
     {
         const auto file_path = m_root / path;
 
@@ -33,7 +37,27 @@ namespace noi_engine
         return buffer;
     }
 
-    auto source_resource_loader::load_mesh_2d(const std::string_view path) -> std::unique_ptr<mesh>
+    auto source_resource_loader::load_obj(const std::string_view path,
+                                          [[maybe_unused]] resources* resources) -> std::unique_ptr<mesh>
     {
+        return mesh_loader::load(this->load(path));
+    }
+
+    auto source_resource_loader::load_mesh_2d(const std::string_view path,
+                                              [[maybe_unused]] resources* resources) -> std::unique_ptr<mesh>
+    {
+        return mesh_2d_loader::load(this->load(path));
+    }
+
+    auto source_resource_loader::load_shader(const std::string_view path,
+                                             [[maybe_unused]] resources* resources) -> std::unique_ptr<shader>
+    {
+        return shader_loader::load(this, this->load(path));
+    }
+
+    auto source_resource_loader::load_texture(const std::string_view path,
+                                              [[maybe_unused]] resources* resources) -> std::unique_ptr<texture>
+    {
+        return texture_loader::load(this->load(path));
     }
 }

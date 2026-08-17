@@ -17,7 +17,7 @@ namespace noi_engine
 		game* game{ nullptr };
 		renderer* renderer{ nullptr };
 		input_state* input{ nullptr };
-		resource_system* resources{ nullptr };
+		resources* resources{ nullptr };
 	};
 
 	class scene

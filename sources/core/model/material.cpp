@@ -5,7 +5,7 @@
 #include <noi_engine/core/model/material.hpp>
 #include <noi_engine/core/model/shader.hpp>
 #include <noi_engine/core/model/texture.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 #include <utility>
 
 namespace noi_engine
@@ -39,7 +39,7 @@ namespace noi_engine
 	}
 
 	auto material::apply(const noi_engine::shader& shader,
-						 resource_system& resources) -> void
+						 resources& resources) -> void
 	{
 		for (const auto& [name, value] : m_parameters)
 		{

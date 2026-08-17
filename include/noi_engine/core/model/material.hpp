@@ -14,7 +14,7 @@ namespace noi_engine
 
     class shader;
     class texture;
-    class resource_system;
+    class resources;
 
     class material
     {
@@ -26,7 +26,7 @@ namespace noi_engine
 
         [[nodiscard]] auto shader() const noexcept -> resource_handle<shader>;
 
-        auto apply(const noi_engine::shader &shader, resource_system &resources) -> void;
+        auto apply(const noi_engine::shader &shader, resources &resources) -> void;
 
     private:
         resource_handle<class shader> m_shader{};

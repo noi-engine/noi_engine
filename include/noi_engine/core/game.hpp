@@ -8,7 +8,7 @@
 #include <noi_engine/core/input/input_state.hpp>
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/resources/resource_loader.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/scene_manager.hpp>
 #include <string_view>
@@ -39,7 +39,7 @@ namespace noi_engine
 		input_state m_input{};
 
 		std::unique_ptr<renderer> m_renderer{ nullptr };
-		std::unique_ptr<resource_system> m_resources{ nullptr };
+		std::unique_ptr<resources> m_resources{ nullptr };
 		std::unique_ptr<scene_manager> m_scene_manager{ nullptr };
 
 	protected:
@@ -60,7 +60,7 @@ namespace noi_engine
 			this->m_resources->register_script<T>(name);
 		}
 
-		[[nodiscard]] auto resources() const noexcept -> resource_system&;
+		[[nodiscard]] auto resources() const noexcept -> resources&;
 
 		[[nodiscard]] auto input() -> input_state&;
 

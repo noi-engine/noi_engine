@@ -5,18 +5,18 @@
 #include "component_parser.hpp"
 
 #include <glm/vec3.hpp>
-#include <noi_engine/core/components/camera_2d.hpp>
-#include <noi_engine/core/components/script_component.hpp>
-#include <noi_engine/core/components/transform.hpp>
-#include <noi_engine/core/components/world_matrix.hpp>
-#include <noi_engine/core/components/dirty.hpp>
-#include <noi_engine/core/components/render_layer.hpp>
 #include <noi_engine/core/scripts/script.hpp>
+#include <noi_engine/core/components/dirty.hpp>
+#include <noi_engine/core/components/camera_2d.hpp>
+#include <noi_engine/core/components/transform.hpp>
+#include <noi_engine/core/components/render_layer.hpp>
+#include <noi_engine/core/components/world_matrix.hpp>
+#include <noi_engine/core/components/script_component.hpp>
 
 namespace noi_engine
 {
     auto camera_2d_parser::parse(const entity& entity, scene& target_scene,
-                                 resource_system* resources,
+                                 [[maybe_unused]] resources* resources,
                                  const nlohmann::json& properties) -> void
     {
         const float zoom = properties.value("zoom", 1.0f);
@@ -38,7 +38,7 @@ namespace noi_engine
 
     auto script_component_parser::parse(const entity& entity,
                                         scene& target_scene,
-                                        resource_system* resources,
+                                        resources* resources,
                                         const nlohmann::json& properties) -> void
     {
         std::vector<resource_handle<script>> scripts{};
@@ -51,7 +51,7 @@ namespace noi_engine
         target_scene.get_world().add<script_component>(entity, script_component{.scripts = scripts});
     }
 
-    auto transform_parser::parse(const entity& entity, scene& target_scene, resource_system* resources,
+    auto transform_parser::parse(const entity& entity, scene& target_scene, [[maybe_unused]] resources* resources,
                                  const nlohmann::json& properties) -> void
     {
         transform value{};
@@ -89,14 +89,14 @@ namespace noi_engine
         world.add(entity, dirty<transform>{});
     }
 
-    auto render_layer_parser::parse(const entity& entity, scene& target_scene, resource_system* resources,
+    auto render_layer_parser::parse(const entity& entity, scene& target_scene, [[maybe_unused]] resources* resources,
                                     const nlohmann::json& properties) -> void
     {
         const int order = properties.value("order", 0);
         target_scene.get_world().add(entity, render_layer{.order = order});
     }
 
-    auto mesh_renderer_parser::parse(const entity& entity, scene& target_scene, resource_system* resources,
+    auto mesh_renderer_parser::parse(const entity& entity, scene& target_scene, resources* resources,
                                      const nlohmann::json& properties) -> void
     {
         const auto mesh_value = resources->get_handle<mesh>(properties["mesh"].get<std::string>());

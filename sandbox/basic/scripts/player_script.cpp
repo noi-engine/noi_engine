@@ -10,7 +10,7 @@
 #include <noi_engine/core/components/script_component.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
-#include <noi_engine/core/resources/resource_system.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 
 #include "scripts.hpp"
 

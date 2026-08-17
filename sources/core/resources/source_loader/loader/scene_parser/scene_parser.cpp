@@ -7,11 +7,11 @@
 #include "component_parser.hpp"
 #include <noi_engine/core/components/name_component.hpp>
 
-noi_engine::scene_parser::scene_parser(resource_system* resources) : m_resources(resources)
+noi_engine::scene_parser::scene_parser(resources* resources) : m_resources(resources)
 {
 }
 
-auto noi_engine::scene_parser::parse(const nlohmann::json& root_json) -> std::unique_ptr<scene>
+auto noi_engine::scene_parser::parse(const nlohmann::json& root_json) const -> std::unique_ptr<scene>
 {
     auto loaded_scene = std::make_unique<scene>(root_json.value("name", "Untitled Scene"));
 
@@ -34,7 +34,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["shaders"])
         {
-            m_resources->load_shader(item["name"].get<std::string>(), item["path"].get<std::string>());
+            m_resources->load_from_path<shader>(item["name"].get<std::string>(), item["path"].get<std::string>());
         }
     }
 
@@ -42,7 +42,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["textures"])
         {
-            m_resources->load_texture(item["name"].get<std::string>(), item["path"].get<std::string>());
+            m_resources->load_from_path<texture>(item["name"].get<std::string>(), item["path"].get<std::string>());
         }
     }
 
@@ -50,7 +50,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["scripts"])
         {
-            m_resources->load_script(item.get<std::string>());
+            m_resources->load_from_path<script>(item.get<std::string>());
         }
     }
 
@@ -58,7 +58,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["meshes"])
         {
-            m_resources->load_mesh_2d(item["name"].get<std::string>(), item["path"].get<std::string>()); //TODO
+            m_resources->load_from_path<mesh>(item["name"].get<std::string>(), item["path"].get<std::string>()); //TODO
         }
     }
 
@@ -95,7 +95,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
                 }
             }
 
-            m_resources->add(item["name"].get<std::string>(), std::move(mat));
+            m_resources->load_instance(item["name"].get<std::string>(), std::move(mat));
         }
     }
 }
@@ -105,7 +105,7 @@ auto noi_engine::scene_parser::is_main_camera(const std::string& name) -> bool
     return "main_camera" == name;
 }
 
-auto noi_engine::scene_parser::parse_entities(scene& target_scene, const nlohmann::json& entities_json) -> void
+auto noi_engine::scene_parser::parse_entities(scene& target_scene, const nlohmann::json& entities_json) const -> void
 {
     for (const auto& entity_json : entities_json)
     {
@@ -113,7 +113,7 @@ auto noi_engine::scene_parser::parse_entities(scene& target_scene, const nlohman
     }
 }
 
-auto noi_engine::scene_parser::parse_entity(scene& target_scene, const nlohmann::json& entity_json) -> void
+auto noi_engine::scene_parser::parse_entity(scene& target_scene, const nlohmann::json& entity_json) const -> void
 {
     const auto entity_name = entity_json["name"].get<std::string>();
 

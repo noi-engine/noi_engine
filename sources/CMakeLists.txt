@@ -26,8 +26,9 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_loader.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_system.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resources.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_codes.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_state.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/renderer/renderer.hpp
@@ -52,6 +53,14 @@ set(CORE_PRIVATE_HEADERS
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
         core/input/input_state_impl.hpp
+        core/resources/source_loader/loader/mesh_loader.hpp
+        core/resources/source_loader/loader/scene_loader.hpp
+        core/resources/source_loader/loader/shader_loader.hpp
+        core/resources/source_loader/loader/texture_loader.hpp
+        core/resources/source_loader/loader/mesh_2d_loader.hpp
+        core/resources/source_loader/loader/scene_parser/color_parser.hpp
+        core/resources/source_loader/loader/scene_parser/scene_parser.hpp
+        core/resources/source_loader/loader/scene_parser/component_parser.hpp
 )
 
 set(CORE_SOURCES
@@ -64,6 +73,7 @@ set(CORE_SOURCES
         core/renderer/renderer.cpp
         core/ecs/world.cpp
         core/ecs/entity_manager.cpp
+        core/ecs/entity.cpp
         core/model/mesh.cpp
         core/model/texture.cpp
         core/model/shader.cpp
@@ -75,13 +85,21 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
-        core/resource_system.cpp
         core/stb_image/stb_image.cpp
         core/signals/signal_bus.cpp
         core/scripts/scripts.cpp
         core/systems/script_system.cpp
-        core/ecs/entity.cpp
         core/input/input_state_impl.cpp
+        core/resources/compiled_loader/compiled_resource_loader.cpp
+        core/resources/source_loader/source_resource_loader.cpp
+        core/resources/source_loader/loader/scene_loader.cpp
+        core/resources/source_loader/loader/mesh_2d_loader.cpp
+        core/resources/source_loader/loader/shader_loader.cpp
+        core/resources/source_loader/loader/texture_loader.cpp
+        core/resources/source_loader/loader/mesh_loader.cpp
+        core/resources/source_loader/loader/scene_parser/color_parser.cpp
+        core/resources/source_loader/loader/scene_parser/component_parser.cpp
+        core/resources/source_loader/loader/scene_parser/scene_parser.cpp
 )
 
 set(NOI_ENGINE_SDL_HEADERS
@@ -147,6 +165,9 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE nlohmann_json::nlohmann_jso
 
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
+
+target_include_directories(
+        ${NOI_ENGINE_LIB_NAME} PRIVATE $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/fbs>)
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE tinyobjloader::tinyobjloader)
 
