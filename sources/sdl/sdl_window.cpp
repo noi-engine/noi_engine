@@ -55,11 +55,11 @@ noi_engine::sdl_window::sdl_window(const std::string& title, const int width, co
     }
 }
 
-auto noi_engine::sdl_window::get_size() const -> size_2d
+auto noi_engine::sdl_window::get_size() const -> glm::vec2
 {
     int width, height;
     SDL_GetWindowSize(this->sdl_raw_window, &width, &height);
-    return size_2d{.width = width, .height = height};
+    return glm::vec2{width, height};
 }
 
 auto noi_engine::sdl_window::swap_buffers() -> void

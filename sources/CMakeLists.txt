@@ -1,6 +1,5 @@
 set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/noi_engineConfig.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/size_2d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/vertex.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/mesh.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/shader.hpp
