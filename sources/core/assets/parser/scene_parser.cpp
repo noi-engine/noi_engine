@@ -82,14 +82,14 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
             {
                 for (const auto& c : item["colors"])
                 {
-                    const auto value = color_parser::parse(item["value"].get<std::string>());
+                    const auto value = color_parser::parse(c["value"].get<std::string>());
                     mat->set_color(c["name"].get<std::string>(), value);
                 }
             }
 
             if (item.contains("parameters"))
             {
-                for (const auto& c : item["colors"])
+                for (const auto& c : item["parameters"])
                 {
                     mat->set_parameter(c["name"].get<std::string>(), c["value"].get<float>());
                 }
@@ -144,7 +144,7 @@ auto noi_engine::scene_parser::parse_component(scene& target_scene, const entity
                                                const nlohmann::json& comp_json) const -> void
 {
     const auto type = comp_json.value("type", "");
-    const auto& properties = comp_json.contains("properties") ? comp_json["properties"] : nlohmann::json{};
+    const auto& properties = comp_json.value("properties", nlohmann::json::object());
 
     if (type == "camera_2d")
     {
