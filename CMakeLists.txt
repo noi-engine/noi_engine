@@ -12,7 +12,6 @@ find_package(Stb REQUIRED)
 find_package(tinyobjloader CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
-
 set(NOI_ENGINE_LIB_NAME noi_engine)
 set(NOI_ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(NOI_ENGINE_IS_MAIN_PROJECT OFF)

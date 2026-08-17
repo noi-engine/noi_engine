@@ -28,8 +28,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_system.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/assets/asset_provider.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/assets/filesystem_asset_provider.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_codes.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/input/input_state.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/renderer/renderer.hpp
@@ -54,14 +52,6 @@ set(CORE_PRIVATE_HEADERS
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
         core/input/input_state_impl.hpp
-        core/assets/texture_loader.hpp
-        core/assets/mesh_2d_loader.hpp
-        core/assets/scene_loader.hpp
-        core/assets/shader_loader.hpp
-        core/assets/mesh_loader.hpp
-        core/assets/parser/component_parser.hpp
-        core/assets/parser/scene_parser.hpp
-        core/assets/parser/color_parser.hpp
 )
 
 set(CORE_SOURCES
@@ -85,17 +75,8 @@ set(CORE_SOURCES
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/transform_system.cpp
-        core/assets/filesystem_asset_provider.cpp
-        core/assets/texture_loader.cpp
         core/resource_system.cpp
         core/stb_image/stb_image.cpp
-        core/assets/mesh_loader.cpp
-        core/assets/mesh_2d_loader.cpp
-        core/assets/scene_loader.cpp
-        core/assets/shader_loader.cpp
-        core/assets/parser/component_parser.cpp
-        core/assets/parser/scene_parser.cpp
-        core/assets/parser/color_parser.cpp
         core/signals/signal_bus.cpp
         core/scripts/scripts.cpp
         core/systems/script_system.cpp

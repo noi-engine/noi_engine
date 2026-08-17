@@ -16,11 +16,11 @@ auto noi_engine::game::update(const float dt) -> void
 	this->m_scene_manager->update(dt);
 }
 
-noi_engine::game::game(std::shared_ptr<asset_provider> asset_provider,
+noi_engine::game::game(std::unique_ptr<resource_loader> resource_loader,
 					   const game_conf& conf)
 	: m_conf(conf)
 {
-	this->m_resources = std::make_unique<resource_system>(asset_provider);
+	this->m_resources = std::make_unique<resource_system>(std::move(resource_loader));
 	this->m_renderer = std::make_unique<renderer>(*this->m_resources);
 
 	const scene_context context{ .game = this,

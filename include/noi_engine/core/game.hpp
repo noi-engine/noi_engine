@@ -5,9 +5,9 @@
 #pragma once
 
 #include <memory>
-#include <noi_engine/core/assets/asset_provider.hpp>
 #include <noi_engine/core/input/input_state.hpp>
 #include <noi_engine/core/renderer/renderer.hpp>
+#include <noi_engine/core/resources/resource_loader.hpp>
 #include <noi_engine/core/resources/resource_system.hpp>
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/scene_manager.hpp>
@@ -48,8 +48,7 @@ namespace noi_engine
 		virtual auto update(float dt) -> void;
 
 	public:
-		explicit game(std::shared_ptr<asset_provider> asset_provider,
-					  const game_conf& conf = {});
+		explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
 
 		virtual ~game() = default;
 
