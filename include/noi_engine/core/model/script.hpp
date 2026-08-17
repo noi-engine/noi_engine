@@ -10,6 +10,27 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/input/input_state.hpp>
 
+#define NOI_ENGINE_EMIT(Signal) \
+	this->emit(self, context, Signal)
+
+#define NOI_ENGINE_CONNECT(SignalType, TargetEntity, Lambda) \
+	connect<SignalType>(context, TargetEntity, Lambda)
+
+#define NOI_ENGINE_GET(Type) \
+    this->get<Type>(self, context)
+
+#define NOI_ENGINE_ADD(Value) \
+    this->add(self, context, Value)
+
+#define NOI_ENGINE_ADD_DIRTY(Value) \
+    this->add(self, context, dirty<Value>{})
+
+#define NOI_ENGINE_HAS(Type) \
+    this->has<Type>(self, context)
+
+#define NOI_ENGINE_FIND_ENTITY(Name) \
+    context.get_world().find_by_name(Name)
+
 namespace noi_engine
 {
 	//TODO: bad api

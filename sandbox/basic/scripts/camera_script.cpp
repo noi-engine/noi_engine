@@ -11,17 +11,17 @@ auto sandbox::basic::camera_script::on_create(
     const noi_engine::entity self, const noi_engine::script_context& context)
     -> void
 {
-    const auto player = context.get_world().find_by_name("player");
-    connect<moved_signal>(
-        context, player,
-        [*this, context, self](const float dt, const moved_signal& signal) -> void
-        {
-            noi_engine::actions::follow(dt, context,
-                                        {
-                                            .target = signal.source,
-                                            .follower = self,
-                                            .offset = {0.3, 0.3, 0.0},
-                                            .smoothing = 0.3f
-                                        });
-        });
+    const auto player = NOI_ENGINE_FIND_ENTITY("player");
+
+    auto callback = [*this, context, self](const float dt, const moved_signal& signal) -> void
+    {
+        NOI_ENGINE_ACTION_FOLLOW({
+                                 .target = signal.source,
+                                 .follower = self,
+                                 .offset = {0.3f, 0.3f, 0.0f},
+                                 .smoothing = 0.3f
+                                 });
+    };
+
+    NOI_ENGINE_CONNECT(moved_signal, player, callback);
 }

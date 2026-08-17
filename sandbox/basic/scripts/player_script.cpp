@@ -57,10 +57,12 @@ auto sandbox::basic::player_script::on_update(
         return;
     }
 
-    auto& world = context.get_world();
-    auto& tr = world.get<transform>(self);
-    tr.position += direction * dt * 3.0f /* TODO: Speed */ ;
+    if (NOI_ENGINE_HAS(transform))
+    {
+        auto& tr = NOI_ENGINE_GET(transform);
+        tr.position += direction * dt * 3.0f /* TODO: Speed */ ;
 
-    world.add(self, noi_engine::dirty<transform>{});
-    this->emit(self, context, moved_signal{self});
+        NOI_ENGINE_ADD_DIRTY(transform);
+        NOI_ENGINE_EMIT(moved_signal{self});
+    }
 }
