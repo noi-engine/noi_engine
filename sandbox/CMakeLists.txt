@@ -1,18 +1,12 @@
 set(SANDBOX_HEADERS
         sandbox_game.hpp
         basic/configure.hpp
-        basic/components/velocity.hpp
-        basic/components/player_controller.hpp
-        basic/systems/player_controller_system.hpp
-        basic/systems/movement_system.hpp
         basic/scripts/scripts.hpp
 )
 
 set(SANDBOX_SOURCES
         main.cpp
         basic/configure.cpp
-        basic/systems/player_controller_system.cpp
-        basic/systems/movement_system.cpp
         basic/scripts/player_script.cpp
         basic/scripts/camera_script.cpp
 )

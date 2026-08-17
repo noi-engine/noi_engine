@@ -24,11 +24,44 @@ using noi_engine::transform;
 using noi_engine::world_matrix;
 
 auto sandbox::basic::player_script::on_update(
-	const noi_engine::entity self, const noi_engine::script_context& context,
-	[[maybe_unused]] const float t) -> void
+    const noi_engine::entity self, const noi_engine::script_context& context, const float dt) -> void
 {
-	if (has<dirty<transform>>(self, context))
-	{
-		this->emit(self, context, moved_signal{ self });
-	}
+    const auto input = context.input;
+    auto direction = glm::vec3{0.0f};
+    if (input->is_key_down(noi_engine::key_code::up))
+    {
+        direction.y += 1.0f;
+    }
+
+    if (input->is_key_down(noi_engine::key_code::down))
+    {
+        direction.y -= 1.0f;
+    }
+
+    if (input->is_key_down(noi_engine::key_code::right))
+    {
+        direction.x += 1.0f;
+    }
+
+    if (input->is_key_down(noi_engine::key_code::left))
+    {
+        direction.x -= 1.0f;
+    }
+
+    if (direction != glm::vec3{0.0f})
+    {
+        direction = glm::normalize(direction);
+    }
+
+    if (direction == glm::vec3{0.0f})
+    {
+        return;
+    }
+
+    auto& world = context.get_world();
+    auto& tr = world.get<transform>(self);
+    tr.position += direction * dt * 3.0f /* TODO: Speed */ ;
+
+    world.add(self, noi_engine::dirty<transform>{});
+    this->emit(self, context, moved_signal{self});
 }

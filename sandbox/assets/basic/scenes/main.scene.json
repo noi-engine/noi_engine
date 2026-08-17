@@ -64,6 +64,14 @@
             "mesh": "quad_2d",
             "material": "green_mesh"
           }
+        },
+        {
+          "type": "scripts",
+          "properties": {
+            "names": [
+              "player_script"
+            ]
+          }
         }
       ]
     },
