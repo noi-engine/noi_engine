@@ -27,6 +27,6 @@ namespace noi_engine
 
         auto parse_entities(scene& target_scene, const nlohmann::json& entities_json) -> void;
 
-        auto parse_component(scene& target_scene, const entity& entity, const nlohmann::json& comp_json) -> void;
+        auto parse_component(scene& target_scene, const entity& entity, const nlohmann::json& comp_json) const -> void;
     };
 }

@@ -2,31 +2,64 @@
   "name": "MainScene",
   "resources": {
     "textures": [],
-    "scripts": [
-      "player_script",
-      "camera_script"
+    "meshes": [
+      {
+        "name": "quad_2d",
+        "path": "assets/basic/meshes/quad_2d.json"
+      }
     ],
     "shaders": [
       {
         "name": "color_shader",
         "path": "assets/basic/shaders/color_shader/index.json"
       }
+    ],
+    "scripts": [
+      "player_script",
+      "camera_script"
+    ],
+    "materials": [
+      {
+        "name": "green_mesh",
+        "shader": "color_shader",
+        "textures": [],
+        "parameters": [],
+        "colors": [
+          {
+            "name": "u_color",
+            "value": "#00ff00ff"
+          }
+        ]
+      }
     ]
   },
   "entities": [
     {
+      "name": "background",
+      "components": [
+        {
+          "type": "transform"
+        },
+        {
+          "type": "render_layer",
+          "properties": {
+            "order": -1
+          }
+        },
+        {
+          "type": "mesh_renderer",
+          "properties": {
+            "mesh": "quad_mesh",
+            "material": "green_mesh"
+          }
+        }
+      ]
+    },
+    {
       "name": "main_camera",
       "components": [
         {
-          "type": "camera_2d",
-          "properties": {
-            "zoom": 1,
-            "near_plane": -1,
-            "far_plane": 1,
-            "orthographic_size": 5,
-            "aspect_ratio_width": 16,
-            "aspect_ratio_height": 9
-          }
+          "type": "camera_2d"
         },
         {
           "type": "scripts",

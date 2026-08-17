@@ -34,4 +34,28 @@ namespace noi_engine
                    resource_system* resources, const nlohmann::json& properties)
             -> void override;
     };
+
+    class transform_parser final : public i_component_parser
+    {
+    public:
+        auto parse(const entity& entity, scene& target_scene,
+                   resource_system* resources, const nlohmann::json& properties)
+            -> void override;
+    };
+
+    class render_layer_parser final : public i_component_parser
+    {
+    public:
+        auto parse(const entity& entity, scene& target_scene,
+                   resource_system* resources, const nlohmann::json& properties)
+            -> void override;
+    };
+
+    class mesh_renderer_parser final : public i_component_parser
+    {
+    public:
+        auto parse(const entity& entity, scene& target_scene,
+                   resource_system* resources, const nlohmann::json& properties)
+            -> void override;
+    };
 } // namespace noi_engine

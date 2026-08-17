@@ -11,7 +11,7 @@ auto sandbox::basic::camera_script::on_create(
 	const noi_engine::entity self, const noi_engine::script_context& context)
 	-> void
 {
-	const auto player = context.get_world().find_by_name("player");
+	/*const auto player = context.get_world().find_by_name("player");
 	connect<noi_engine::moved_signal>(
 		context, player,
 		[*this, context, self](const float dt,
@@ -23,4 +23,5 @@ auto sandbox::basic::camera_script::on_create(
 										  .offset = { 0.3, 0.3, 0.0 },
 										  .smoothing = 0.3f });
 		});
+		*/
 }

@@ -2,6 +2,7 @@
 // Created by ricka on 8/16/26.
 //
 
+#include "color_parser.hpp"
 #include "scene_parser.hpp"
 #include "component_parser.hpp"
 #include <noi_engine/core/components/name_component.hpp>
@@ -52,6 +53,43 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
             m_resources->load_script(item.get<std::string>());
         }
     }
+
+    if (res_json.contains("materials"))
+    {
+        for (const auto& item : res_json["materials"])
+        {
+            auto mat = std::make_unique<material>();
+            mat->set_shader(m_resources->get_handle<shader>(item["shader"].get<std::string>()));
+
+            if (item.contains("textures"))
+            {
+                for (const auto& t : item["textures"])
+                {
+                    const auto texture_handle = m_resources->get_handle<texture>(t["value"].get<std::string>());
+                    mat->set_texture(t["name"].get<std::string>(), texture_handle);
+                }
+            }
+
+            if (item.contains("colors"))
+            {
+                for (const auto& c : item["colors"])
+                {
+                    const auto value = color_parser::parse(item["value"].get<std::string>());
+                    mat->set_color(c["name"].get<std::string>(), value);
+                }
+            }
+
+            if (item.contains("parameters"))
+            {
+                for (const auto& c : item["colors"])
+                {
+                    mat->set_parameter(c["name"].get<std::string>(), c["value"].get<float>());
+                }
+            }
+
+            m_resources->add(item["name"].get<std::string>(), std::move(mat));
+        }
+    }
 }
 
 auto noi_engine::scene_parser::is_main_camera(const std::string& name) -> bool
@@ -95,10 +133,10 @@ auto noi_engine::scene_parser::parse_entity(scene& target_scene, const nlohmann:
 }
 
 auto noi_engine::scene_parser::parse_component(scene& target_scene, const entity& entity,
-                                               const nlohmann::json& comp_json) -> void
+                                               const nlohmann::json& comp_json) const -> void
 {
     const auto type = comp_json.value("type", "");
-    const auto& properties = comp_json["properties"];
+    const auto& properties = comp_json.contains("properties") ? comp_json["properties"] : nlohmann::json{};
 
     if (type == "camera_2d")
     {
@@ -108,6 +146,21 @@ auto noi_engine::scene_parser::parse_component(scene& target_scene, const entity
     else if (type == "scripts")
     {
         script_component_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "transform")
+    {
+        transform_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "render_layer")
+    {
+        render_layer_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "mesh_renderer")
+    {
+        mesh_renderer_parser parser{};
         parser.parse(entity, target_scene, m_resources, properties);
     }
 }
