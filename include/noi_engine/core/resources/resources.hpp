@@ -80,7 +80,7 @@ namespace noi_engine
         template <typename T>
         auto load_from_path(std::string_view name, std::string_view path) -> resource_handle<T>
         {
-            const auto handle = this->get_handle<T>(name);
+            const auto handle = this->load_from_path<T>(path);
             this->bind<T>(name, handle);
             return handle;
         }
