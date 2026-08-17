@@ -20,6 +20,18 @@
     ],
     "materials": [
       {
+        "name": "blue_mesh",
+        "shader": "color_shader",
+        "textures": [],
+        "parameters": [],
+        "colors": [
+          {
+            "name": "u_color",
+            "value": "#0000ff"
+          }
+        ]
+      },
+      {
         "name": "green_mesh",
         "shader": "color_shader",
         "textures": [],
@@ -35,10 +47,38 @@
   },
   "entities": [
     {
-      "name": "background",
+      "name": "player",
       "components": [
         {
           "type": "transform"
+        },
+        {
+          "type": "render_layer",
+          "properties": {
+            "order": 0
+          }
+        },
+        {
+          "type": "mesh_renderer",
+          "properties": {
+            "mesh": "quad_2d",
+            "material": "green_mesh"
+          }
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "components": [
+        {
+          "type": "transform",
+          "properties": {
+            "scale": [
+              2,
+              2,
+              1
+            ]
+          }
         },
         {
           "type": "render_layer",
@@ -50,7 +90,7 @@
           "type": "mesh_renderer",
           "properties": {
             "mesh": "quad_2d",
-            "material": "green_mesh"
+            "material": "blue_mesh"
           }
         }
       ]

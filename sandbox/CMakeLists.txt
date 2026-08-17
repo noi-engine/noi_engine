@@ -1,13 +1,5 @@
 set(SANDBOX_HEADERS
         sandbox_game.hpp
-        3d/resources/meshes.hpp
-        3d/resources/shaders.hpp
-        3d/configure.hpp
-        3d/scenes/orbit_scene.hpp
-        2d/resources/meshes.hpp
-        2d/resources/shaders.hpp
-        2d/configure.hpp
-        2d/scenes/basic_scene.hpp
         basic/configure.hpp
         basic/components/velocity.hpp
         basic/components/player_controller.hpp
@@ -18,12 +10,6 @@ set(SANDBOX_HEADERS
 
 set(SANDBOX_SOURCES
         main.cpp
-        3d/resources/meshes.cpp
-        3d/resources/shaders.cpp
-        3d/configure.cpp
-        2d/resources/meshes.cpp
-        2d/resources/shaders.cpp
-        2d/configure.cpp
         basic/configure.cpp
         basic/systems/player_controller_system.cpp
         basic/systems/movement_system.cpp
