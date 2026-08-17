@@ -11,6 +11,7 @@
 #include "loader/shader_loader.hpp"
 #include "loader/texture_loader.hpp"
 #include "loader/mesh_2d_loader.hpp"
+#include "loader/scene_loader.hpp"
 
 namespace noi_engine
 {
@@ -41,6 +42,11 @@ namespace noi_engine
                                           [[maybe_unused]] resources* resources) -> std::unique_ptr<mesh>
     {
         return mesh_loader::load(this->load(path));
+    }
+
+    auto source_resource_loader::load_scene(const std::string_view path, resources* resources) -> std::unique_ptr<scene>
+    {
+        return scene_loader::load(resources, this->load(path));
     }
 
     auto source_resource_loader::load_mesh_2d(const std::string_view path,

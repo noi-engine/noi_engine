@@ -3,11 +3,10 @@
 //
 
 #include <noi_engine/core/game.hpp>
-#include <noi_engine/sdl/sdl_window.hpp>
+#include <noi_engine/core/sdl/sdl_window.hpp>
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
-#include <gtest/internal/gtest-param-util.h>
 
 noi_engine::sdl_window::~sdl_window()
 {
@@ -62,7 +61,7 @@ auto noi_engine::sdl_window::get_size() const -> glm::vec2
     return glm::vec2{width, height};
 }
 
-auto noi_engine::sdl_window::swap_buffers() -> void
+auto noi_engine::sdl_window::swap_buffers() const -> void
 {
     SDL_GL_SwapWindow(this->sdl_raw_window);
 }

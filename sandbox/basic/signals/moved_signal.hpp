@@ -7,11 +7,11 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/signals/signal.hpp>
 
-namespace noi_engine
+namespace sandbox::basic
 {
-    struct moved_signal : signal
+    struct moved_signal : noi_engine::signal
     {
-        explicit moved_signal(const entity& entity) : signal(entity)
+        explicit moved_signal(const noi_engine::entity& entity) : signal(entity)
         {
         }
     };

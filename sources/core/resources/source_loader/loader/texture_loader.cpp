@@ -13,6 +13,7 @@ auto noi_engine::texture_loader::load(const std::span<const std::byte> data) -> 
     int channels;
 
     stbi_set_flip_vertically_on_load(true);
+
     const auto pixels = stbi_load_from_memory(
         reinterpret_cast<const unsigned char*>(data.data()),
         static_cast<int>(data.size()),
@@ -22,14 +23,16 @@ auto noi_engine::texture_loader::load(const std::span<const std::byte> data) -> 
         4
     );
 
-    std::vector<const std::byte> data(
-        reinterpret_cast<std::byte*>(pixels),
-        static_cast<std::span<const std::byte>::size_type>(width * height * 4)
+    const auto size = static_cast<std::size_t>(width * height * 4);
+
+    std::vector bytes(
+        reinterpret_cast<const std::byte*>(pixels),
+        reinterpret_cast<const std::byte*>(pixels) + size
     );
 
     return std::make_unique<texture>(
         width,
         height,
-        std::move(data)
+        std::move(bytes)
     );
 }

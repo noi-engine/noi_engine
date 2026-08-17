@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <gtest/gtest.h>
-#include <noi_engine/sdl/sdl_window.hpp>
+#include <noi_engine/core/sdl/sdl_window.hpp>
 
 class WindowTest : public ::testing::Test
 {
@@ -27,8 +27,8 @@ TEST_F(WindowTest, CreateWindowWithCorrectSize)
 
 	const noi_engine::sdl_window window("Test Window", 800, 600);
 
-	const auto [width, height] = window.get_size();
+	const auto value = window.get_size();
 
-	EXPECT_EQ(width, 800);
-	EXPECT_EQ(height, 600);
+	EXPECT_EQ(value.x, 800);
+	EXPECT_EQ(value.y, 600);
 }

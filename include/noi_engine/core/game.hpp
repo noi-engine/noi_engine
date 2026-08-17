@@ -22,50 +22,50 @@
 
 #define NOI_ENGINE_REGISTER_SCRIPT_NAMED(Type, Name) \
     game.register_script<Type>(Name)
-//TODO(begin): no end
+//TODO(end): no idea
 
 namespace noi_engine
 {
-	using opengl_context_loader = void* (*)(const char* name);
+    using opengl_context_loader = void* (*)(const char* name);
 
-	struct game_conf
-	{
-	};
+    struct game_conf
+    {
+    };
 
-	class game
-	{
-		game_conf m_conf{};
+    class game
+    {
+        game_conf m_conf{};
 
-		input_state m_input{};
+        input_state m_input{};
 
-		std::unique_ptr<renderer> m_renderer{ nullptr };
-		std::unique_ptr<resources> m_resources{ nullptr };
-		std::unique_ptr<scene_manager> m_scene_manager{ nullptr };
+        std::unique_ptr<renderer> m_renderer{nullptr};
+        std::unique_ptr<resources> m_resources{nullptr};
+        std::unique_ptr<scene_manager> m_scene_manager{nullptr};
 
-	protected:
-		virtual auto render() -> void;
+    protected:
+        virtual auto render() -> void;
 
-		virtual auto update(float dt) -> void;
+        virtual auto update(float dt) -> void;
 
-	public:
-		explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
+    public:
+        explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
 
-		virtual ~game() = default;
+        virtual ~game() = default;
 
-		auto set_scene(std::unique_ptr<scene> scene) const -> void;
+        auto set_scene(std::unique_ptr<scene> scene) const -> void;
 
-		template<typename T>
-		auto register_script(const std::string_view name) const -> void
-		{
-			this->m_resources->register_script<T>(name);
-		}
+        template <typename T>
+        auto register_script(const std::string_view name) const -> void
+        {
+            this->m_resources->register_script<T>(name);
+        }
 
-		[[nodiscard]] auto resources() const noexcept -> resources&;
+        [[nodiscard]] auto resources() const noexcept -> resources&;
 
-		[[nodiscard]] auto input() -> input_state&;
+        [[nodiscard]] auto input() -> input_state&;
 
-		static auto init(opengl_context_loader loader) -> void;
+        static auto init(opengl_context_loader loader) -> void;
 
-		friend class sdl_game;
-	};
-}  // namespace noi_engine
+        friend class sdl_game;
+    };
+} // namespace noi_engine

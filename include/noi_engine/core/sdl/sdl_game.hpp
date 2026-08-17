@@ -6,8 +6,8 @@
 
 #include <memory>
 #include <noi_engine/core/game.hpp>
-#include <noi_engine/sdl/sdl_window.hpp>
-#include <noi_engine/core/assets/filesystem_asset_provider.hpp>
+#include <noi_engine/core/sdl/sdl_window.hpp>
+#include <noi_engine/core/resources/resource_loader.hpp>
 
 namespace noi_engine
 {
@@ -32,7 +32,7 @@ namespace noi_engine
             const std::string& title,
             int width,
             int height,
-            const std::shared_ptr<asset_provider>& asset_provider = std::make_shared<filesystem_asset_provider>(
+            std::unique_ptr<resource_loader> resource_loader = std::make_unique<source_resource_loader>(
                 std::filesystem::current_path()),
             const sdl_game_conf& game_conf = {});
 

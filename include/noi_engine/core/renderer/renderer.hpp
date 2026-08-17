@@ -7,10 +7,11 @@
 #include <glm/mat4x4.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
-#include <noi_engine/core/resources/resources.hpp>
 
 namespace noi_engine
 {
+    class resources;
+
     class renderer
     {
     protected:

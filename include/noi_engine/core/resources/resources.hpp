@@ -10,7 +10,7 @@
 #include <noi_engine/core/model/mesh.hpp>
 #include <noi_engine/core/model/shader.hpp>
 #include <noi_engine/core/model/texture.hpp>
-#include <noi_engine/core/scripts/script.hpp>
+#include <noi_engine/core/model/script.hpp>
 #include <noi_engine/core/resources/resource_loader.hpp>
 #include <noi_engine/core/resources/details/resource_manager.hpp>
 
@@ -93,6 +93,11 @@ namespace noi_engine
 
         auto load_scene(std::string_view path) -> std::unique_ptr<scene>; //TODO: no idea if should be here or not
     };
+
+    inline auto resources::load_scene(const std::string_view path) -> std::unique_ptr<scene>
+    {
+        return m_resource_loader->load_scene(path, this);
+    }
 
     template <>
     inline auto resources::load_instance(std::unique_ptr<shader> resource)

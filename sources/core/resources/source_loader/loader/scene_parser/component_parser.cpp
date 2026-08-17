@@ -5,7 +5,7 @@
 #include "component_parser.hpp"
 
 #include <glm/vec3.hpp>
-#include <noi_engine/core/scripts/script.hpp>
+#include <../../../../../../include/noi_engine/core/model/script.hpp>
 #include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/transform.hpp>

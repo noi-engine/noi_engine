@@ -1,7 +1,7 @@
 find_package(GTest CONFIG REQUIRED)
 
 set(NOI_ENGINE_TEST_SOURCES
-        sdl/sdl_window_test.cpp
+        core/sdl/sdl_window_test.cpp
         core/frame_limiter_test.cpp
         core/ecs/entity_manager_test.cpp
         core/ecs/entity_test.cpp

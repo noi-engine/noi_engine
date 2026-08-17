@@ -5,9 +5,9 @@
 #pragma once
 
 #include <vector>
+#include <noi_engine/core/model/script.hpp>
 #include <noi_engine/core/components/component.hpp>
 #include <noi_engine/core/resources/resource_handle.hpp>
-#include <noi_engine/core/scripts/script.hpp>
 
 namespace noi_engine
 {

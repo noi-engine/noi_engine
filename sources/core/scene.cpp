@@ -7,7 +7,7 @@
 #include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/scene.hpp>
-#include <noi_engine/core/scripts/script.hpp>
+#include <noi_engine/core/model/script.hpp>
 #include <utility>
 
 #include "systems/camera_2d_system.hpp"

@@ -3,11 +3,11 @@
 //
 
 #include <SDL2/SDL.h>
-#include <noi_engine/sdl/sdl_game.hpp>
+#include <noi_engine/core/sdl/sdl_game.hpp>
 #include <noi_engine/core/timer.hpp>
 #include <noi_engine/core/frame_limiter.hpp>
 
-#include "../core/glad/glad.h"
+#include "../glad/glad.h"
 #include "sdl_event_processor.hpp"
 
 auto noi_engine::sdl_game::process_events() -> void
@@ -36,8 +36,8 @@ auto noi_engine::sdl_game::process_events() -> void
 }
 
 noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height,
-                               const std::shared_ptr<asset_provider>& asset_provider, const sdl_game_conf& game_conf) :
-    game(asset_provider, game_conf)
+                               std::unique_ptr<resource_loader> resource_loader, const sdl_game_conf& game_conf) :
+    game(std::move(resource_loader), game_conf)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {

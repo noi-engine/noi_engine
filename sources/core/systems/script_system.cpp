@@ -4,9 +4,9 @@
 
 #include "script_system.hpp"
 
+#include <noi_engine/core/model/script.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 #include <noi_engine/core/components/script_component.hpp>
-#include <noi_engine/core/renderer/renderer.hpp>
-#include <noi_engine/core/scripts/script.hpp>
 
 namespace
 {

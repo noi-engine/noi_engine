@@ -3,6 +3,7 @@
 //
 
 #include <noi_engine/core/renderer/renderer.hpp>
+#include <noi_engine/core/resources/resources.hpp>
 
 #include "../glad/glad.h"
 

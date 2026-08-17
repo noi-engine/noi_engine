@@ -2,7 +2,6 @@
 // Created by ricka on 8/9/26.
 //
 
-#include <noi_engine/builtin/signals/moved_signal.hpp>
 #include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/name_component.hpp>
@@ -13,10 +12,10 @@
 #include <noi_engine/core/resources/resources.hpp>
 
 #include "scripts.hpp"
+#include "../signals/moved_signal.hpp"
 
 using noi_engine::dirty;
 using noi_engine::mesh_renderer;
-using noi_engine::moved_signal;
 using noi_engine::name_component;
 using noi_engine::render_layer;
 using noi_engine::script_component;

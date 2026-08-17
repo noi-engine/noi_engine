@@ -5,6 +5,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/shader.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/texture.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/material.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/model/script.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/entity.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/component_pool.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view.hpp
@@ -13,11 +14,12 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/details/signal_channel.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/details/signal_bus.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scripts/script.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/transform.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/world_matrix.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/mesh_renderer.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/sdl/sdl_game.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/sdl/sdl_window.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/render_layer.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/dirty.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_2d.hpp
@@ -36,14 +38,13 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/game.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/signals/moved_signal.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/basic.hpp
 )
 
 set(CORE_PRIVATE_HEADERS
         core/glad/glad.h
         core/glad/khrplateform.h
-        sdl/sdl_event_processor.hpp
+        core/sdl/sdl_event_processor.hpp
         core/systems/render_system.hpp
         core/systems/orbit_camera_system.hpp
         core/systems/camera_2d_system.hpp
@@ -76,6 +77,7 @@ set(CORE_SOURCES
         core/model/mesh.cpp
         core/model/texture.cpp
         core/model/shader.cpp
+        core/model/scripts.cpp
         core/model/material.cpp
         core/input/input_state.cpp
         core/components/world_matrix.cpp
@@ -86,7 +88,6 @@ set(CORE_SOURCES
         core/systems/transform_system.cpp
         core/stb_image/stb_image.cpp
         core/signals/signal_bus.cpp
-        core/scripts/scripts.cpp
         core/systems/script_system.cpp
         core/input/input_state_impl.cpp
         core/resources/compiled_loader/compiled_resource_loader.cpp
@@ -99,35 +100,20 @@ set(CORE_SOURCES
         core/resources/source_loader/loader/scene_parser/color_parser.cpp
         core/resources/source_loader/loader/scene_parser/component_parser.cpp
         core/resources/source_loader/loader/scene_parser/scene_parser.cpp
-)
-
-set(NOI_ENGINE_SDL_HEADERS
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/sdl/sdl_window.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/sdl/sdl_game.hpp
-)
-
-set(NOI_ENGINE_SDL_SOURCES
-        sdl/sdl_game.cpp
-        sdl/sdl_window.cpp
-        sdl/sdl_event_processor.cpp
+        core/sdl/sdl_game.cpp
+        core/sdl/sdl_window.cpp
+        core/sdl/sdl_event_processor.cpp
 )
 
 set(NOI_ENGINE_BUILTIN_SOURCES
         builtin/actions/follow.cpp
 )
 
-set(NOI_ENGINE_SOURCES
-        ${CORE_SOURCES}
-        ${NOI_ENGINE_SDL_SOURCES}
-        ${NOI_ENGINE_BUILTIN_SOURCES})
+set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_BUILTIN_SOURCES})
 
-set(NOI_ENGINE_PUBLIC_HEADERS
-        ${CORE_HEADERS}
-        ${NOI_ENGINE_SDL_HEADERS})
+set(NOI_ENGINE_PUBLIC_HEADERS ${CORE_HEADERS})
 
-set(NOI_ENGINE_PRIVATE_HEADERS
-        ${CORE_PRIVATE_HEADERS}
-)
+set(NOI_ENGINE_PRIVATE_HEADERS ${CORE_PRIVATE_HEADERS})
 
 if (CMAKE_BUILD_SHARED_LIBS)
     add_library(${NOI_ENGINE_LIB_NAME} SHARED ${NOI_ENGINE_SOURCES})

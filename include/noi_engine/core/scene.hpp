@@ -12,6 +12,8 @@
 
 namespace noi_engine
 {
+	class game;
+
 	struct scene_context
 	{
 		game* game{ nullptr };

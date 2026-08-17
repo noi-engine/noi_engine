@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <glm/vec2.hpp>
 #include <SDL2/SDL_video.h>
 
 #include <string>
@@ -28,6 +29,6 @@ namespace noi_engine
 
         [[nodiscard]] auto get_size() const -> glm::vec2;
 
-        auto swap_buffers() -> void;
+        auto swap_buffers() const -> void;
     };
 }
