@@ -13,7 +13,6 @@ set(SANDBOX_HEADERS
         basic/components/player_controller.hpp
         basic/systems/player_controller_system.hpp
         basic/systems/movement_system.hpp
-        basic/scenes/player_scene.hpp
         basic/scripts/scripts.hpp
 )
 
@@ -28,10 +27,8 @@ set(SANDBOX_SOURCES
         basic/configure.cpp
         basic/systems/player_controller_system.cpp
         basic/systems/movement_system.cpp
-        basic/scenes/player_scene.cpp
         basic/scripts/player_script.cpp
         basic/scripts/camera_script.cpp
-        basic/scripts/background_script.cpp
 )
 
 add_executable(sandbox ${SANDBOX_SOURCES} ${SANDBOX_HEADERS})

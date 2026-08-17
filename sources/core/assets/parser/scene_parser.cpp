@@ -54,6 +54,14 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
         }
     }
 
+    if (res_json.contains("meshes"))
+    {
+        for (const auto& item : res_json["meshes"])
+        {
+            m_resources->load_mesh_2d(item["name"].get<std::string>(), item["path"].get<std::string>()); //TODO
+        }
+    }
+
     if (res_json.contains("materials"))
     {
         for (const auto& item : res_json["materials"])
