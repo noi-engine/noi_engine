@@ -40,7 +40,9 @@ auto noi_engine::resource_system::load_script(std::string_view name)
     const auto it = m_script_factories.find(std::string(name));
     if (it != m_script_factories.end())
     {
-        return this->add<script>(it->second());
+        const auto handle = this->add<script>(it->second());
+        this->bind<script>(name, handle);
+        return handle;
     }
     return {};
 }
