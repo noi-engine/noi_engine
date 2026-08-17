@@ -1,0 +1,8 @@
+namespace noi_engine.fbs;
+
+table Shader {
+  vertex: string;
+  fragment: string;
+}
+
+root_type Shader;

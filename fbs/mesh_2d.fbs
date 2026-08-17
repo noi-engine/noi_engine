@@ -1,0 +1,25 @@
+namespace noi_engine.fbs;
+
+struct Vec2 {
+    x: float;
+    y: float;
+}
+
+struct Vec3 {
+    x: float;
+    y: float;
+    z: float;
+}
+
+table Vertex {
+    position: Vec3;
+    normal: Vec3;
+    uv: Vec2;
+}
+
+table Mesh {
+    vertices: [Vertex];
+    indices: [uint];
+}
+
+root_type Mesh;
