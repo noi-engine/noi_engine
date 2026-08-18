@@ -5,7 +5,7 @@
 #include "shader_loader.hpp"
 #include "fbs/shader_generated.h"
 
-auto noi_engine::shader_loader::load(resource_loader* resources,
+auto noi_engine::c::shader_loader::load(resource_loader* resources,
                                      const std::span<const std::byte> data) -> std::unique_ptr<shader>
 {
     const auto* fbs = fbs::GetShader(data.data());
