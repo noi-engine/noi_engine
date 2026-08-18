@@ -4,6 +4,8 @@
 
 #include <noi_engine/core/resources/resource_loader.hpp>
 
+#include "loader/shader_loader.hpp"
+
 namespace noi_engine
 {
     compiled_resource_loader::compiled_resource_loader(std::filesystem::path root) : m_root(std::move(root))
@@ -34,9 +36,9 @@ namespace noi_engine
     }
 
     auto compiled_resource_loader::load_shader(const std::string_view path,
-                                               resources* resources) -> std::unique_ptr<shader>
+                                               [[maybe_unused]] resources* resources) -> std::unique_ptr<shader>
     {
-        return this->m_source_loader.load_shader(path, resources);
+        return shader_loader::load(this, this->load(path));
     }
 
     auto compiled_resource_loader::load_texture(const std::string_view path,
