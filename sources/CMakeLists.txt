@@ -151,9 +151,6 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE nlohmann_json::nlohmann_jso
 target_include_directories(
         ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
 
-target_include_directories(
-        ${NOI_ENGINE_LIB_NAME} PRIVATE $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/fbs>)
-
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE tinyobjloader::tinyobjloader)
 
 set_target_properties(
