@@ -50,7 +50,7 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["scripts"])
         {
-            m_resources->load_from_path<script>(item.get<std::string>());
+            m_resources->load_from_path<script>(item.get<std::string>(), item.get<std::string>());
         }
     }
 

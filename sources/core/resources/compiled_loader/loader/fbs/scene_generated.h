@@ -16,14 +16,14 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 namespace noi_engine {
 namespace fbs {
 
-struct PathNameValueFloat;
-struct PathNameValueFloatBuilder;
+struct NameValueFloat;
+struct NameValueFloatBuilder;
 
-struct PathNameValue;
-struct PathNameValueBuilder;
+struct NameValue;
+struct NameValueBuilder;
 
-struct Color;
-struct ColorBuilder;
+struct NamePath;
+struct NamePathBuilder;
 
 struct RenderLayerComponent;
 struct RenderLayerComponentBuilder;
@@ -40,6 +40,9 @@ struct Camera2DComponentBuilder;
 struct TransformComponent;
 struct TransformComponentBuilder;
 
+struct Component;
+struct ComponentBuilder;
+
 struct Material;
 struct MaterialBuilder;
 
@@ -52,30 +55,30 @@ struct EntityBuilder;
 struct Scene;
 struct SceneBuilder;
 
-enum Component : uint8_t {
-  Component_NONE = 0,
-  Component_RenderLayerComponent = 1,
-  Component_MeshRendererComponent = 2,
-  Component_ScriptsComponent = 3,
-  Component_Camera2DComponent = 4,
-  Component_TransformComponent = 5,
-  Component_MIN = Component_NONE,
-  Component_MAX = Component_TransformComponent
+enum ComponentUnion : uint8_t {
+  ComponentUnion_NONE = 0,
+  ComponentUnion_RenderLayerComponent = 1,
+  ComponentUnion_MeshRendererComponent = 2,
+  ComponentUnion_ScriptsComponent = 3,
+  ComponentUnion_Camera2DComponent = 4,
+  ComponentUnion_TransformComponent = 5,
+  ComponentUnion_MIN = ComponentUnion_NONE,
+  ComponentUnion_MAX = ComponentUnion_TransformComponent
 };
 
-inline const Component (&EnumValuesComponent())[6] {
-  static const Component values[] = {
-    Component_NONE,
-    Component_RenderLayerComponent,
-    Component_MeshRendererComponent,
-    Component_ScriptsComponent,
-    Component_Camera2DComponent,
-    Component_TransformComponent
+inline const ComponentUnion (&EnumValuesComponentUnion())[6] {
+  static const ComponentUnion values[] = {
+    ComponentUnion_NONE,
+    ComponentUnion_RenderLayerComponent,
+    ComponentUnion_MeshRendererComponent,
+    ComponentUnion_ScriptsComponent,
+    ComponentUnion_Camera2DComponent,
+    ComponentUnion_TransformComponent
   };
   return values;
 }
 
-inline const char * const *EnumNamesComponent() {
+inline const char * const *EnumNamesComponentUnion() {
   static const char * const names[7] = {
     "NONE",
     "RenderLayerComponent",
@@ -88,173 +91,107 @@ inline const char * const *EnumNamesComponent() {
   return names;
 }
 
-inline const char *EnumNameComponent(Component e) {
-  if (::flatbuffers::IsOutRange(e, Component_NONE, Component_TransformComponent)) return "";
+inline const char *EnumNameComponentUnion(ComponentUnion e) {
+  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_TransformComponent)) return "";
   const size_t index = static_cast<size_t>(e);
-  return EnumNamesComponent()[index];
+  return EnumNamesComponentUnion()[index];
 }
 
-template<typename T> struct ComponentTraits {
-  static const Component enum_value = Component_NONE;
+template<typename T> struct ComponentUnionTraits {
+  static const ComponentUnion enum_value = ComponentUnion_NONE;
 };
 
-template<> struct ComponentTraits<noi_engine::fbs::RenderLayerComponent> {
-  static const Component enum_value = Component_RenderLayerComponent;
+template<> struct ComponentUnionTraits<noi_engine::fbs::RenderLayerComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_RenderLayerComponent;
 };
 
-template<> struct ComponentTraits<noi_engine::fbs::MeshRendererComponent> {
-  static const Component enum_value = Component_MeshRendererComponent;
+template<> struct ComponentUnionTraits<noi_engine::fbs::MeshRendererComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_MeshRendererComponent;
 };
 
-template<> struct ComponentTraits<noi_engine::fbs::ScriptsComponent> {
-  static const Component enum_value = Component_ScriptsComponent;
+template<> struct ComponentUnionTraits<noi_engine::fbs::ScriptsComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_ScriptsComponent;
 };
 
-template<> struct ComponentTraits<noi_engine::fbs::Camera2DComponent> {
-  static const Component enum_value = Component_Camera2DComponent;
+template<> struct ComponentUnionTraits<noi_engine::fbs::Camera2DComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_Camera2DComponent;
 };
 
-template<> struct ComponentTraits<noi_engine::fbs::TransformComponent> {
-  static const Component enum_value = Component_TransformComponent;
+template<> struct ComponentUnionTraits<noi_engine::fbs::TransformComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_TransformComponent;
 };
 
 template <bool B = false>
-bool VerifyComponent(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, Component type);
+bool VerifyComponentUnion(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, ComponentUnion type);
 template <bool B = false>
-bool VerifyComponentVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
+bool VerifyComponentUnionVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
-struct PathNameValueFloat FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef PathNameValueFloatBuilder Builder;
+struct NameValueFloat FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef NameValueFloatBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
-    VT_PATH = 6
+    VT_VALUE = 6
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
   }
-  float path() const {
-    return GetField<float>(VT_PATH, 0.0f);
+  float value() const {
+    return GetField<float>(VT_VALUE, 0.0f);
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_NAME) &&
            verifier.VerifyString(name()) &&
-           VerifyField<float>(verifier, VT_PATH, 4) &&
+           VerifyField<float>(verifier, VT_VALUE, 4) &&
            verifier.EndTable();
   }
 };
 
-struct PathNameValueFloatBuilder {
-  typedef PathNameValueFloat Table;
+struct NameValueFloatBuilder {
+  typedef NameValueFloat Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
-    fbb_.AddOffset(PathNameValueFloat::VT_NAME, name);
+    fbb_.AddOffset(NameValueFloat::VT_NAME, name);
   }
-  void add_path(float path) {
-    fbb_.AddElement<float>(PathNameValueFloat::VT_PATH, path, 0.0f);
+  void add_value(float value) {
+    fbb_.AddElement<float>(NameValueFloat::VT_VALUE, value, 0.0f);
   }
-  explicit PathNameValueFloatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit NameValueFloatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<PathNameValueFloat> Finish() {
+  ::flatbuffers::Offset<NameValueFloat> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<PathNameValueFloat>(end);
+    auto o = ::flatbuffers::Offset<NameValueFloat>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<PathNameValueFloat> CreatePathNameValueFloat(
+inline ::flatbuffers::Offset<NameValueFloat> CreateNameValueFloat(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
-    float path = 0.0f) {
-  PathNameValueFloatBuilder builder_(_fbb);
-  builder_.add_path(path);
+    float value = 0.0f) {
+  NameValueFloatBuilder builder_(_fbb);
+  builder_.add_value(value);
   builder_.add_name(name);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<PathNameValueFloat> CreatePathNameValueFloatDirect(
+inline ::flatbuffers::Offset<NameValueFloat> CreateNameValueFloatDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
-    float path = 0.0f) {
+    float value = 0.0f) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
-  return noi_engine::fbs::CreatePathNameValueFloat(
+  return noi_engine::fbs::CreateNameValueFloat(
       _fbb,
       name__,
-      path);
+      value);
 }
 
-struct PathNameValue FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef PathNameValueBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_NAME = 4,
-    VT_PATH = 6
-  };
-  const ::flatbuffers::String *name() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
-  }
-  const ::flatbuffers::String *path() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_PATH);
-  }
-  template <bool B = false>
-  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_NAME) &&
-           verifier.VerifyString(name()) &&
-           VerifyOffset(verifier, VT_PATH) &&
-           verifier.VerifyString(path()) &&
-           verifier.EndTable();
-  }
-};
-
-struct PathNameValueBuilder {
-  typedef PathNameValue Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
-    fbb_.AddOffset(PathNameValue::VT_NAME, name);
-  }
-  void add_path(::flatbuffers::Offset<::flatbuffers::String> path) {
-    fbb_.AddOffset(PathNameValue::VT_PATH, path);
-  }
-  explicit PathNameValueBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<PathNameValue> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<PathNameValue>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<PathNameValue> CreatePathNameValue(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> path = 0) {
-  PathNameValueBuilder builder_(_fbb);
-  builder_.add_path(path);
-  builder_.add_name(name);
-  return builder_.Finish();
-}
-
-inline ::flatbuffers::Offset<PathNameValue> CreatePathNameValueDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    const char *name = nullptr,
-    const char *path = nullptr) {
-  auto name__ = name ? _fbb.CreateString(name) : 0;
-  auto path__ = path ? _fbb.CreateString(path) : 0;
-  return noi_engine::fbs::CreatePathNameValue(
-      _fbb,
-      name__,
-      path__);
-}
-
-struct Color FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef ColorBuilder Builder;
+struct NameValue FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef NameValueBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
     VT_VALUE = 6
@@ -276,47 +213,113 @@ struct Color FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
 };
 
-struct ColorBuilder {
-  typedef Color Table;
+struct NameValueBuilder {
+  typedef NameValue Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
-    fbb_.AddOffset(Color::VT_NAME, name);
+    fbb_.AddOffset(NameValue::VT_NAME, name);
   }
   void add_value(::flatbuffers::Offset<::flatbuffers::String> value) {
-    fbb_.AddOffset(Color::VT_VALUE, value);
+    fbb_.AddOffset(NameValue::VT_VALUE, value);
   }
-  explicit ColorBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit NameValueBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Color> Finish() {
+  ::flatbuffers::Offset<NameValue> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Color>(end);
+    auto o = ::flatbuffers::Offset<NameValue>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Color> CreateColor(
+inline ::flatbuffers::Offset<NameValue> CreateNameValue(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     ::flatbuffers::Offset<::flatbuffers::String> value = 0) {
-  ColorBuilder builder_(_fbb);
+  NameValueBuilder builder_(_fbb);
   builder_.add_value(value);
   builder_.add_name(name);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<Color> CreateColorDirect(
+inline ::flatbuffers::Offset<NameValue> CreateNameValueDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
     const char *value = nullptr) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   auto value__ = value ? _fbb.CreateString(value) : 0;
-  return noi_engine::fbs::CreateColor(
+  return noi_engine::fbs::CreateNameValue(
       _fbb,
       name__,
       value__);
+}
+
+struct NamePath FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef NamePathBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4,
+    VT_PATH = 6
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  const ::flatbuffers::String *path() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PATH);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           VerifyOffset(verifier, VT_PATH) &&
+           verifier.VerifyString(path()) &&
+           verifier.EndTable();
+  }
+};
+
+struct NamePathBuilder {
+  typedef NamePath Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(NamePath::VT_NAME, name);
+  }
+  void add_path(::flatbuffers::Offset<::flatbuffers::String> path) {
+    fbb_.AddOffset(NamePath::VT_PATH, path);
+  }
+  explicit NamePathBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<NamePath> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<NamePath>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<NamePath> CreateNamePath(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> path = 0) {
+  NamePathBuilder builder_(_fbb);
+  builder_.add_path(path);
+  builder_.add_name(name);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<NamePath> CreateNamePathDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr,
+    const char *path = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  auto path__ = path ? _fbb.CreateString(path) : 0;
+  return noi_engine::fbs::CreateNamePath(
+      _fbb,
+      name__,
+      path__);
 }
 
 struct RenderLayerComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -652,6 +655,119 @@ inline ::flatbuffers::Offset<TransformComponent> CreateTransformComponentDirect(
       rotation__);
 }
 
+struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ComponentBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_PROPERTIES_TYPE = 6,
+    VT_PROPERTIES = 8
+  };
+  const ::flatbuffers::String *type() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_TYPE);
+  }
+  noi_engine::fbs::ComponentUnion properties_type() const {
+    return static_cast<noi_engine::fbs::ComponentUnion>(GetField<uint8_t>(VT_PROPERTIES_TYPE, 0));
+  }
+  const void *properties() const {
+    return GetPointer<const void *>(VT_PROPERTIES);
+  }
+  template<typename T> const T *properties_as() const;
+  const noi_engine::fbs::RenderLayerComponent *properties_as_RenderLayerComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_RenderLayerComponent ? static_cast<const noi_engine::fbs::RenderLayerComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::MeshRendererComponent *properties_as_MeshRendererComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_MeshRendererComponent ? static_cast<const noi_engine::fbs::MeshRendererComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::ScriptsComponent *properties_as_ScriptsComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_ScriptsComponent ? static_cast<const noi_engine::fbs::ScriptsComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::Camera2DComponent *properties_as_Camera2DComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_Camera2DComponent ? static_cast<const noi_engine::fbs::Camera2DComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::TransformComponent *properties_as_TransformComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_TransformComponent ? static_cast<const noi_engine::fbs::TransformComponent *>(properties()) : nullptr;
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_TYPE) &&
+           verifier.VerifyString(type()) &&
+           VerifyField<uint8_t>(verifier, VT_PROPERTIES_TYPE, 1) &&
+           VerifyOffset(verifier, VT_PROPERTIES) &&
+           VerifyComponentUnion(verifier, properties(), properties_type()) &&
+           verifier.EndTable();
+  }
+};
+
+template<> inline const noi_engine::fbs::RenderLayerComponent *Component::properties_as<noi_engine::fbs::RenderLayerComponent>() const {
+  return properties_as_RenderLayerComponent();
+}
+
+template<> inline const noi_engine::fbs::MeshRendererComponent *Component::properties_as<noi_engine::fbs::MeshRendererComponent>() const {
+  return properties_as_MeshRendererComponent();
+}
+
+template<> inline const noi_engine::fbs::ScriptsComponent *Component::properties_as<noi_engine::fbs::ScriptsComponent>() const {
+  return properties_as_ScriptsComponent();
+}
+
+template<> inline const noi_engine::fbs::Camera2DComponent *Component::properties_as<noi_engine::fbs::Camera2DComponent>() const {
+  return properties_as_Camera2DComponent();
+}
+
+template<> inline const noi_engine::fbs::TransformComponent *Component::properties_as<noi_engine::fbs::TransformComponent>() const {
+  return properties_as_TransformComponent();
+}
+
+struct ComponentBuilder {
+  typedef Component Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(::flatbuffers::Offset<::flatbuffers::String> type) {
+    fbb_.AddOffset(Component::VT_TYPE, type);
+  }
+  void add_properties_type(noi_engine::fbs::ComponentUnion properties_type) {
+    fbb_.AddElement<uint8_t>(Component::VT_PROPERTIES_TYPE, static_cast<uint8_t>(properties_type), 0);
+  }
+  void add_properties(::flatbuffers::Offset<void> properties) {
+    fbb_.AddOffset(Component::VT_PROPERTIES, properties);
+  }
+  explicit ComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Component> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Component>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Component> CreateComponent(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> type = 0,
+    noi_engine::fbs::ComponentUnion properties_type = noi_engine::fbs::ComponentUnion_NONE,
+    ::flatbuffers::Offset<void> properties = 0) {
+  ComponentBuilder builder_(_fbb);
+  builder_.add_properties(properties);
+  builder_.add_type(type);
+  builder_.add_properties_type(properties_type);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Component> CreateComponentDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *type = nullptr,
+    noi_engine::fbs::ComponentUnion properties_type = noi_engine::fbs::ComponentUnion_NONE,
+    ::flatbuffers::Offset<void> properties = 0) {
+  auto type__ = type ? _fbb.CreateString(type) : 0;
+  return noi_engine::fbs::CreateComponent(
+      _fbb,
+      type__,
+      properties_type,
+      properties);
+}
+
 struct Material FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef MaterialBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -667,14 +783,14 @@ struct Material FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *shader() const {
     return GetPointer<const ::flatbuffers::String *>(VT_SHADER);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Color>> *colors() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Color>> *>(VT_COLORS);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *colors() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *>(VT_COLORS);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *textures() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *>(VT_TEXTURES);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *textures() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *>(VT_TEXTURES);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>> *parameters() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>> *>(VT_PARAMETERS);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *parameters() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *>(VT_PARAMETERS);
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
@@ -706,13 +822,13 @@ struct MaterialBuilder {
   void add_shader(::flatbuffers::Offset<::flatbuffers::String> shader) {
     fbb_.AddOffset(Material::VT_SHADER, shader);
   }
-  void add_colors(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Color>>> colors) {
+  void add_colors(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> colors) {
     fbb_.AddOffset(Material::VT_COLORS, colors);
   }
-  void add_textures(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> textures) {
+  void add_textures(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> textures) {
     fbb_.AddOffset(Material::VT_TEXTURES, textures);
   }
-  void add_parameters(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>>> parameters) {
+  void add_parameters(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>> parameters) {
     fbb_.AddOffset(Material::VT_PARAMETERS, parameters);
   }
   explicit MaterialBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -730,9 +846,9 @@ inline ::flatbuffers::Offset<Material> CreateMaterial(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     ::flatbuffers::Offset<::flatbuffers::String> shader = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Color>>> colors = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> textures = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>>> parameters = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> colors = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> textures = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>> parameters = 0) {
   MaterialBuilder builder_(_fbb);
   builder_.add_parameters(parameters);
   builder_.add_textures(textures);
@@ -746,14 +862,14 @@ inline ::flatbuffers::Offset<Material> CreateMaterialDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
     const char *shader = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::Color>> *colors = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *textures = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>> *parameters = nullptr) {
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *colors = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *textures = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *parameters = nullptr) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   auto shader__ = shader ? _fbb.CreateString(shader) : 0;
-  auto colors__ = colors ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::Color>>(*colors) : 0;
-  auto textures__ = textures ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>(*textures) : 0;
-  auto parameters__ = parameters ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::PathNameValueFloat>>(*parameters) : 0;
+  auto colors__ = colors ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>(*colors) : 0;
+  auto textures__ = textures ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>(*textures) : 0;
+  auto parameters__ = parameters ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>(*parameters) : 0;
   return noi_engine::fbs::CreateMaterial(
       _fbb,
       name__,
@@ -775,14 +891,14 @@ struct Resources FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<::flatbuffers::String>> *scripts() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<::flatbuffers::String>> *>(VT_SCRIPTS);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *meshes() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *>(VT_MESHES);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *meshes() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *>(VT_MESHES);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *shaders() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *>(VT_SHADERS);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *shaders() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *>(VT_SHADERS);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *textures() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *>(VT_TEXTURES);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *textures() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *>(VT_TEXTURES);
   }
   const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Material>> *materials() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Material>> *>(VT_MATERIALS);
@@ -816,13 +932,13 @@ struct ResourcesBuilder {
   void add_scripts(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<::flatbuffers::String>>> scripts) {
     fbb_.AddOffset(Resources::VT_SCRIPTS, scripts);
   }
-  void add_meshes(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> meshes) {
+  void add_meshes(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> meshes) {
     fbb_.AddOffset(Resources::VT_MESHES, meshes);
   }
-  void add_shaders(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> shaders) {
+  void add_shaders(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> shaders) {
     fbb_.AddOffset(Resources::VT_SHADERS, shaders);
   }
-  void add_textures(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> textures) {
+  void add_textures(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> textures) {
     fbb_.AddOffset(Resources::VT_TEXTURES, textures);
   }
   void add_materials(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Material>>> materials) {
@@ -842,9 +958,9 @@ struct ResourcesBuilder {
 inline ::flatbuffers::Offset<Resources> CreateResources(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<::flatbuffers::String>>> scripts = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> meshes = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> shaders = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>> textures = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> meshes = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> shaders = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>> textures = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Material>>> materials = 0) {
   ResourcesBuilder builder_(_fbb);
   builder_.add_materials(materials);
@@ -858,14 +974,14 @@ inline ::flatbuffers::Offset<Resources> CreateResources(
 inline ::flatbuffers::Offset<Resources> CreateResourcesDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<::flatbuffers::Offset<::flatbuffers::String>> *scripts = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *meshes = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *shaders = nullptr,
-    const std::vector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>> *textures = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *meshes = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *shaders = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NamePath>> *textures = nullptr,
     const std::vector<::flatbuffers::Offset<noi_engine::fbs::Material>> *materials = nullptr) {
   auto scripts__ = scripts ? _fbb.CreateVector<::flatbuffers::Offset<::flatbuffers::String>>(*scripts) : 0;
-  auto meshes__ = meshes ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>(*meshes) : 0;
-  auto shaders__ = shaders ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>(*shaders) : 0;
-  auto textures__ = textures ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::PathNameValue>>(*textures) : 0;
+  auto meshes__ = meshes ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>(*meshes) : 0;
+  auto shaders__ = shaders ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>(*shaders) : 0;
+  auto textures__ = textures ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NamePath>>(*textures) : 0;
   auto materials__ = materials ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::Material>>(*materials) : 0;
   return noi_engine::fbs::CreateResources(
       _fbb,
@@ -880,28 +996,22 @@ struct Entity FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef EntityBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
-    VT_COMPONENTS_TYPE = 6,
-    VT_COMPONENTS = 8
+    VT_COMPONENTS = 6
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
   }
-  const ::flatbuffers::Vector<uint8_t> *components_type() const {
-    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_COMPONENTS_TYPE);
-  }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *components() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *>(VT_COMPONENTS);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Component>> *components() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Component>> *>(VT_COMPONENTS);
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_NAME) &&
            verifier.VerifyString(name()) &&
-           VerifyOffset(verifier, VT_COMPONENTS_TYPE) &&
-           verifier.VerifyVector(components_type()) &&
            VerifyOffset(verifier, VT_COMPONENTS) &&
            verifier.VerifyVector(components()) &&
-           VerifyComponentVector(verifier, components(), components_type()) &&
+           verifier.VerifyVectorOfTables(components()) &&
            verifier.EndTable();
   }
 };
@@ -913,10 +1023,7 @@ struct EntityBuilder {
   void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
     fbb_.AddOffset(Entity::VT_NAME, name);
   }
-  void add_components_type(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> components_type) {
-    fbb_.AddOffset(Entity::VT_COMPONENTS_TYPE, components_type);
-  }
-  void add_components(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<void>>> components) {
+  void add_components(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Component>>> components) {
     fbb_.AddOffset(Entity::VT_COMPONENTS, components);
   }
   explicit EntityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -933,11 +1040,9 @@ struct EntityBuilder {
 inline ::flatbuffers::Offset<Entity> CreateEntity(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> components_type = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<void>>> components = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::Component>>> components = 0) {
   EntityBuilder builder_(_fbb);
   builder_.add_components(components);
-  builder_.add_components_type(components_type);
   builder_.add_name(name);
   return builder_.Finish();
 }
@@ -945,15 +1050,12 @@ inline ::flatbuffers::Offset<Entity> CreateEntity(
 inline ::flatbuffers::Offset<Entity> CreateEntityDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
-    const std::vector<uint8_t> *components_type = nullptr,
-    const std::vector<::flatbuffers::Offset<void>> *components = nullptr) {
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::Component>> *components = nullptr) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
-  auto components_type__ = components_type ? _fbb.CreateVector<uint8_t>(*components_type) : 0;
-  auto components__ = components ? _fbb.CreateVector<::flatbuffers::Offset<void>>(*components) : 0;
+  auto components__ = components ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::Component>>(*components) : 0;
   return noi_engine::fbs::CreateEntity(
       _fbb,
       name__,
-      components_type__,
       components__);
 }
 
@@ -1038,28 +1140,28 @@ inline ::flatbuffers::Offset<Scene> CreateSceneDirect(
 }
 
 template <bool B>
-inline bool VerifyComponent(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, Component type) {
+inline bool VerifyComponentUnion(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, ComponentUnion type) {
   switch (type) {
-    case Component_NONE: {
+    case ComponentUnion_NONE: {
       return true;
     }
-    case Component_RenderLayerComponent: {
+    case ComponentUnion_RenderLayerComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::RenderLayerComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case Component_MeshRendererComponent: {
+    case ComponentUnion_MeshRendererComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::MeshRendererComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case Component_ScriptsComponent: {
+    case ComponentUnion_ScriptsComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::ScriptsComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case Component_Camera2DComponent: {
+    case ComponentUnion_Camera2DComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::Camera2DComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case Component_TransformComponent: {
+    case ComponentUnion_TransformComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::TransformComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
@@ -1068,12 +1170,12 @@ inline bool VerifyComponent(::flatbuffers::VerifierTemplate<B> &verifier, const 
 }
 
 template <bool B>
-inline bool VerifyComponentVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
+inline bool VerifyComponentUnionVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
   if (!values || !types) return !values && !types;
   if (values->size() != types->size()) return false;
   for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
-    if (!VerifyComponent(
-        verifier,  values->Get(i), types->GetEnum<Component>(i))) {
+    if (!VerifyComponentUnion(
+        verifier,  values->Get(i), types->GetEnum<ComponentUnion>(i))) {
       return false;
     }
   }

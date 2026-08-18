@@ -11,7 +11,7 @@ namespace sandbox
     class game : public noi_engine::sdl_game
     {
     public:
-        game() : sdl_game("sandbox_game", 800, 600, std::make_unique<noi_engine::compiled_resource_loader>())
+        game() : sdl_game("sandbox_game", 800, 600)
         {
         }
     };

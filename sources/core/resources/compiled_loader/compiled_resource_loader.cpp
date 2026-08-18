@@ -5,6 +5,7 @@
 #include <noi_engine/core/resources/resource_loader.hpp>
 
 #include "loader/shader_loader.hpp"
+#include "loader/scene_loader.hpp"
 #include "loader/mesh_2d_loader.hpp"
 
 namespace noi_engine
@@ -27,7 +28,7 @@ namespace noi_engine
     auto compiled_resource_loader::load_scene(const std::string_view path,
                                               resources* resources) -> std::unique_ptr<scene>
     {
-        return this->m_source_loader.load_scene(path, resources);
+        return c::scene_loader::load(resources, this->load(path));
     }
 
     auto compiled_resource_loader::load_mesh_2d(const std::string_view path,

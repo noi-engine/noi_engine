@@ -1,19 +1,19 @@
 namespace noi_engine.fbs;
 
 // Utils
-table PathNameValueFloat{
+table NameValueFloat{
     name: string;
-    path: float;
+    value: float;
 }
 
-table PathNameValue{
-    name: string;
-    path: string;
-}
-
-table Color {
+table NameValue{
     name: string;
     value: string;
+}
+
+table NamePath{
+    name: string;
+    path: string;
 }
 
 // Components
@@ -45,7 +45,7 @@ table TransformComponent{
     rotation: [float];
 }
 
-union Component {
+union ComponentUnion {
     RenderLayerComponent,
     MeshRendererComponent,
     ScriptsComponent,
@@ -53,20 +53,25 @@ union Component {
     TransformComponent
 }
 
+table Component {
+    type: string;
+    properties: ComponentUnion;
+}
+
 // Resources
 table Material {
     name: string;
     shader: string;
-    colors: [Color];
-    textures: [PathNameValue];
-    parameters: [PathNameValueFloat];
+    colors: [NameValue];
+    textures: [NameValue];
+    parameters: [NameValueFloat];
 }
 
 table Resources{
     scripts: [string];
-    meshes: [PathNameValue];
-    shaders: [PathNameValue];
-    textures: [PathNameValue];
+    meshes: [NamePath];
+    shaders: [NamePath];
+    textures: [NamePath];
     materials: [Material];
 }
 
