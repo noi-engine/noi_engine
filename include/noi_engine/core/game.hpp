@@ -34,15 +34,14 @@ namespace noi_engine
 
     class game
     {
-        game_conf m_conf{};
-
-        input_state m_input{};
-
         std::unique_ptr<renderer> m_renderer{nullptr};
         std::unique_ptr<resources> m_resources{nullptr};
-        std::unique_ptr<scene_manager> m_scene_manager{nullptr};
 
     protected:
+        game_conf m_conf{};
+        input_state m_input{};
+        std::unique_ptr<scene_manager> m_scene_manager{nullptr};
+
         virtual auto render() -> void;
 
         virtual auto update(float dt) -> void;
@@ -65,7 +64,5 @@ namespace noi_engine
         [[nodiscard]] auto input() -> input_state&;
 
         static auto init(opengl_context_loader loader) -> void;
-
-        friend class sdl_game;
     };
 } // namespace noi_engine
