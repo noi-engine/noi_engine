@@ -27,6 +27,8 @@ namespace noi_engine
 
 		auto render() const -> void;
 
+		[[nodiscard]] auto current() const -> scene*;
+
 		auto on_resize(int width, int height) const -> void;
 	};
 }  // namespace noi_engine

@@ -5,7 +5,7 @@
     "meshes": [
       {
         "name": "quad_2d",
-        "path": "assets/basic/meshes/quad_2d.bin"
+        "path": "assets/basic/meshes/quad_2d.json"
       }
     ],
     "shaders": [

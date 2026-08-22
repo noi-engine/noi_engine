@@ -29,6 +29,7 @@ namespace noi_engine
 		std::string m_name{};
 		entity m_camera_entity{};
 
+
 	public:
 		explicit scene(std::string name);
 
@@ -41,6 +42,8 @@ namespace noi_engine
 
 		virtual auto on_resize(const scene_context& context, int width,
 							   int height) -> void;
+
+		[[nodiscard]] auto get_aspect_ratio() -> float;
 
 		[[nodiscard]] auto get_world() -> world&;
 

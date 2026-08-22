@@ -10,6 +10,37 @@
 #include "../glad/glad.h"
 #include "sdl_event_processor.hpp"
 
+static auto has_window_size_changes(const SDL_Event& event) -> bool
+{
+    return (event.type == SDL_WINDOWEVENT &&
+        (event.window.event == SDL_WINDOWEVENT_RESIZED ||
+            event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED));
+}
+
+static auto resize_gl_viewport_by_aspect_ratio(const float target_aspect_ratio,
+                                               const float window_width,
+                                               const float window_height) -> void
+{
+    int viewport_x = 0;
+    int viewport_y = 0;
+    int viewport_width = static_cast<int>(window_width);
+    int viewport_height = static_cast<int>(window_height);
+
+    const float window_aspect = window_width / window_height;
+    if (window_aspect > target_aspect_ratio)
+    {
+        viewport_width = static_cast<int>(window_height * target_aspect_ratio);
+        viewport_x = static_cast<int>((window_width - viewport_width) / 2.0f);
+    }
+    else if (window_aspect < target_aspect_ratio)
+    {
+        viewport_height = static_cast<int>(window_width / target_aspect_ratio);
+        viewport_y = static_cast<int>((window_height - viewport_height) / 2.0f);
+    }
+
+    glViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+}
+
 auto noi_engine::sdl_game::process_events() -> void
 {
     this->m_input.begin_frame();
@@ -23,12 +54,22 @@ auto noi_engine::sdl_game::process_events() -> void
             return;
         }
 
-        if (event.type == SDL_WINDOWEVENT &&
-            (event.window.event == SDL_WINDOWEVENT_RESIZED ||
-                event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED))
+        if (has_window_size_changes(event))
         {
-            glViewport(0, 0, event.window.data1, event.window.data2);
-            this->m_scene_manager->on_resize(event.window.data1, event.window.data2);
+            const auto current_scene = this->m_scene_manager->current();
+            const float window_width = static_cast<float>(event.window.data1);
+            const float window_height = static_cast<float>(event.window.data2);
+
+            if (!current_scene)
+            {
+                glViewport(0, 0, window_width, window_height);
+            }
+            else
+            {
+                const float target_aspect_ratio = current_scene->get_aspect_ratio();
+                resize_gl_viewport_by_aspect_ratio(target_aspect_ratio, window_width, window_height);
+            }
+            this->m_scene_manager->on_resize(window_width, window_height);
         }
 
         sdl_event_processor::process(event, this->m_input);

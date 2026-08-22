@@ -35,8 +35,17 @@ auto noi_engine::scene_manager::render() const -> void
 	}
 }
 
+auto noi_engine::scene_manager::current() const -> scene*
+{
+	if (this->m_current)
+	{
+		return this->m_current.get();
+	}
+	return nullptr;
+}
+
 auto noi_engine::scene_manager::on_resize(const int width,
-										  const int height) const -> void
+                                          const int height) const -> void
 {
 	if (this->m_current)
 	{
