@@ -2,6 +2,7 @@
 // Created by ricka on 2026-07-30.
 //
 
+#include <iostream>
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/resources/resources.hpp>
 

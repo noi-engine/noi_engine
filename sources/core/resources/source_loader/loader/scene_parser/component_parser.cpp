@@ -15,25 +15,46 @@
 
 namespace noi_engine
 {
-    auto camera_2d_parser::parse(const entity& entity, scene& target_scene,
-                                 [[maybe_unused]] resources* resources,
-                                 const nlohmann::json& properties) -> void
+    auto camera_2d_parser::parse(
+      const entity& entity,
+      scene& target_scene,
+      [[maybe_unused]] resources* resources,
+      const nlohmann::json& properties) -> void
     {
-        const float zoom = properties.value("zoom", 1.0f);
-        const float near_plane = properties.value("near_plane", -1.0f);
-        const float far_plane = properties.value("far_plane", 1.0f);
-        const float ortho_size = properties.value("orthographic_size", 5.0f);
-        const float aspect_ratio_width = properties.value("aspect_ratio_width", 16);
-        const float aspect_ratio_height = properties.value("aspect_ratio_width", 9);
+        camera_2d camera{};
+
+        if (properties.contains("zoom"))
+        {
+            camera.zoom = properties["zoom"].get<float>();
+        }
+
+        if (properties.contains("near_plane"))
+        {
+            camera.near_plane = properties["near_plane"].get<float>();
+        }
+
+        if (properties.contains("far_plane"))
+        {
+            camera.far_plane = properties["far_plane"].get<float>();
+        }
+
+        if (properties.contains("orthographic_size"))
+        {
+            camera.orthographic_size = properties["orthographic_size"].get<float>();
+        }
+
+        if (properties.contains("aspect_ratio_width") &&
+            properties.contains("aspect_ratio_height"))
+        {
+            const auto width = properties["aspect_ratio_width"].get<float>();
+            const auto height = properties["aspect_ratio_height"].get<float>();
+
+            camera.aspect_ratio = width / height;
+        }
 
         auto& world = target_scene.get_world();
-        world.add<camera_2d>(entity, camera_2d{
-                                 .zoom = zoom,
-                                 .near_plane = near_plane,
-                                 .far_plane = far_plane,
-                                 .aspect_ratio = aspect_ratio_width / aspect_ratio_height,
-                                 .orthographic_size = ortho_size,
-                             });
+
+        world.add<camera_2d>(entity, camera);
     }
 
     auto script_component_parser::parse(const entity& entity,

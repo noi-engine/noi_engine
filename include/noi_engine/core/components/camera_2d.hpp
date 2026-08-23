@@ -10,6 +10,6 @@ namespace noi_engine
         float near_plane{-1.0f};
         float far_plane{1.0f};
         float aspect_ratio{16.0f / 9.0f};
-        float orthographic_size{5.0f};
+        float orthographic_size{4.5f};
     };
 }

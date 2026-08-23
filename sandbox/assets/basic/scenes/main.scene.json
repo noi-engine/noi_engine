@@ -1,7 +1,12 @@
 {
   "name": "MainScene",
   "resources": {
-    "textures": [],
+    "textures": [
+      {
+        "name": "background_texture",
+        "path": "assets/basic/sprites/craftpix-771800-free-war-pixel-art-2d-game-backgrounds/PNG/War2/Bright/War2.png"
+      }
+    ],
     "meshes": [
       {
         "name": "quad_2d",
@@ -12,6 +17,10 @@
       {
         "name": "color_shader",
         "path": "assets/basic/shaders/color_shader/index.json"
+      },
+      {
+        "name": "texture_shader",
+        "path": "assets/basic/shaders/texture_shader/index.json"
       }
     ],
     "scripts": [
@@ -20,22 +29,18 @@
     ],
     "materials": [
       {
-        "name": "blue_mesh",
-        "shader": "color_shader",
-        "textures": [],
-        "parameters": [],
-        "colors": [
+        "name": "texture_material",
+        "shader": "texture_shader",
+        "textures": [
           {
-            "name": "u_color",
-            "value": "#0000ff"
+            "name": "u_texture",
+            "value": "background_texture"
           }
         ]
       },
       {
         "name": "green_mesh",
         "shader": "color_shader",
-        "textures": [],
-        "parameters": [],
         "colors": [
           {
             "name": "u_color",
@@ -82,8 +87,8 @@
           "type": "transform",
           "properties": {
             "scale": [
-              2,
-              2,
+              16,
+              9,
               1
             ]
           }
@@ -98,7 +103,7 @@
           "type": "mesh_renderer",
           "properties": {
             "mesh": "quad_2d",
-            "material": "blue_mesh"
+            "material": "texture_material"
           }
         }
       ]

@@ -32,6 +32,5 @@ auto noi_engine::world_matrix::from(const transform& transform) -> glm::mat4
         glm::vec3{0.0f, 0.0f, 1.0f}
     );
 
-    result = glm::scale(result, scale);
-    return result;
+    return glm::scale(result, scale);
 }

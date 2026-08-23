@@ -5,6 +5,7 @@
 #include "../glad/glad.h"
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 #include <noi_engine/core/model/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -27,14 +28,31 @@ namespace
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
             std::vector<char> log(length);
             glGetShaderInfoLog(id, length, nullptr, log.data());
+
+            glDeleteShader(id);
+
             throw std::runtime_error(std::string(log.begin(), log.end()));
         }
 
         return id;
     }
+
+    auto get_uniform_location(const uint32_t program, const std::string& name) -> int
+    {
+        const auto location = glGetUniformLocation(program, name.c_str());
+
+        if (location == -1)
+        {
+            std::cerr << "[Shader Warning] Uniform not found: " << name << '\n';
+        }
+
+        return location;
+    }
 }
 
-noi_engine::shader::shader(const std::string& vertex_src, const std::string& fragment_src)
+noi_engine::shader::shader(
+    const std::string& vertex_src,
+    const std::string& fragment_src)
 {
     const auto vertex = compile(GL_VERTEX_SHADER, vertex_src);
     const auto fragment = compile(GL_FRAGMENT_SHADER, fragment_src);
@@ -43,6 +61,26 @@ noi_engine::shader::shader(const std::string& vertex_src, const std::string& fra
     glAttachShader(m_program, vertex);
     glAttachShader(m_program, fragment);
     glLinkProgram(m_program);
+
+    int success;
+    glGetProgramiv(m_program, GL_LINK_STATUS, &success);
+
+    if (success == 0)
+    {
+        int length;
+        glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &length);
+
+        std::vector<char> log(length);
+        glGetProgramInfoLog(m_program, length, nullptr, log.data());
+
+        glDeleteShader(vertex);
+        glDeleteShader(fragment);
+        glDeleteProgram(m_program);
+
+        m_program = 0;
+
+        throw std::runtime_error(std::string(log.begin(), log.end()));
+    }
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -56,7 +94,8 @@ noi_engine::shader::~shader()
     }
 }
 
-noi_engine::shader::shader(shader&& other) noexcept : m_program(other.m_program)
+noi_engine::shader::shader(shader&& other) noexcept
+    : m_program(other.m_program)
 {
     other.m_program = 0;
 }
@@ -65,6 +104,11 @@ auto noi_engine::shader::operator=(shader&& other) noexcept -> shader&
 {
     if (this == &other)
         return *this;
+
+    if (m_program != 0)
+    {
+        glDeleteProgram(m_program);
+    }
 
     m_program = other.m_program;
     other.m_program = 0;
@@ -77,26 +121,50 @@ auto noi_engine::shader::use() const -> void
     glUseProgram(m_program);
 }
 
-auto noi_engine::shader::set_mat4(const std::string& name, const glm::mat4& value) const -> void
+auto noi_engine::shader::set_mat4(
+    const std::string& name,
+    const glm::mat4& value) const -> void
 {
-    const auto location = glGetUniformLocation(m_program, name.c_str());
+    const auto location = get_uniform_location(m_program, name);
+
+    if (location == -1)
+        return;
+
     glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
 }
 
-auto noi_engine::shader::set_int(const std::string& name, const int value) const -> void
+auto noi_engine::shader::set_int(
+    const std::string& name,
+    const int value) const -> void
 {
-    const auto location = glGetUniformLocation(m_program, name.c_str());
+    const auto location = get_uniform_location(m_program, name);
+
+    if (location == -1)
+        return;
+
     glUniform1i(location, value);
 }
 
-auto noi_engine::shader::set_float(const std::string& name, float value) const -> void
+auto noi_engine::shader::set_float(
+    const std::string& name,
+    float value) const -> void
 {
-    const auto location = glGetUniformLocation(m_program, name.data());
+    const auto location = get_uniform_location(m_program, name);
+
+    if (location == -1)
+        return;
+
     glUniform1f(location, value);
 }
 
-auto noi_engine::shader::set_vec4(const std::string& name, glm::vec4 value) const -> void
+auto noi_engine::shader::set_vec4(
+    const std::string& name,
+    glm::vec4 value) const -> void
 {
-    const auto location = glGetUniformLocation(m_program, name.data());
+    const auto location = get_uniform_location(m_program, name);
+
+    if (location == -1)
+        return;
+
     glUniform4fv(location, 1, glm::value_ptr(value));
 }
