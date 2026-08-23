@@ -3,6 +3,8 @@
 //
 
 #include <noi_engine/core/components/name_component.hpp>
+#include <noi_engine/core/components/dirty.hpp>
+#include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <ranges>
 
@@ -10,45 +12,57 @@
 
 auto noi_engine::world::create_entity() const -> entity
 {
-	return m_entity_manager->create();
+    return m_entity_manager->create();
 }
 
 auto noi_engine::world::signals() -> details::signal_bus&
 {
-	return this->m_signals;
+    return this->m_signals;
 }
 
 auto noi_engine::world::find_by_name(const std::string_view name) -> entity
 {
-	for (const auto entity : view<name_component>())
-	{
-		auto name_comp = get<name_component>(entity);
-		if (name_comp.name == name)
-		{
-			return entity;
-		}
-	}
-	return {};
+    for (const auto entity : view<name_component>())
+    {
+        auto name_comp = get<name_component>(entity);
+        if (name_comp.name == name)
+        {
+            return entity;
+        }
+    }
+    return {};
 }
 
 auto noi_engine::world::destroy_entity(const entity entity) -> void
 {
-	for (const auto& pool : m_pools | std::views::values)
-	{
-		pool->remove(entity);
-	}
+    for (const auto& pool : m_pools | std::views::values)
+    {
+        pool->remove(entity);
+    }
 
-	m_entity_manager->destroy(entity);
+    m_entity_manager->destroy(entity);
+}
+
+auto noi_engine::world::add_dirty_transform(const entity entity) -> void
+{
+    this->add<dirty<transform>>(entity, dirty<transform>{});
+}
+
+auto noi_engine::world::add_transform(const entity entity, const transform& value) -> void
+{
+    this->add<transform>(entity, value);
+    this->add<world_matrix>(entity, world_matrix{});
+    this->add<dirty<transform>>(entity, dirty<transform>{});
 }
 
 auto noi_engine::world::get_entities() const -> const std::vector<entity>&
 {
-	return this->m_entity_manager->get_entities();
+    return this->m_entity_manager->get_entities();
 }
 
 noi_engine::world::world()
 {
-	this->m_entity_manager = std::make_unique<entity_manager>();
+    this->m_entity_manager = std::make_unique<entity_manager>();
 }
 
 noi_engine::world::~world() = default;

@@ -53,3 +53,13 @@ auto noi_engine::script::on_destroy([[maybe_unused]] const entity self,
     -> void
 {
 }
+
+auto noi_engine::script::add_dirty_transform(const entity self, const script_context& ctx) -> void
+{
+    ctx.get_world().add_dirty_transform(self);
+}
+
+auto noi_engine::script::add_transform(const entity self, const script_context& ctx, const transform& value) -> void
+{
+    ctx.get_world().add_transform(self, value);
+}

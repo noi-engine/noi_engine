@@ -11,6 +11,8 @@
 #include <noi_engine/core/ecs/details/component_pool.hpp>
 #include <noi_engine/core/signals/details/signal_bus.hpp>
 
+#include "noi_engine/core/components/transform.hpp"
+
 #ifdef signals
 #  undef signals
 #endif
@@ -53,6 +55,9 @@ namespace noi_engine
         {
             pool<T>().add(e, std::move(comp));
         }
+
+        auto add_dirty_transform(entity entity) -> void;
+        auto add_transform(entity entity, const transform& value) -> void;
 
         template <typename T>
         [[nodiscard]] auto get(entity e) -> T&

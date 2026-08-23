@@ -22,6 +22,12 @@
 #define NOI_ENGINE_ADD(Value) \
     this->add(self, context, Value)
 
+#define NOI_ENGINE_ADD_DIRTY_TRANSFORM() \
+    this->add_dirty_transform(self, context)
+
+#define NOI_ENGINE_ADD_TRANSFORM(Value) \
+    this->add_transform(self, context)
+
 #define NOI_ENGINE_ADD_DIRTY(Value) \
     this->add(self, context, dirty<Value>{})
 
@@ -83,6 +89,10 @@ namespace noi_engine
 		{
 			return ctx.get_world().get<T>(self);
 		}
+
+		auto add_dirty_transform(entity self, const script_context& ctx) -> void;
+
+		auto add_transform(entity self, const script_context& ctx, const transform& value) -> void;
 
 		template<typename T>
 		auto add(const entity self, const script_context& ctx, T value) const

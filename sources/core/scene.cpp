@@ -48,9 +48,7 @@ auto noi_engine::scene::get_aspect_ratio() -> float
 noi_engine::scene::scene(std::string name) : m_name(std::move(name))
 {
     this->m_camera_entity = m_world.create_entity();
-    m_world.add(m_camera_entity, transform{});
-    m_world.add(m_camera_entity, world_matrix{});
-    m_world.add(m_camera_entity, dirty<transform>{});
+    m_world.add_transform(m_camera_entity, transform{});
 }
 
 auto noi_engine::scene::update(const scene_context& context, const float dt)

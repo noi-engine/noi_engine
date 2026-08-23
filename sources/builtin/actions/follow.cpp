@@ -35,5 +35,5 @@ auto noi_engine::actions::follow(const float dt, const script_context& context,
 		tr.position = tr.position + (desired - tr.position) * t;
 	}
 
-	world.add(params.follower, dirty<transform>{});
+	world.add_dirty_transform(params.follower);
 }

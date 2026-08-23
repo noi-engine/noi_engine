@@ -62,7 +62,7 @@ auto sandbox::basic::player_script::on_update(
         auto& tr = NOI_ENGINE_GET(transform);
         tr.position += direction * dt * 3.0f /* TODO: Speed */ ;
 
-        NOI_ENGINE_ADD_DIRTY(transform);
+        NOI_ENGINE_ADD_DIRTY_TRANSFORM();
         NOI_ENGINE_EMIT(moved_signal{self});
     }
 }
