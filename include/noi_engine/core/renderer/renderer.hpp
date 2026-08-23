@@ -7,6 +7,7 @@
 #include <glm/mat4x4.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
+#include <noi_engine/core/components/mesh_renderer_properties.hpp>
 
 namespace noi_engine
 {
@@ -26,6 +27,11 @@ namespace noi_engine
 
         static auto end_frame() -> void;
 
-        auto draw(const world_matrix& transform, const mesh_renderer& mesh_renderer, const glm::mat4& view, const glm::mat4& projection) -> void;
+        auto draw(
+            const world_matrix& transform,
+            const mesh_renderer& mesh_renderer,
+            const glm::mat4& view,
+            const glm::mat4& projection,
+            mesh_renderer_properties* properties) -> void;
     };
 }

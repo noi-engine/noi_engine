@@ -64,6 +64,15 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
 
     for (const auto e : sorted_renderables(world))
     {
-        renderer.draw(world.get<world_matrix>(e), world.get<mesh_renderer>(e), view, projection);
+        mesh_renderer_properties* properties = world.has<mesh_renderer_properties>(e)
+                                                   ? &world.get<mesh_renderer_properties>(e)
+                                                   : nullptr;
+
+        renderer.draw(
+            world.get<world_matrix>(e),
+            world.get<mesh_renderer>(e),
+            view,
+            projection,
+            properties);
     }
 }

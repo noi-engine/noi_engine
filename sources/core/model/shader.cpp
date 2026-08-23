@@ -145,9 +145,18 @@ auto noi_engine::shader::set_int(
     glUniform1i(location, value);
 }
 
-auto noi_engine::shader::set_float(
-    const std::string& name,
-    float value) const -> void
+auto noi_engine::shader::set_bool(const std::string& name, bool value) const -> void
+{
+    const auto location = get_uniform_location(m_program, name);
+    if (location == -1)
+    {
+        return;
+    }
+
+    glUniform1i(location, value ? 1 : 0);
+}
+
+auto noi_engine::shader::set_float(const std::string& name, const float value) const -> void
 {
     const auto location = get_uniform_location(m_program, name);
 

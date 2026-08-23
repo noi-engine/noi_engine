@@ -9,6 +9,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/entity.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/component_pool.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/mesh_renderer_properties.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/details/view_iterator.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/ecs/world.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/signals/signal.hpp
