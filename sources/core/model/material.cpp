@@ -26,11 +26,6 @@ namespace noi_engine
         m_parameters[std::move(name)] = value;
     }
 
-    auto material::set_parameter(std::string name, const bool value) -> void
-    {
-        m_float_parameters[std::move(name)] = value;
-    }
-
     auto material::set_texture(std::string name,
                                const resource_handle<texture> texture) -> void
     {
@@ -56,11 +51,6 @@ namespace noi_engine
             shader.set_vec4(name, color);
         }
 
-        for (const auto& [name, value] : m_float_parameters)
-        {
-            shader.set_bool(name, value);
-        }
-
         int slot = 0;
         for (const auto& [name, texture_handle] : m_textures)
         {
@@ -84,11 +74,6 @@ namespace noi_engine
         for (const auto& [name, color] : properties->m_colors)
         {
             shader.set_vec4(name, color);
-        }
-
-        for (const auto& [name, value] : properties->m_float_parameters)
-        {
-            shader.set_bool(name, value);
         }
 
         slot = 0;

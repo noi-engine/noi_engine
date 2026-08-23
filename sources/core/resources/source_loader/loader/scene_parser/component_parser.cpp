@@ -13,13 +13,15 @@
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/components/script_component.hpp>
 
+#include "color_parser.hpp"
+
 namespace noi_engine
 {
     auto camera_2d_parser::parse(
-      const entity& entity,
-      scene& target_scene,
-      [[maybe_unused]] resources* resources,
-      const nlohmann::json& properties) -> void
+        const entity& entity,
+        scene& target_scene,
+        [[maybe_unused]] resources* resources,
+        const nlohmann::json& properties) -> void
     {
         camera_2d camera{};
 
@@ -105,9 +107,7 @@ namespace noi_engine
         };
 
         auto& world = target_scene.get_world();
-        world.add(entity, value);
-        world.add(entity, world_matrix{});
-        world.add(entity, dirty<transform>{});
+        world.add_transform(entity, value);
     }
 
     auto render_layer_parser::parse(const entity& entity, scene& target_scene, [[maybe_unused]] resources* resources,
@@ -120,11 +120,47 @@ namespace noi_engine
     auto mesh_renderer_parser::parse(const entity& entity, scene& target_scene, resources* resources,
                                      const nlohmann::json& properties) -> void
     {
+        auto& world = target_scene.get_world();
         const auto mesh_value = resources->get_handle<mesh>(properties["mesh"].get<std::string>());
         const auto material_value = resources->get_handle<material>(properties["material"].get<std::string>());
-        target_scene.get_world().add<mesh_renderer>(entity, mesh_renderer{
-                                                        .m_mesh = mesh_value,
-                                                        .m_material = material_value,
-                                                    });
+        world.add<mesh_renderer>(entity, mesh_renderer{
+                                     .m_mesh = mesh_value,
+                                     .m_material = material_value,
+                                 });
+
+        if (properties.contains("material_properties"))
+        {
+            const auto material_properties = properties["material_properties"];
+            mesh_renderer_properties renderer_properties{};
+
+            if (material_properties.contains("parameters"))
+            {
+                for (const auto& parameter : material_properties["parameters"])
+                {
+                    renderer_properties.m_parameters[parameter["name"].get<std::string>()] =
+                        parameter["value"].get<float>();
+                }
+            }
+
+            if (material_properties.contains("colors"))
+            {
+                for (const auto& color : material_properties["colors"])
+                {
+                    renderer_properties.m_colors[color["name"].get<std::string>()] =
+                        color_parser::parse(color["value"].get<std::string>());
+                }
+            }
+
+            if (material_properties.contains("textures"))
+            {
+                for (const auto& texture : material_properties["textures"])
+                {
+                    renderer_properties.m_textures[texture["name"].get<std::string>()] =
+                        resources->get_handle<noi_engine::texture>(texture["value"].get<std::string>());
+                }
+            }
+
+            world.add(entity, renderer_properties);
+        }
     }
 }

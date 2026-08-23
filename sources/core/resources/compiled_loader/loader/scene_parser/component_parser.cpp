@@ -12,6 +12,7 @@
 #include <noi_engine/core/components/render_layer.hpp>
 #include <noi_engine/core/components/world_matrix.hpp>
 #include <noi_engine/core/components/script_component.hpp>
+#include "../../../source_loader/loader/scene_parser/color_parser.hpp"
 
 namespace noi_engine::c
 {
@@ -142,9 +143,7 @@ namespace noi_engine::c
         }
 
         auto& world = target_scene.get_world();
-        world.add(entity, value);
-        world.add(entity, world_matrix{});
-        world.add(entity, dirty<transform>{});
+        world.add_transform(entity, value);
     }
 
     auto render_layer_parser::parse(const entity& entity,
@@ -176,11 +175,12 @@ namespace noi_engine::c
                                      resources* resources,
                                      const void* properties) -> void
     {
+        auto& world = target_scene.get_world();
         mesh_renderer value{};
 
         if (!properties)
         {
-            target_scene.get_world().add(entity, value);
+            world.add(entity, value);
             return;
         }
 
@@ -201,6 +201,43 @@ namespace noi_engine::c
             );
         }
 
-        target_scene.get_world().add<mesh_renderer>(entity, value);
+        world.add<mesh_renderer>(entity, value);
+
+        if (const auto* material_properties =
+            mesh_renderer_properties->material_properties())
+        {
+            noi_engine::mesh_renderer_properties renderer_properties{};
+
+            if (const auto* parameters = material_properties->parameters())
+            {
+                for (const auto* parameter : *parameters)
+                {
+                    renderer_properties.m_parameters[parameter->name()->str()] =
+                        parameter->value();
+                }
+            }
+
+            if (const auto* colors = material_properties->colors())
+            {
+                for (const auto* color : *colors)
+                {
+                    renderer_properties.m_colors[color->name()->str()] =
+                        color_parser::parse(color->value()->str());
+                }
+            }
+
+            if (const auto* textures = material_properties->textures())
+            {
+                for (const auto* texture : *textures)
+                {
+                    renderer_properties.m_textures[texture->name()->str()] =
+                        resources->get_handle<noi_engine::texture>(
+                            texture->value()->str()
+                        );
+                }
+            }
+
+            world.add(entity, renderer_properties);
+        }
     }
 }

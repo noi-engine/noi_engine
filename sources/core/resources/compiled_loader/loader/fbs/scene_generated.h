@@ -25,6 +25,9 @@ struct NameValueBuilder;
 struct NamePath;
 struct NamePathBuilder;
 
+struct MaterialProperties;
+struct MaterialPropertiesBuilder;
+
 struct RenderLayerComponent;
 struct RenderLayerComponentBuilder;
 
@@ -322,6 +325,89 @@ inline ::flatbuffers::Offset<NamePath> CreateNamePathDirect(
       path__);
 }
 
+struct MaterialProperties FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MaterialPropertiesBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_COLORS = 4,
+    VT_TEXTURES = 6,
+    VT_PARAMETERS = 8
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *colors() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *>(VT_COLORS);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *textures() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *>(VT_TEXTURES);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *parameters() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *>(VT_PARAMETERS);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_COLORS) &&
+           verifier.VerifyVector(colors()) &&
+           verifier.VerifyVectorOfTables(colors()) &&
+           VerifyOffset(verifier, VT_TEXTURES) &&
+           verifier.VerifyVector(textures()) &&
+           verifier.VerifyVectorOfTables(textures()) &&
+           VerifyOffset(verifier, VT_PARAMETERS) &&
+           verifier.VerifyVector(parameters()) &&
+           verifier.VerifyVectorOfTables(parameters()) &&
+           verifier.EndTable();
+  }
+};
+
+struct MaterialPropertiesBuilder {
+  typedef MaterialProperties Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_colors(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> colors) {
+    fbb_.AddOffset(MaterialProperties::VT_COLORS, colors);
+  }
+  void add_textures(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> textures) {
+    fbb_.AddOffset(MaterialProperties::VT_TEXTURES, textures);
+  }
+  void add_parameters(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>> parameters) {
+    fbb_.AddOffset(MaterialProperties::VT_PARAMETERS, parameters);
+  }
+  explicit MaterialPropertiesBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<MaterialProperties> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<MaterialProperties>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<MaterialProperties> CreateMaterialProperties(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> colors = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>> textures = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>> parameters = 0) {
+  MaterialPropertiesBuilder builder_(_fbb);
+  builder_.add_parameters(parameters);
+  builder_.add_textures(textures);
+  builder_.add_colors(colors);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<MaterialProperties> CreateMaterialPropertiesDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *colors = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValue>> *textures = nullptr,
+    const std::vector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>> *parameters = nullptr) {
+  auto colors__ = colors ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>(*colors) : 0;
+  auto textures__ = textures ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValue>>(*textures) : 0;
+  auto parameters__ = parameters ? _fbb.CreateVector<::flatbuffers::Offset<noi_engine::fbs::NameValueFloat>>(*parameters) : 0;
+  return noi_engine::fbs::CreateMaterialProperties(
+      _fbb,
+      colors__,
+      textures__,
+      parameters__);
+}
+
 struct RenderLayerComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef RenderLayerComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -368,13 +454,17 @@ struct MeshRendererComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Ta
   typedef MeshRendererComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_MESH = 4,
-    VT_MATERIAL = 6
+    VT_MATERIAL = 6,
+    VT_MATERIAL_PROPERTIES = 8
   };
   const ::flatbuffers::String *mesh() const {
     return GetPointer<const ::flatbuffers::String *>(VT_MESH);
   }
   const ::flatbuffers::String *material() const {
     return GetPointer<const ::flatbuffers::String *>(VT_MATERIAL);
+  }
+  const noi_engine::fbs::MaterialProperties *material_properties() const {
+    return GetPointer<const noi_engine::fbs::MaterialProperties *>(VT_MATERIAL_PROPERTIES);
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
@@ -383,6 +473,8 @@ struct MeshRendererComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Ta
            verifier.VerifyString(mesh()) &&
            VerifyOffset(verifier, VT_MATERIAL) &&
            verifier.VerifyString(material()) &&
+           VerifyOffset(verifier, VT_MATERIAL_PROPERTIES) &&
+           verifier.VerifyTable(material_properties()) &&
            verifier.EndTable();
   }
 };
@@ -396,6 +488,9 @@ struct MeshRendererComponentBuilder {
   }
   void add_material(::flatbuffers::Offset<::flatbuffers::String> material) {
     fbb_.AddOffset(MeshRendererComponent::VT_MATERIAL, material);
+  }
+  void add_material_properties(::flatbuffers::Offset<noi_engine::fbs::MaterialProperties> material_properties) {
+    fbb_.AddOffset(MeshRendererComponent::VT_MATERIAL_PROPERTIES, material_properties);
   }
   explicit MeshRendererComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -411,8 +506,10 @@ struct MeshRendererComponentBuilder {
 inline ::flatbuffers::Offset<MeshRendererComponent> CreateMeshRendererComponent(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> mesh = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> material = 0) {
+    ::flatbuffers::Offset<::flatbuffers::String> material = 0,
+    ::flatbuffers::Offset<noi_engine::fbs::MaterialProperties> material_properties = 0) {
   MeshRendererComponentBuilder builder_(_fbb);
+  builder_.add_material_properties(material_properties);
   builder_.add_material(material);
   builder_.add_mesh(mesh);
   return builder_.Finish();
@@ -421,13 +518,15 @@ inline ::flatbuffers::Offset<MeshRendererComponent> CreateMeshRendererComponent(
 inline ::flatbuffers::Offset<MeshRendererComponent> CreateMeshRendererComponentDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *mesh = nullptr,
-    const char *material = nullptr) {
+    const char *material = nullptr,
+    ::flatbuffers::Offset<noi_engine::fbs::MaterialProperties> material_properties = 0) {
   auto mesh__ = mesh ? _fbb.CreateString(mesh) : 0;
   auto material__ = material ? _fbb.CreateString(material) : 0;
   return noi_engine::fbs::CreateMeshRendererComponent(
       _fbb,
       mesh__,
-      material__);
+      material__,
+      material_properties);
 }
 
 struct ScriptsComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {

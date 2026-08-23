@@ -16,6 +16,12 @@ table NamePath{
     path: string;
 }
 
+table MaterialProperties {
+    colors: [NameValue];
+    textures: [NameValue];
+    parameters: [NameValueFloat];
+}
+
 // Components
 table RenderLayerComponent{
     order: int;
@@ -24,6 +30,7 @@ table RenderLayerComponent{
 table MeshRendererComponent{
     mesh: string;
     material: string;
+    material_properties: MaterialProperties;
 }
 
 table ScriptsComponent{
