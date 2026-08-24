@@ -7,6 +7,7 @@
 #include "loader/shader_loader.hpp"
 #include "loader/scene_loader.hpp"
 #include "loader/mesh_2d_loader.hpp"
+#include "../source_loader/builtin_shaders.hpp"
 
 namespace noi_engine
 {
@@ -40,6 +41,10 @@ namespace noi_engine
     auto compiled_resource_loader::load_shader(const std::string_view path,
                                                [[maybe_unused]] resources* resources) -> std::unique_ptr<shader>
     {
+        if (auto builtin_shader = builtin_shaders::load(path))
+        {
+            return builtin_shader;
+        }
         return c::shader_loader::load(this, this->load(path));
     }
 

@@ -54,6 +54,7 @@ set(CORE_PRIVATE_HEADERS
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
         core/input/input_state_impl.hpp
+        core/resources/source_loader/builtin_shaders.hpp
         core/resources/compiled_loader/loader/fbs/shader_generated.h
         core/resources/compiled_loader/loader/fbs/mesh_2d_generated.h
         core/resources/compiled_loader/loader/fbs/scene_generated.h
@@ -89,6 +90,7 @@ set(CORE_SOURCES
         core/model/scripts.cpp
         core/model/material.cpp
         core/input/input_state.cpp
+        core/resources/resources.cpp
         core/components/world_matrix.cpp
         core/systems/render_system.cpp
         core/systems/orbit_camera_system.cpp
@@ -99,6 +101,7 @@ set(CORE_SOURCES
         core/signals/signal_bus.cpp
         core/systems/script_system.cpp
         core/input/input_state_impl.cpp
+        core/resources/source_loader/builtin_shaders.cpp
         core/resources/compiled_loader/loader/shader_loader.cpp
         core/resources/compiled_loader/loader/mesh_2d_loader.cpp
         core/resources/compiled_loader/loader/scene_loader.cpp

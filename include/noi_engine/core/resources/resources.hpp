@@ -34,10 +34,7 @@ namespace noi_engine
         resources(const resources&) = delete;
         auto operator=(const resources&) -> resources& = delete;
 
-        explicit resources(std::unique_ptr<resource_loader> resource_loader) : m_resource_loader(
-            std::move(resource_loader))
-        {
-        }
+        explicit resources(std::unique_ptr<resource_loader> resource_loader);
 
         template <typename T>
         auto bind(const std::string_view name, resource_handle<T> handle)
@@ -93,11 +90,6 @@ namespace noi_engine
 
         auto load_scene(std::string_view path) -> std::unique_ptr<scene>; //TODO: no idea if should be here or not
     };
-
-    inline auto resources::load_scene(const std::string_view path) -> std::unique_ptr<scene>
-    {
-        return m_resource_loader->load_scene(path, this);
-    }
 
     template <>
     inline auto resources::load_instance(std::unique_ptr<shader> resource)
