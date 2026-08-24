@@ -41,7 +41,6 @@ jobs:
         with:
           vcpkgGitCommitId: 'fd3dde77905b1b1890df3c8daa496d9b2fe44f7f'
 
-      # 1. Restauration avec pattern générique pour attraper vcpkg_installed peu importe sa sous-arborescence
       - name: Restore vcpkg cache
         id: restore-vcpkg
         uses: actions/cache/restore@v6
@@ -52,14 +51,12 @@ jobs:
           restore-keys: |
             vcpkg-${{ runner.os }}-${{ matrix.triplet }}-
 
-      # 2. Exécution CMake
       - name: Run CMake consuming CMakePreset.json
         uses: lukka/run-cmake@v10
         with:
           configurePreset: release
           buildPreset: release
 
-      # 3. Sauvegarde automatique après le build
       - name: Save vcpkg cache
         if: steps.restore-vcpkg.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
