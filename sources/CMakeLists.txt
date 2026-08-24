@@ -55,6 +55,8 @@ set(CORE_PRIVATE_HEADERS
         core/systems/script_system.hpp
         core/input/input_state_impl.hpp
         core/resources/source_loader/builtin_shaders.hpp
+        core/resources/source_loader/builtin_meshes.hpp
+        core/resources/source_loader/builtin_materials.hpp
         core/resources/compiled_loader/loader/fbs/shader_generated.h
         core/resources/compiled_loader/loader/fbs/mesh_2d_generated.h
         core/resources/compiled_loader/loader/fbs/scene_generated.h
@@ -101,6 +103,8 @@ set(CORE_SOURCES
         core/signals/signal_bus.cpp
         core/systems/script_system.cpp
         core/input/input_state_impl.cpp
+        core/resources/source_loader/builtin_meshes.cpp
+        core/resources/source_loader/builtin_materials.cpp
         core/resources/source_loader/builtin_shaders.cpp
         core/resources/compiled_loader/loader/shader_loader.cpp
         core/resources/compiled_loader/loader/mesh_2d_loader.cpp

@@ -92,6 +92,7 @@ noi_engine::sdl_game::sdl_game(const std::string& title, int width, int height,
 
     this->m_conf = game_conf;
     this->m_window = std::make_unique<sdl_window>(title, width, height);
+    this->game::init_builtin_resources();
 }
 
 auto noi_engine::sdl_game::run([[maybe_unused]] int argc, [[maybe_unused]] char** argv) -> int

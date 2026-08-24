@@ -1,4 +1,0 @@
-{
-  "vertex": "assets/basic/shaders/texture_shader/vertex.glsl",
-  "fragment": "assets/basic/shaders/texture_shader/fragment.glsl"
-}

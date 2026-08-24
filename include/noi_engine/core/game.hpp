@@ -46,6 +46,8 @@ namespace noi_engine
 
         virtual auto update(float dt) -> void;
 
+        virtual auto init_builtin_resources() -> void;
+
     public:
         explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
 

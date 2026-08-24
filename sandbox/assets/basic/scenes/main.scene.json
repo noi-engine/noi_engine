@@ -3,51 +3,13 @@
   "resources": {
     "textures": [
       {
-        "name": "background_texture",
+        "name": "background_image",
         "path": "assets/basic/sprites/craftpix-771800-free-war-pixel-art-2d-game-backgrounds/PNG/War2/Bright/War2.png"
-      }
-    ],
-    "meshes": [
-      {
-        "name": "quad_2d",
-        "path": "assets/basic/meshes/quad_2d.json"
-      }
-    ],
-    "shaders": [
-      {
-        "name": "color_shader",
-        "path": "assets/basic/shaders/color_shader/index.json"
-      },
-      {
-        "name": "texture_shader",
-        "path": "assets/basic/shaders/texture_shader/index.json"
       }
     ],
     "scripts": [
       "player_script",
       "camera_script"
-    ],
-    "materials": [
-      {
-        "name": "texture_material",
-        "shader": "texture_shader",
-        "textures": [
-          {
-            "name": "u_texture",
-            "value": "background_texture"
-          }
-        ]
-      },
-      {
-        "name": "green_mesh",
-        "shader": "color_shader",
-        "colors": [
-          {
-            "name": "u_color",
-            "value": "#00ff00ff"
-          }
-        ]
-      }
     ]
   },
   "entities": [
@@ -66,8 +28,16 @@
         {
           "type": "mesh_renderer",
           "properties": {
-            "mesh": "quad_2d",
-            "material": "green_mesh"
+            "mesh": "meshes:quad_2d",
+            "material": "materials:color",
+            "material_properties": {
+              "colors": [
+                {
+                  "name": "u_color",
+                  "value": "#0000ffff"
+                }
+              ]
+            }
           }
         },
         {
@@ -102,8 +72,16 @@
         {
           "type": "mesh_renderer",
           "properties": {
-            "mesh": "quad_2d",
-            "material": "texture_material"
+            "mesh": "meshes:quad_2d",
+            "material": "materials:texture",
+            "material_properties": {
+              "textures": [
+                {
+                  "name": "u_texture",
+                  "value": "background_image"
+                }
+              ]
+            }
           }
         }
       ]

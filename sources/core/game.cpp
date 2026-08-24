@@ -5,6 +5,11 @@
 #include <noi_engine/core/game.hpp>
 
 #include "glad/glad.h"
+#include <noi_engine/core/model/shader.hpp>
+
+#include "resources/source_loader/builtin_shaders.hpp"
+#include "resources/source_loader/builtin_meshes.hpp"
+#include "resources/source_loader/builtin_materials.hpp"
 
 auto noi_engine::game::render() -> void
 {
@@ -14,6 +19,15 @@ auto noi_engine::game::render() -> void
 auto noi_engine::game::update(const float dt) -> void
 {
     this->m_scene_manager->update(dt);
+}
+
+auto noi_engine::game::init_builtin_resources() -> void
+{
+    m_resources->load_from_path<mesh>(NOI_ENGINE_BUILTIN_QUAD_2D_MESH_NAME, NOI_ENGINE_BUILTIN_QUAD_2D_MESH_NAME);
+    m_resources->load_from_path<shader>(NOI_ENGINE_BUILTIN_COLOR_SHADER_NAME, NOI_ENGINE_BUILTIN_COLOR_SHADER_NAME);
+    m_resources->load_from_path<shader>(NOI_ENGINE_BUILTIN_TEXTURE_SHADER_NAME, NOI_ENGINE_BUILTIN_TEXTURE_SHADER_NAME);
+    m_resources->load_from_path<material>(NOI_ENGINE_BUILTIN_COLOR_MATERIAL_NAME, NOI_ENGINE_BUILTIN_COLOR_MATERIAL_NAME);
+    m_resources->load_from_path<material>(NOI_ENGINE_BUILTIN_TEXTURE_MATERIAL_NAME, NOI_ENGINE_BUILTIN_TEXTURE_MATERIAL_NAME);
 }
 
 noi_engine::game::game(std::unique_ptr<resource_loader> resource_loader,

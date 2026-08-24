@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <noi_engine/builtin/actions/basic.hpp>
-#include <noi_engine/core/components/dirty.hpp>
 #include <noi_engine/core/components/transform.hpp>
 
 auto noi_engine::actions::follow(const float dt, const script_context& context,

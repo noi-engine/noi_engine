@@ -153,4 +153,11 @@ namespace noi_engine
         auto instance = this->m_script_factories[std::string(path)]();
         return this->load_instance(std::move(instance));
     }
+
+    template <>
+    inline auto resources::load_from_path(const std::string_view path) -> resource_handle<material>
+    {
+        auto instance = this->m_resource_loader->load_material(path, this);
+        return this->load_instance(std::move(instance));
+    }
 } // namespace noi_engine

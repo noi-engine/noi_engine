@@ -8,6 +8,8 @@
 #include "loader/scene_loader.hpp"
 #include "loader/mesh_2d_loader.hpp"
 #include "../source_loader/builtin_shaders.hpp"
+#include "../source_loader/builtin_meshes.hpp"
+#include "../source_loader/builtin_materials.hpp"
 
 namespace noi_engine
 {
@@ -33,15 +35,19 @@ namespace noi_engine
     }
 
     auto compiled_resource_loader::load_mesh_2d(const std::string_view path,
-                                                [[maybe_unused]] resources* resources) -> std::unique_ptr<mesh>
+                                                resources* resources) -> std::unique_ptr<mesh>
     {
+        if (auto builtin_shader = builtin_meshes::load(path, resources))
+        {
+            return builtin_shader;
+        }
         return c::mesh_2d_loader::load(this->load(path));
     }
 
     auto compiled_resource_loader::load_shader(const std::string_view path,
-                                               [[maybe_unused]] resources* resources) -> std::unique_ptr<shader>
+                                               resources* resources) -> std::unique_ptr<shader>
     {
-        if (auto builtin_shader = builtin_shaders::load(path))
+        if (auto builtin_shader = builtin_shaders::load(path, resources))
         {
             return builtin_shader;
         }
@@ -52,5 +58,11 @@ namespace noi_engine
                                                 resources* resources) -> std::unique_ptr<texture>
     {
         return this->m_source_loader.load_texture(path, resources);
+    }
+
+    auto compiled_resource_loader::load_material(std::string_view path,
+                                                 resources* resources) -> std::unique_ptr<material>
+    {
+        return builtin_materials::load(path, resources);
     }
 }
