@@ -8,6 +8,7 @@
     "glm",
     "stb",
     "tinyobjloader",
-    "nlohmann-json"
+    "nlohmann-json",
+    "flatbuffers"
   ]
 }

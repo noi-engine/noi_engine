@@ -174,6 +174,8 @@ target_include_directories(
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE tinyobjloader::tinyobjloader)
 
+target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE flatbuffers::flatbuffers)
+
 set_target_properties(
         ${NOI_ENGINE_LIB_NAME}
         PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

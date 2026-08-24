@@ -1,54 +1,72 @@
 name: ci
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 jobs:
   test:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest ] # TODO: ubuntu(timeout) & windows(failed)
+        include:
+          #- os: ubuntu-latest
+          #  triplet: x64-linux
+          #- os: windows-latest
+          #  triplet: x64-windows-static-md
+          - os: macos-latest
+            triplet: arm64-osx
+
     runs-on: ${{ matrix.os }}
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+      VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.triplet }}
+      VCPKG_BINARY_SOURCES: 'clear'
+
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v6
 
       - name: Install latest CMake and Ninja
         uses: lukka/get-cmake@latest
 
-      - name: Fix Linux-specific issues # TODO: check if still necessary
+      - name: Fix Linux-specific issues
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libltdl-dev build-essential pkg-config ninja-build autoconf autoconf-archive automake libtool
+        run: sudo apt-get update && sudo apt install ninja-build build-essential autoconf autoconf-archive automake libtool libltdl-dev
 
-      - name: Setup anew (or from cache) vcpkg (and does not build any package)
+      - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          configurePreset: release
-          buildPreset: release
+          vcpkgGitCommitId: 'fd3dde77905b1b1890df3c8daa496d9b2fe44f7f'
 
-      - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+      # 1. Restauration avec pattern générique pour attraper vcpkg_installed peu importe sa sous-arborescence
+      - name: Restore vcpkg cache
+        id: restore-vcpkg
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            **/vcpkg_installed
+          key: vcpkg-${{ runner.os }}-${{ matrix.triplet }}-${{ hashFiles('**/vcpkg.json') }}
+          restore-keys: |
+            vcpkg-${{ runner.os }}-${{ matrix.triplet }}-
+
+      # 2. Exécution CMake
+      - name: Run CMake consuming CMakePreset.json
         uses: lukka/run-cmake@v10
         with:
           configurePreset: release
           buildPreset: release
 
+      # 3. Sauvegarde automatique après le build
+      - name: Save vcpkg cache
+        if: steps.restore-vcpkg.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            **/vcpkg_installed
+          key: ${{ steps.restore-vcpkg.outputs.cache-primary-key }}
+
       - name: Run tests
-        run: |
-          ctest --preset release --output-on-failure
-  #style:
-    #runs-on: ubuntu-latest
-    #name: check style
-    #strategy:
-      #matrix:
-        #path:
-          #- 'sources'
-          #- 'include'
-          #TODO: - 'tests'
-    #steps:
-      #- uses: actions/checkout@v7
-      #- name: Run clang-format
-        #uses: jidicula/clang-format-action@v4.18.0
-        #with:
-          #clang-format-version: '22'
-          #check-path: ${{ matrix.path }}
+        run: ctest --preset release --output-on-failure

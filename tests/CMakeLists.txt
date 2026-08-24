@@ -25,4 +25,4 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-gtest_discover_tests(noi_engine_tests)
+gtest_discover_tests(noi_engine_tests DISCOVERY_MODE PRE_TEST)

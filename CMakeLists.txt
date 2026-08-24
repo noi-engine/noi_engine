@@ -11,6 +11,7 @@ find_package(glm CONFIG REQUIRED)
 find_package(Stb REQUIRED)
 find_package(tinyobjloader CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(flatbuffers CONFIG REQUIRED)
 
 set(NOI_ENGINE_LIB_NAME noi_engine)
 set(NOI_ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
