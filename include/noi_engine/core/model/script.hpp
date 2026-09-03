@@ -6,6 +6,10 @@
 
 #include <utility>
 #include <functional>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <unordered_map>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/input/input_state.hpp>
@@ -37,6 +41,10 @@
 #define NOI_ENGINE_FIND_ENTITY(Name) \
     context.get_world().find_by_name(Name)
 
+#define NOI_ENGINE_SCRIPT(Type) \
+    private: \
+    static inline const noi_engine::details::script_registrar<Type> s_script_registrar{ #Type }
+
 namespace noi_engine
 {
 	//TODO: bad api
@@ -45,6 +53,45 @@ namespace noi_engine
 	class renderer;
 	class input_state;
 	class resources;
+	class script;
+
+	namespace details
+	{
+		class script_registry
+		{
+			std::unordered_map<std::string, std::function<std::unique_ptr<script>()>> m_factories{};
+
+		public:
+			static auto instance() -> script_registry&
+			{
+				static script_registry registry;
+				return registry;
+			}
+
+			auto add(const std::string_view name, std::function<std::unique_ptr<script>()> factory) -> void
+			{
+				m_factories[std::string(name)] = std::move(factory);
+			}
+
+			[[nodiscard]] auto factories() const
+				-> const std::unordered_map<std::string, std::function<std::unique_ptr<script>()>>&
+			{
+				return m_factories;
+			}
+		};
+
+		template<typename T>
+		struct script_registrar
+		{
+			explicit script_registrar(const std::string_view name)
+			{
+				script_registry::instance().add(name, []() -> std::unique_ptr<script>
+				{
+					return std::make_unique<T>();
+				});
+			}
+		};
+	} // namespace details
 
 	struct script_context
 	{

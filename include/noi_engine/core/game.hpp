@@ -34,6 +34,8 @@ namespace noi_engine
 
     class game
     {
+        static inline game* s_instance{nullptr};
+
         std::unique_ptr<renderer> m_renderer{nullptr};
         std::unique_ptr<resources> m_resources{nullptr};
 
@@ -51,7 +53,9 @@ namespace noi_engine
     public:
         explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
 
-        virtual ~game() = default;
+        virtual ~game();
+
+        [[nodiscard]] static auto instance() -> game*;
 
         auto set_scene(std::unique_ptr<scene> scene) const -> void;
 

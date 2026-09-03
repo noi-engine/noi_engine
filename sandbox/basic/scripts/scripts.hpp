@@ -11,6 +11,8 @@ namespace sandbox::basic
 {
 	class player_script : public noi_engine::script
 	{
+		NOI_ENGINE_SCRIPT(player_script);
+
 	public:
 		auto on_update(noi_engine::entity self,
 					   const noi_engine::script_context &context, float dt)
@@ -21,6 +23,8 @@ namespace sandbox::basic
 
 	class camera_script : public noi_engine::script
 	{
+		NOI_ENGINE_SCRIPT(camera_script);
+
 	public:
 		auto on_create(noi_engine::entity self,
 					   const noi_engine::script_context &context)

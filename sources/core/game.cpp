@@ -44,6 +44,21 @@ noi_engine::game::game(std::unique_ptr<resource_loader> resource_loader,
         .resources = this->m_resources.get()
     };
     this->m_scene_manager = std::make_unique<scene_manager>(std::move(context));
+
+    s_instance = this;
+}
+
+noi_engine::game::~game()
+{
+    if (s_instance == this)
+    {
+        s_instance = nullptr;
+    }
+}
+
+auto noi_engine::game::instance() -> game*
+{
+    return s_instance;
 }
 
 auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) const -> void

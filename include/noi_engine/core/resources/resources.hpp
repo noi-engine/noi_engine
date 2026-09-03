@@ -18,9 +18,6 @@ namespace noi_engine
     class resources
     {
         std::unique_ptr<resource_loader> m_resource_loader{};
-        std::unordered_map<std::string,
-                           std::function<std::unique_ptr<script>()>>
-        m_script_factories{};
 
     public:
         details::resource_manager<mesh> meshes{};
@@ -49,10 +46,10 @@ namespace noi_engine
             requires std::derived_from<T, script>
         void register_script(const std::string_view name)
         {
-            this->m_script_factories[std::string(name)] = []()
+            details::script_registry::instance().add(name, []()
             {
                 return std::make_unique<T>();
-            };
+            });
         }
 
         template <typename T>
@@ -142,7 +139,7 @@ namespace noi_engine
     template <>
     inline auto resources::load_from_path(const std::string_view path) -> resource_handle<script>
     {
-        auto instance = this->m_script_factories[std::string(path)]();
+        auto instance = details::script_registry::instance().factories().at(std::string(path))();
         return this->load_instance(std::move(instance));
     }
 
