@@ -26,6 +26,8 @@ namespace noi_engine::details
         [[nodiscard]] auto get(const resource_handle<T>& handle) -> T*;
 
         [[nodiscard]] auto get(const resource_handle<T>& handle) const -> const T*;
+
+        auto clear() -> void;
     };
 
     template<typename T>
@@ -77,5 +79,13 @@ namespace noi_engine::details
     auto resource_manager<T>::get(const resource_handle<T>& handle) const -> const T*
     {
         return m_resources[handle.m_id].get();
+    }
+
+    template<typename T>
+    auto resource_manager<T>::clear() -> void
+    {
+        m_resources.clear();
+        m_generations.clear();
+        m_free.clear();
     }
 }

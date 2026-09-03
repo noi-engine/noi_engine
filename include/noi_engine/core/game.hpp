@@ -46,7 +46,7 @@ namespace noi_engine
 
         virtual auto update(float dt) -> void;
 
-        virtual auto init_builtin_resources() -> void;
+        virtual auto init_builtin_resources() const -> void;
 
     public:
         explicit game(std::unique_ptr<resource_loader> resource_loader, const game_conf& conf = {});
@@ -54,6 +54,8 @@ namespace noi_engine
         virtual ~game() = default;
 
         auto set_scene(std::unique_ptr<scene> scene) const -> void;
+
+        auto set_scene(std::string_view path) const -> void;
 
         template <typename T>
         auto register_script(const std::string_view name) const -> void

@@ -13,3 +13,13 @@ auto noi_engine::resources::load_scene(const std::string_view path) -> std::uniq
 {
     return m_resource_loader->load_scene(path, this);
 }
+
+auto noi_engine::resources::clear() -> void
+{
+    meshes.clear();
+    scripts.clear();
+    shaders.clear();
+    textures.clear();
+    materials.clear();
+    m_registry.clear();
+}

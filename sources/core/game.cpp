@@ -21,7 +21,7 @@ auto noi_engine::game::update(const float dt) -> void
     this->m_scene_manager->update(dt);
 }
 
-auto noi_engine::game::init_builtin_resources() -> void
+auto noi_engine::game::init_builtin_resources() const -> void
 {
     m_resources->load_from_path<mesh>(NOI_ENGINE_BUILTIN_QUAD_2D_MESH_NAME, NOI_ENGINE_BUILTIN_QUAD_2D_MESH_NAME);
     m_resources->load_from_path<shader>(NOI_ENGINE_BUILTIN_COLOR_SHADER_NAME, NOI_ENGINE_BUILTIN_COLOR_SHADER_NAME);
@@ -49,6 +49,13 @@ noi_engine::game::game(std::unique_ptr<resource_loader> resource_loader,
 auto noi_engine::game::set_scene(std::unique_ptr<scene> scene) const -> void
 {
     this->m_scene_manager->set_scene(std::move(scene));
+}
+
+auto noi_engine::game::set_scene(const std::string_view path) const -> void
+{
+    this->m_resources->clear();
+    this->init_builtin_resources();
+    this->set_scene(this->m_resources->load_scene(path));
 }
 
 auto noi_engine::game::resources() const noexcept -> noi_engine::resources&
