@@ -28,11 +28,11 @@ jobs:
             triplet: arm64-osx
             artifact_os: macos
             artifact_arch: arm64
-          - os: windows-latest
-            build_type: release
-            triplet: x64-windows-static-md
-            artifact_os: windows
-            artifact_arch: x64
+           #- os: windows-latest
+            #build_type: release
+            #triplet: x64-windows-static-md
+            #artifact_os: windows
+            #artifact_arch: x64
 
     runs-on: ${{ matrix.os }}
 
