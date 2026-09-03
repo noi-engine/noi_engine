@@ -4,8 +4,6 @@
 
 #include "configure.hpp"
 
-#include <memory>
-
 #include "scripts/scripts.hpp"
 
 using namespace sandbox::basic;

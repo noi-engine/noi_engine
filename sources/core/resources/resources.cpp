@@ -21,5 +21,4 @@ auto noi_engine::resources::clear() -> void
     shaders.clear();
     textures.clear();
     materials.clear();
-    m_registry.clear();
 }

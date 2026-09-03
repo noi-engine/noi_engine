@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <any>
 #include <memory>
 #include <noi_engine/core/model/material.hpp>
 #include <noi_engine/core/model/mesh.hpp>
@@ -19,7 +18,6 @@ namespace noi_engine
     class resources
     {
         std::unique_ptr<resource_loader> m_resource_loader{};
-        std::unordered_map<std::string, std::any> m_registry{};
         std::unordered_map<std::string,
                            std::function<std::unique_ptr<script>()>>
         m_script_factories{};
@@ -37,23 +35,15 @@ namespace noi_engine
         explicit resources(std::unique_ptr<resource_loader> resource_loader);
 
         template <typename T>
-        auto bind(const std::string_view name, resource_handle<T> handle)
-            -> void
-        {
-            m_registry[std::string(name)] = handle;
-        }
+        auto bind(std::string_view name, resource_handle<T> handle) -> void;
 
         template <typename T>
         [[nodiscard]] auto get_handle(std::string_view name) const
-            -> resource_handle<T>
-        {
-            const auto it = m_registry.find(std::string(name));
-            if (it != m_registry.end())
-            {
-                return std::any_cast<resource_handle<T>>(it->second);
-            }
-            return {};
-        }
+            -> resource_handle<T>;
+
+        template <typename T>
+        [[nodiscard]] auto get_label(resource_handle<T> handle) const
+            -> std::string_view;
 
         template <typename T>
             requires std::derived_from<T, script>
@@ -161,5 +151,95 @@ namespace noi_engine
     {
         auto instance = this->m_resource_loader->load_material(path, this);
         return this->load_instance(std::move(instance));
+    }
+
+    template <>
+    inline auto resources::bind(const std::string_view name, const resource_handle<mesh> handle) -> void
+    {
+        meshes.set_label(handle, name);
+    }
+
+    template <>
+    inline auto resources::bind(const std::string_view name, const resource_handle<script> handle) -> void
+    {
+        scripts.set_label(handle, name);
+    }
+
+    template <>
+    inline auto resources::bind(const std::string_view name, const resource_handle<shader> handle) -> void
+    {
+        shaders.set_label(handle, name);
+    }
+
+    template <>
+    inline auto resources::bind(const std::string_view name, const resource_handle<texture> handle) -> void
+    {
+        textures.set_label(handle, name);
+    }
+
+    template <>
+    inline auto resources::bind(const std::string_view name, const resource_handle<material> handle) -> void
+    {
+        materials.set_label(handle, name);
+    }
+
+    template <>
+    inline auto resources::get_handle(const std::string_view name) const -> resource_handle<mesh>
+    {
+        return meshes.get_handle(name);
+    }
+
+    template <>
+    inline auto resources::get_handle(const std::string_view name) const -> resource_handle<script>
+    {
+        return scripts.get_handle(name);
+    }
+
+    template <>
+    inline auto resources::get_handle(const std::string_view name) const -> resource_handle<shader>
+    {
+        return shaders.get_handle(name);
+    }
+
+    template <>
+    inline auto resources::get_handle(const std::string_view name) const -> resource_handle<texture>
+    {
+        return textures.get_handle(name);
+    }
+
+    template <>
+    inline auto resources::get_handle(const std::string_view name) const -> resource_handle<material>
+    {
+        return materials.get_handle(name);
+    }
+
+    template <>
+    inline auto resources::get_label(const resource_handle<mesh> handle) const -> std::string_view
+    {
+        return meshes.get_label(handle);
+    }
+
+    template <>
+    inline auto resources::get_label(const resource_handle<script> handle) const -> std::string_view
+    {
+        return scripts.get_label(handle);
+    }
+
+    template <>
+    inline auto resources::get_label(const resource_handle<shader> handle) const -> std::string_view
+    {
+        return shaders.get_label(handle);
+    }
+
+    template <>
+    inline auto resources::get_label(const resource_handle<texture> handle) const -> std::string_view
+    {
+        return textures.get_label(handle);
+    }
+
+    template <>
+    inline auto resources::get_label(const resource_handle<material> handle) const -> std::string_view
+    {
+        return materials.get_label(handle);
     }
 } // namespace noi_engine
