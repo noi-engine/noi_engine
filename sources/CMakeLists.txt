@@ -38,6 +38,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/timer.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene_manager.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/system.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/game.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/basic.hpp
 )
@@ -50,9 +51,11 @@ set(CORE_PRIVATE_HEADERS
         core/systems/orbit_camera_system.hpp
         core/systems/camera_2d_system.hpp
         core/systems/camera_3d_system.hpp
+        core/systems/camera_system.hpp
         core/ecs/entity_manager.hpp
         core/systems/transform_system.hpp
         core/systems/script_system.hpp
+        core/systems/script_runner_system.hpp
         core/input/input_state_impl.hpp
         core/resources/source_loader/builtin_shaders.hpp
         core/resources/source_loader/builtin_meshes.hpp
@@ -98,10 +101,12 @@ set(CORE_SOURCES
         core/systems/orbit_camera_system.cpp
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
+        core/systems/camera_system.cpp
         core/systems/transform_system.cpp
         core/stb_image/stb_image.cpp
         core/signals/signal_bus.cpp
         core/systems/script_system.cpp
+        core/systems/script_runner_system.cpp
         core/input/input_state_impl.cpp
         core/resources/source_loader/builtin_meshes.cpp
         core/resources/source_loader/builtin_materials.cpp

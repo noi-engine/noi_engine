@@ -10,6 +10,7 @@
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/render_layer.hpp>
+#include <noi_engine/core/scene.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <stdexcept>
 #include <algorithm>
@@ -75,4 +76,9 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
             projection,
             properties);
     }
+}
+
+auto noi_engine::render_system::on_render(const script_context& ctx) -> void
+{
+    render(ctx.get_world(), *ctx.renderer, ctx.scene->get_camera_entity());
 }

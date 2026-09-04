@@ -10,10 +10,9 @@
 #include <noi_engine/core/model/script.hpp>
 #include <utility>
 
-#include "systems/camera_2d_system.hpp"
-#include "systems/camera_3d_system.hpp"
+#include "systems/camera_system.hpp"
 #include "systems/render_system.hpp"
-#include "systems/script_system.hpp"
+#include "systems/script_runner_system.hpp"
 #include "systems/transform_system.hpp"
 
 static auto to_base_script_context(const noi_engine::scene_context& context,
@@ -49,38 +48,69 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
 {
     this->m_camera_entity = m_world.create_entity();
     m_world.add_transform(m_camera_entity, transform{});
+
+    add_system<script_runner_system>();
+    add_system<transform_system>();
+    add_system<camera_system>();
+    add_system<render_system>();
 }
 
 auto noi_engine::scene::update(const scene_context& context, const float dt)
     -> void
 {
-    const auto script_context = to_base_script_context(context, this);
+    const auto ctx = to_base_script_context(context, this);
 
-    script_system::before_update(script_context, dt);
+    for (const auto& slot : m_systems)
+        slot.instance->on_before_update(ctx, dt);
 
-    script_system::update(script_context, dt);
+    for (const auto& slot : m_systems)
+        slot.instance->on_update(ctx, dt);
 
-    transform_system::sync(m_world);
-    if (m_world.has<camera_2d>(m_camera_entity))
-    {
-        camera_2d_system::update(m_world, m_camera_entity, *context.input);
-    }
-    else if (m_world.has<camera_3d>(m_camera_entity))
-    {
-        camera_3d_system::update(m_world, m_camera_entity, *context.input);
-    }
+    for (const auto& slot : m_systems)
+        slot.instance->on_after_update(ctx, dt);
 
-    script_system::after_update(script_context, dt);
     m_world.signals().dispatch(dt);
 }
 
 auto noi_engine::scene::render(const scene_context& context) -> void
 {
-    const auto script_context = to_base_script_context(context, this);
-    script_system::before_render(script_context);
-    render_system::render(this->m_world, *context.renderer,
-                          this->m_camera_entity);
-    script_system::after_render(script_context);
+    const auto ctx = to_base_script_context(context, this);
+
+    for (const auto& slot : m_systems)
+        slot.instance->on_before_render(ctx);
+
+    for (const auto& slot : m_systems)
+        slot.instance->on_render(ctx);
+
+    for (const auto& slot : m_systems)
+        slot.instance->on_after_render(ctx);
+}
+
+auto noi_engine::scene::find_system_slot(const std::type_index type)
+    -> std::vector<system_slot>::iterator
+{
+    return std::find_if(m_systems.begin(), m_systems.end(),
+                        [type](const system_slot& slot) { return slot.type == type; });
+}
+
+auto noi_engine::scene::resort_systems() -> void
+{
+    std::stable_sort(m_systems.begin(), m_systems.end(),
+                     [](const system_slot& lhs, const system_slot& rhs)
+                     {
+                         return lhs.priority < rhs.priority;
+                     });
+}
+
+auto noi_engine::scene::systems() const -> std::vector<std::pair<std::string_view, int>>
+{
+    std::vector<std::pair<std::string_view, int>> result;
+    result.reserve(m_systems.size());
+
+    for (const auto& slot : m_systems)
+        result.emplace_back(slot.instance->name(), slot.priority);
+
+    return result;
 }
 
 auto noi_engine::scene::on_enter([[maybe_unused]] const scene_context& context)

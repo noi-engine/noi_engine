@@ -15,3 +15,8 @@ auto noi_engine::transform_system::sync(world& world) -> void
         world.remove<dirty<transform>>(e);
     }
 }
+
+auto noi_engine::transform_system::on_update(const script_context& ctx, [[maybe_unused]] float dt) -> void
+{
+    sync(ctx.get_world());
+}
