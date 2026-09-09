@@ -88,6 +88,8 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: noi-engine/noi_engine_editor
+          ref: main
+          token: ${{ secrets.NOI_ENGINE_EDITOR_PAT }}
           path: noi_engine_editor_bridge_src
           sparse-checkout: |
             bridge
