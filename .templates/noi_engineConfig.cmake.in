@@ -1,9 +1,0 @@
-@PACKAGE_INIT@
-
-include(CMakeFindDependencyMacro)
-find_dependency(SDL2 CONFIG)
-find_dependency(glm CONFIG)
-
-include("${CMAKE_CURRENT_LIST_DIR}/noi_engineTargets.cmake")
-
-check_required_components(noi_engine)

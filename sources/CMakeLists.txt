@@ -147,8 +147,6 @@ else ()
     add_library(${NOI_ENGINE_LIB_NAME} STATIC ${NOI_ENGINE_SOURCES})
 endif ()
 
-add_library(${NOI_ENGINE_LIB_NAME}::${NOI_ENGINE_LIB_NAME} ALIAS ${NOI_ENGINE_LIB_NAME})
-
 target_sources(${NOI_ENGINE_LIB_NAME}
         PUBLIC
         FILE_SET public_headers
