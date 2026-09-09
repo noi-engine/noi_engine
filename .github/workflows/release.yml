@@ -81,17 +81,34 @@ jobs:
             **/vcpkg_installed
           key: ${{ steps.restore-vcpkg.outputs.cache-primary-key }}
 
+      - name: Install noi_engine (${{ matrix.build_type }})
+        run: cmake --install build/${{ matrix.build_type }} --prefix dist/noi_engine
+
+      - name: Checkout noi_engine_editor preview bridge sources
+        uses: actions/checkout@v6
+        with:
+          repository: noi-engine/noi_engine_editor
+          path: noi_engine_editor_bridge_src
+          sparse-checkout: |
+            bridge
+
+      - name: Configure and build the editor preview bridge (${{ matrix.build_type }})
+        run: |
+          cmake -S noi_engine_editor_bridge_src/bridge -B build_bridge -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+            -Dnoi_engine_DIR="${{ github.workspace }}/dist/noi_engine/libs/cmake/noi_engine"
+          cmake --build build_bridge
+
+      - name: Bundle the editor preview bridge into the release
+        run: |
+          mkdir -p dist/noi_engine/editor_bridge
+          cp build_bridge/libs/libnoi_engine_editor_bridge.so dist/noi_engine/editor_bridge/
+
       - name: Package library and headers
         shell: bash
         run: |
           set -euo pipefail
-          
-          DIST_DIR="dist/noi_engine"
-          mkdir -p "${DIST_DIR}/libs" "${DIST_DIR}/include"
-
-          cp -r build/${{ matrix.build_type }}/libs/* "${DIST_DIR}/libs/"
-          
-          cp -r include/noi_engine "${DIST_DIR}/include/"
 
           ZIP_NAME="noi_engine-${{ matrix.artifact_os }}-${{ matrix.artifact_arch }}-${{ matrix.build_type }}.zip"
 

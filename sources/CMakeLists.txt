@@ -147,6 +147,8 @@ else ()
     add_library(${NOI_ENGINE_LIB_NAME} STATIC ${NOI_ENGINE_SOURCES})
 endif ()
 
+add_library(${NOI_ENGINE_LIB_NAME}::${NOI_ENGINE_LIB_NAME} ALIAS ${NOI_ENGINE_LIB_NAME})
+
 target_sources(${NOI_ENGINE_LIB_NAME}
         PUBLIC
         FILE_SET public_headers
@@ -175,7 +177,9 @@ target_link_libraries(${NOI_ENGINE_LIB_NAME} PUBLIC glm::glm)
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 target_include_directories(
-        ${NOI_ENGINE_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>)
+        ${NOI_ENGINE_LIB_NAME} PUBLIC
+        $<BUILD_INTERFACE:${NOI_ENGINE_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 target_link_libraries(${NOI_ENGINE_LIB_NAME} PRIVATE tinyobjloader::tinyobjloader)
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.23)
 
 project(noi_engine VERSION 0.0.102 DESCRIPTION "noi_engine" LANGUAGES CXX)
 
@@ -22,6 +22,8 @@ endif ()
 
 set(NOI_ENGINE_VERSION ${PROJECT_VERSION})
 set(NOI_ENGINE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(NOI_ENGINE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(NOI_ENGINE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
 if (NOI_ENGINE_IS_MAIN_PROJECT)
     configure_file(
@@ -33,7 +35,48 @@ if (CMAKE_BUILD_SHARED_LIBS)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif ()
 
+if (NOI_ENGINE_IS_MAIN_PROJECT)
+    set(CMAKE_INSTALL_LIBDIR libs)
+    include(GNUInstallDirs)
+endif ()
+
 add_subdirectory(sources)
+
+if (NOI_ENGINE_IS_MAIN_PROJECT)
+    include(CMakePackageConfigHelpers)
+
+    install(TARGETS ${NOI_ENGINE_LIB_NAME}
+            EXPORT ${NOI_ENGINE_LIB_NAME}Targets
+            FILE_SET public_headers DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+
+    install(EXPORT ${NOI_ENGINE_LIB_NAME}Targets
+            FILE ${NOI_ENGINE_LIB_NAME}Targets.cmake
+            NAMESPACE ${NOI_ENGINE_LIB_NAME}::
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${NOI_ENGINE_LIB_NAME}
+    )
+
+    configure_package_config_file(
+            ${NOI_ENGINE_SOURCE_DIR}/.templates/${NOI_ENGINE_LIB_NAME}Config.cmake.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${NOI_ENGINE_LIB_NAME}Config.cmake
+            INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${NOI_ENGINE_LIB_NAME}
+    )
+
+    write_basic_package_version_file(
+            ${CMAKE_CURRENT_BINARY_DIR}/${NOI_ENGINE_LIB_NAME}ConfigVersion.cmake
+            VERSION ${NOI_ENGINE_VERSION}
+            COMPATIBILITY SameMajorVersion
+    )
+
+    install(FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/${NOI_ENGINE_LIB_NAME}Config.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/${NOI_ENGINE_LIB_NAME}ConfigVersion.cmake
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${NOI_ENGINE_LIB_NAME}
+    )
+endif ()
 
 option(NOI_ENGINE_BUILD_TESTS "Build Noi Engine tests" OFF)
 if (NOI_ENGINE_BUILD_TESTS)
