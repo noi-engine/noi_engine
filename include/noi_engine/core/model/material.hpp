@@ -25,6 +25,9 @@ namespace noi_engine
         auto set_texture(std::string name, resource_handle<texture> texture) -> void;
 
         [[nodiscard]] auto shader() const noexcept -> resource_handle<shader>;
+        [[nodiscard]] auto get_parameters() const noexcept -> const std::unordered_map<std::string, float>&;
+        [[nodiscard]] auto get_colors() const noexcept -> const std::unordered_map<std::string, glm::vec4>&;
+        [[nodiscard]] auto get_textures() const noexcept -> const std::unordered_map<std::string, resource_handle<texture>>&;
 
         auto apply(const noi_engine::shader &shader, resources &resources, mesh_renderer_properties* properties) -> void;
 

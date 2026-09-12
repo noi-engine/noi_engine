@@ -38,6 +38,21 @@ namespace noi_engine
         return m_shader;
     }
 
+    auto material::get_parameters() const noexcept -> const std::unordered_map<std::string, float>&
+    {
+        return m_parameters;
+    }
+
+    auto material::get_colors() const noexcept -> const std::unordered_map<std::string, glm::vec4>&
+    {
+        return m_colors;
+    }
+
+    auto material::get_textures() const noexcept -> const std::unordered_map<std::string, resource_handle<texture>>&
+    {
+        return m_textures;
+    }
+
     auto material::apply(const noi_engine::shader& shader,
                          resources& resources, mesh_renderer_properties* properties) -> void
     {
