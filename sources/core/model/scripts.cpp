@@ -5,6 +5,12 @@
 #include <noi_engine/core/scene.hpp>
 #include <noi_engine/core/model/script.hpp>
 
+auto noi_engine::details::script_registry::instance() -> script_registry&
+{
+    static script_registry registry;
+    return registry;
+}
+
 auto noi_engine::script_context::get_world() const -> world&
 {
     return this->scene->get_world();

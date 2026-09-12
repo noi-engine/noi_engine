@@ -62,11 +62,12 @@ namespace noi_engine
 			std::unordered_map<std::string, std::function<std::unique_ptr<script>()>> m_factories{};
 
 		public:
-			static auto instance() -> script_registry&
-			{
-				static script_registry registry;
-				return registry;
-			}
+			// Defined out-of-line in scripts.cpp (compiled only into libnoi_engine).
+			// Keeping this inline here would let each shared object that includes this
+			// header (e.g. a project's own scripts library, dlopen'd independently)
+			// inline its own copy of the function-local static, producing a separate,
+			// disconnected registry instead of the single process-wide one.
+			static auto instance() -> script_registry&;
 
 			auto add(const std::string_view name, std::function<std::unique_ptr<script>()> factory) -> void
 			{
