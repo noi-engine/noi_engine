@@ -27,6 +27,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_3d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/name_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_loader.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
