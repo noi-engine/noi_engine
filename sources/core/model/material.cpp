@@ -69,7 +69,15 @@ namespace noi_engine
         int slot = 0;
         for (const auto& [name, texture_handle] : m_textures)
         {
+            // texture_handle can be unassigned/stale (e.g. a texture property added but never
+            // pointed at a real texture yet, or the referenced texture was destroyed) -
+            // resource_manager::get() returns nullptr for an invalid handle; skip rather than
+            // binding a texture unit to nothing.
             const auto texture = resources.textures.get(texture_handle);
+            if (!texture)
+            {
+                continue;
+            }
             texture->bind(slot);
 
             shader.set_int(name, slot);
@@ -95,6 +103,10 @@ namespace noi_engine
         for (const auto& [name, texture_handle] : properties->m_textures)
         {
             const auto texture = resources.textures.get(texture_handle);
+            if (!texture)
+            {
+                continue;
+            }
             texture->bind(slot);
 
             shader.set_int(name, slot);

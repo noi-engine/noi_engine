@@ -33,7 +33,18 @@ auto noi_engine::renderer::draw(const world_matrix& model,
 {
     const auto mesh = m_resources.meshes.get(mesh_renderer.m_mesh);
     const auto material = m_resources.materials.get(mesh_renderer.m_material);
+    if (!mesh || !material)
+    {
+        // Unassigned/stale mesh or material handle (e.g. edited to an empty/unknown resource
+        // reference) - nothing sane to draw, skip this entity rather than dereferencing null.
+        return;
+    }
+
     const auto shader = m_resources.shaders.get(material->shader());
+    if (!shader)
+    {
+        return;
+    }
 
     shader->use();
 

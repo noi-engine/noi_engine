@@ -92,12 +92,18 @@ namespace noi_engine::details
     template<typename T>
     auto resource_manager<T>::get(const resource_handle<T>& handle) -> T*
     {
+        if (!valid(handle))
+            return nullptr;
+
         return m_resources[handle.m_id].get();
     }
 
     template<typename T>
     auto resource_manager<T>::get(const resource_handle<T>& handle) const -> const T*
     {
+        if (!valid(handle))
+            return nullptr;
+
         return m_resources[handle.m_id].get();
     }
 
