@@ -32,6 +32,21 @@ namespace noi_engine
         m_textures[std::move(name)] = texture;
     }
 
+    auto material::remove_parameter(const std::string& name) -> void
+    {
+        m_parameters.erase(name);
+    }
+
+    auto material::remove_color(const std::string& name) -> void
+    {
+        m_colors.erase(name);
+    }
+
+    auto material::remove_texture(const std::string& name) -> void
+    {
+        m_textures.erase(name);
+    }
+
     auto material::shader() const noexcept
         -> resource_handle<noi_engine::shader>
     {

@@ -24,6 +24,10 @@ namespace noi_engine
         auto set_parameter(std::string name, float value) -> void;
         auto set_texture(std::string name, resource_handle<texture> texture) -> void;
 
+        auto remove_parameter(const std::string& name) -> void;
+        auto remove_color(const std::string& name) -> void;
+        auto remove_texture(const std::string& name) -> void;
+
         [[nodiscard]] auto shader() const noexcept -> resource_handle<shader>;
         [[nodiscard]] auto get_parameters() const noexcept -> const std::unordered_map<std::string, float>&;
         [[nodiscard]] auto get_colors() const noexcept -> const std::unordered_map<std::string, glm::vec4>&;
