@@ -4,10 +4,10 @@
 
 #include <gtest/gtest.h>
 
+#include <noi_engine/builtin/physics/physics_system.hpp>
 #include <noi_engine/core/scene.hpp>
 
 #include <core/systems/camera_system.hpp>
-#include <core/systems/physics_system.hpp>
 #include <core/systems/render_system.hpp>
 #include <core/systems/script_runner_system.hpp>
 #include <core/systems/transform_system.hpp>

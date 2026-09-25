@@ -4,11 +4,11 @@
 
 #include <gtest/gtest.h>
 
-#include <core/systems/physics_system.hpp>
+#include <noi_engine/builtin/physics/physics_system.hpp>
+#include <noi_engine/builtin/physics/gravity.hpp>
+#include <noi_engine/builtin/physics/box_collider.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/transform.hpp>
-#include <noi_engine/core/components/gravity.hpp>
-#include <noi_engine/core/components/box_collider.hpp>
 #include <noi_engine/core/components/dirty.hpp>
 
 using namespace noi_engine;

@@ -23,8 +23,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/sdl/sdl_window.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/render_layer.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/dirty.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/gravity.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/box_collider.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_2d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_3d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
@@ -43,7 +41,13 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/scene_manager.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/system.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/game.hpp
+)
+
+set(BUILTIN_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/basic.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/gravity.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/box_collider.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/physics_system.hpp
 )
 
 set(CORE_PRIVATE_HEADERS
@@ -57,7 +61,6 @@ set(CORE_PRIVATE_HEADERS
         core/systems/camera_system.hpp
         core/ecs/entity_manager.hpp
         core/systems/transform_system.hpp
-        core/systems/physics_system.hpp
         core/systems/script_system.hpp
         core/systems/script_runner_system.hpp
         core/input/input_state_impl.hpp
@@ -107,7 +110,6 @@ set(CORE_SOURCES
         core/systems/camera_3d_system.cpp
         core/systems/camera_system.cpp
         core/systems/transform_system.cpp
-        core/systems/physics_system.cpp
         core/stb_image/stb_image.cpp
         core/signals/signal_bus.cpp
         core/systems/script_system.cpp
@@ -138,11 +140,12 @@ set(CORE_SOURCES
 
 set(NOI_ENGINE_BUILTIN_SOURCES
         builtin/actions/follow.cpp
+        builtin/physics/physics_system.cpp
 )
 
 set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_BUILTIN_SOURCES})
 
-set(NOI_ENGINE_PUBLIC_HEADERS ${CORE_HEADERS})
+set(NOI_ENGINE_PUBLIC_HEADERS ${CORE_HEADERS} ${BUILTIN_HEADERS})
 
 set(NOI_ENGINE_PRIVATE_HEADERS ${CORE_PRIVATE_HEADERS})
 

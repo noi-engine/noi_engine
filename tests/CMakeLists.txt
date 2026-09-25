@@ -10,8 +10,8 @@ set(NOI_ENGINE_TEST_SOURCES
         core/ecs/view_test.cpp
         core/systems/transform_system_test.cpp
         core/systems/render_system_test.cpp
-        core/systems/physics_system_test.cpp
         core/scene_system_test.cpp
+        builtin/physics/physics_system_test.cpp
 )
 
 add_executable(noi_engine_tests ${NOI_ENGINE_TEST_SOURCES})
