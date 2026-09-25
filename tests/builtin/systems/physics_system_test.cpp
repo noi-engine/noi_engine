@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 
-#include <noi_engine/builtin/physics/physics_system.hpp>
-#include <noi_engine/builtin/physics/gravity.hpp>
-#include <noi_engine/builtin/physics/box_collider.hpp>
+#include <noi_engine/builtin/systems/physics_system.hpp>
+#include <noi_engine/builtin/components/gravity.hpp>
+#include <noi_engine/builtin/components/box_collider.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/dirty.hpp>

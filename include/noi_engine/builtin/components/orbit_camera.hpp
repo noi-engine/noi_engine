@@ -9,7 +9,7 @@
 
 namespace noi_engine
 {
-    struct orbit_camera : component //TODO: should be a builtin
+    struct orbit_camera : component
     {
         glm::vec3 target{0.0f};
         float distance{5.0f};

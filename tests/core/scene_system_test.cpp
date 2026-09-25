@@ -4,7 +4,8 @@
 
 #include <gtest/gtest.h>
 
-#include <noi_engine/builtin/physics/physics_system.hpp>
+#include <noi_engine/builtin/systems/orbit_camera_system.hpp>
+#include <noi_engine/builtin/systems/physics_system.hpp>
 #include <noi_engine/core/scene.hpp>
 
 #include <core/systems/camera_system.hpp>
@@ -129,6 +130,7 @@ TEST(SceneSystemTest, OptionalBuiltinsAreNotRegisteredByDefault)
     scene s{"test"};
 
     EXPECT_EQ(s.get_system<physics_system>(), nullptr);
+    EXPECT_EQ(s.get_system<orbit_camera_system>(), nullptr);
 }
 
 TEST(SceneSystemTest, OptionalBuiltinCanBeOptedIntoViaAddSystem)

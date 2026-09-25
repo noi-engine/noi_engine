@@ -25,7 +25,6 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/dirty.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_2d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_3d.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/orbit_camera.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/name_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
@@ -45,9 +44,11 @@ set(CORE_HEADERS
 
 set(BUILTIN_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/actions/basic.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/gravity.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/box_collider.hpp
-        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/physics/physics_system.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/gravity.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/box_collider.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/orbit_camera.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/systems/physics_system.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/systems/orbit_camera_system.hpp
 )
 
 set(CORE_PRIVATE_HEADERS
@@ -55,7 +56,6 @@ set(CORE_PRIVATE_HEADERS
         core/glad/khrplateform.h
         core/sdl/sdl_event_processor.hpp
         core/systems/render_system.hpp
-        core/systems/orbit_camera_system.hpp
         core/systems/camera_2d_system.hpp
         core/systems/camera_3d_system.hpp
         core/systems/camera_system.hpp
@@ -105,7 +105,6 @@ set(CORE_SOURCES
         core/resources/resources.cpp
         core/components/world_matrix.cpp
         core/systems/render_system.cpp
-        core/systems/orbit_camera_system.cpp
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
         core/systems/camera_system.cpp
@@ -140,7 +139,8 @@ set(CORE_SOURCES
 
 set(NOI_ENGINE_BUILTIN_SOURCES
         builtin/actions/follow.cpp
-        builtin/physics/physics_system.cpp
+        builtin/systems/physics_system.cpp
+        builtin/systems/orbit_camera_system.cpp
 )
 
 set(NOI_ENGINE_SOURCES ${CORE_SOURCES} ${NOI_ENGINE_BUILTIN_SOURCES})

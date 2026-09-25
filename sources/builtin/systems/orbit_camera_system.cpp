@@ -2,9 +2,10 @@
 // Created by ricka on 8/1/26.
 //
 
-#include "orbit_camera_system.hpp"
+#include <noi_engine/builtin/systems/orbit_camera_system.hpp>
+#include <noi_engine/builtin/components/orbit_camera.hpp>
 #include <noi_engine/core/input/input_codes.hpp>
-#include <noi_engine/core/components/orbit_camera.hpp>
+#include <noi_engine/core/scene.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <algorithm>
 #include <cmath>
@@ -36,4 +37,15 @@ auto noi_engine::orbit_camera_system::view_matrix(world& world, const entity cam
     };
 
     return glm::lookAt(position, cam.target, glm::vec3{0.0f, 1.0f, 0.0f});
+}
+
+auto noi_engine::orbit_camera_system::on_update(const script_context& ctx, [[maybe_unused]] const float dt) -> void
+{
+    auto& world = ctx.get_world();
+    const auto camera_entity = ctx.scene->get_camera_entity();
+
+    if (!world.has<orbit_camera>(camera_entity))
+        return;
+
+    update(world, camera_entity, *ctx.input);
 }

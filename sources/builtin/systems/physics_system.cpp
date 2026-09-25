@@ -2,9 +2,9 @@
 // Created by ricka on 9/23/26.
 //
 
-#include <noi_engine/builtin/physics/physics_system.hpp>
-#include <noi_engine/builtin/physics/gravity.hpp>
-#include <noi_engine/builtin/physics/box_collider.hpp>
+#include <noi_engine/builtin/systems/physics_system.hpp>
+#include <noi_engine/builtin/components/gravity.hpp>
+#include <noi_engine/builtin/components/box_collider.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <glm/common.hpp>
 #include <vector>
