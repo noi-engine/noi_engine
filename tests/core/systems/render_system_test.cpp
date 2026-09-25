@@ -74,3 +74,16 @@ TEST(RenderSystemTest, IgnoresEntitiesWithoutMeshRenderer)
 
     EXPECT_TRUE(renderables.empty());
 }
+
+TEST(RenderSystemTest, IgnoresEntitiesWithoutWorldMatrix)
+{
+    world w;
+
+    const auto e = w.create_entity();
+    w.add(e, transform{});
+    w.add(e, mesh_renderer{});
+
+    const auto renderables = render_system::sorted_renderables(w);
+
+    EXPECT_TRUE(renderables.empty());
+}

@@ -22,7 +22,7 @@ auto noi_engine::render_system::sorted_renderables(world& world) -> const std::v
     thread_local std::vector<entity> renderables;
     renderables.clear();
 
-    for (const auto e : world.view<transform, mesh_renderer>())
+    for (const auto e : world.view<transform, world_matrix, mesh_renderer>())
         renderables.push_back(e);
 
     std::ranges::stable_sort(renderables, [&world](const entity lhs, const entity rhs)

@@ -7,6 +7,7 @@
 #include <noi_engine/core/scene.hpp>
 
 #include <core/systems/camera_system.hpp>
+#include <core/systems/physics_system.hpp>
 #include <core/systems/render_system.hpp>
 #include <core/systems/script_runner_system.hpp>
 #include <core/systems/transform_system.hpp>
@@ -120,6 +121,25 @@ TEST(SceneSystemTest, SetSystemPriorityReordersSystem)
 
     EXPECT_EQ(names(s), (std::vector<std::string_view>{
         "dummy_system_a", "script_runner_system", "transform_system", "camera_system", "render_system"
+    }));
+}
+
+TEST(SceneSystemTest, OptionalBuiltinsAreNotRegisteredByDefault)
+{
+    scene s{"test"};
+
+    EXPECT_EQ(s.get_system<physics_system>(), nullptr);
+}
+
+TEST(SceneSystemTest, OptionalBuiltinCanBeOptedIntoViaAddSystem)
+{
+    scene s{"test"};
+
+    s.add_system<physics_system>();
+
+    ASSERT_NE(s.get_system<physics_system>(), nullptr);
+    EXPECT_EQ(names(s), (std::vector<std::string_view>{
+        "script_runner_system", "transform_system", "camera_system", "render_system", "physics_system"
     }));
 }
 

@@ -49,6 +49,8 @@ noi_engine::scene::scene(std::string name) : m_name(std::move(name))
     this->m_camera_entity = m_world.create_entity();
     m_world.add_transform(m_camera_entity, transform{});
 
+    // Minimal default pipeline every scene needs to run scripts, place, aim, and draw its
+    // entities. Optional builtins (physics, orbit camera, ...) are opt-in via add_system<T>().
     add_system<script_runner_system>();
     add_system<transform_system>();
     add_system<camera_system>();
