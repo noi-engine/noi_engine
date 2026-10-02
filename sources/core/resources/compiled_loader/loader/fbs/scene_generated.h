@@ -43,6 +43,9 @@ struct Camera2DComponentBuilder;
 struct TransformComponent;
 struct TransformComponentBuilder;
 
+struct BoxColliderComponent;
+struct BoxColliderComponentBuilder;
+
 struct Component;
 struct ComponentBuilder;
 
@@ -65,37 +68,40 @@ enum ComponentUnion : uint8_t {
   ComponentUnion_ScriptsComponent = 3,
   ComponentUnion_Camera2DComponent = 4,
   ComponentUnion_TransformComponent = 5,
+  ComponentUnion_BoxColliderComponent = 6,
   ComponentUnion_MIN = ComponentUnion_NONE,
-  ComponentUnion_MAX = ComponentUnion_TransformComponent
+  ComponentUnion_MAX = ComponentUnion_BoxColliderComponent
 };
 
-inline const ComponentUnion (&EnumValuesComponentUnion())[6] {
+inline const ComponentUnion (&EnumValuesComponentUnion())[7] {
   static const ComponentUnion values[] = {
     ComponentUnion_NONE,
     ComponentUnion_RenderLayerComponent,
     ComponentUnion_MeshRendererComponent,
     ComponentUnion_ScriptsComponent,
     ComponentUnion_Camera2DComponent,
-    ComponentUnion_TransformComponent
+    ComponentUnion_TransformComponent,
+    ComponentUnion_BoxColliderComponent
   };
   return values;
 }
 
 inline const char * const *EnumNamesComponentUnion() {
-  static const char * const names[7] = {
+  static const char * const names[8] = {
     "NONE",
     "RenderLayerComponent",
     "MeshRendererComponent",
     "ScriptsComponent",
     "Camera2DComponent",
     "TransformComponent",
+    "BoxColliderComponent",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameComponentUnion(ComponentUnion e) {
-  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_TransformComponent)) return "";
+  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_BoxColliderComponent)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesComponentUnion()[index];
 }
@@ -122,6 +128,10 @@ template<> struct ComponentUnionTraits<noi_engine::fbs::Camera2DComponent> {
 
 template<> struct ComponentUnionTraits<noi_engine::fbs::TransformComponent> {
   static const ComponentUnion enum_value = ComponentUnion_TransformComponent;
+};
+
+template<> struct ComponentUnionTraits<noi_engine::fbs::BoxColliderComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_BoxColliderComponent;
 };
 
 template <bool B = false>
@@ -754,6 +764,70 @@ inline ::flatbuffers::Offset<TransformComponent> CreateTransformComponentDirect(
       rotation__);
 }
 
+struct BoxColliderComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef BoxColliderComponentBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_HALF_EXTENTS = 4,
+    VT_IS_STATIC = 6
+  };
+  const ::flatbuffers::Vector<float> *half_extents() const {
+    return GetPointer<const ::flatbuffers::Vector<float> *>(VT_HALF_EXTENTS);
+  }
+  bool is_static() const {
+    return GetField<uint8_t>(VT_IS_STATIC, 0) != 0;
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HALF_EXTENTS) &&
+           verifier.VerifyVector(half_extents()) &&
+           VerifyField<uint8_t>(verifier, VT_IS_STATIC, 1) &&
+           verifier.EndTable();
+  }
+};
+
+struct BoxColliderComponentBuilder {
+  typedef BoxColliderComponent Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_half_extents(::flatbuffers::Offset<::flatbuffers::Vector<float>> half_extents) {
+    fbb_.AddOffset(BoxColliderComponent::VT_HALF_EXTENTS, half_extents);
+  }
+  void add_is_static(bool is_static) {
+    fbb_.AddElement<uint8_t>(BoxColliderComponent::VT_IS_STATIC, static_cast<uint8_t>(is_static), 0);
+  }
+  explicit BoxColliderComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<BoxColliderComponent> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<BoxColliderComponent>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponent(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<float>> half_extents = 0,
+    bool is_static = false) {
+  BoxColliderComponentBuilder builder_(_fbb);
+  builder_.add_half_extents(half_extents);
+  builder_.add_is_static(is_static);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponentDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<float> *half_extents = nullptr,
+    bool is_static = false) {
+  auto half_extents__ = half_extents ? _fbb.CreateVector<float>(*half_extents) : 0;
+  return noi_engine::fbs::CreateBoxColliderComponent(
+      _fbb,
+      half_extents__,
+      is_static);
+}
+
 struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -786,6 +860,9 @@ struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const noi_engine::fbs::TransformComponent *properties_as_TransformComponent() const {
     return properties_type() == noi_engine::fbs::ComponentUnion_TransformComponent ? static_cast<const noi_engine::fbs::TransformComponent *>(properties()) : nullptr;
   }
+  const noi_engine::fbs::BoxColliderComponent *properties_as_BoxColliderComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_BoxColliderComponent ? static_cast<const noi_engine::fbs::BoxColliderComponent *>(properties()) : nullptr;
+  }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -816,6 +893,10 @@ template<> inline const noi_engine::fbs::Camera2DComponent *Component::propertie
 
 template<> inline const noi_engine::fbs::TransformComponent *Component::properties_as<noi_engine::fbs::TransformComponent>() const {
   return properties_as_TransformComponent();
+}
+
+template<> inline const noi_engine::fbs::BoxColliderComponent *Component::properties_as<noi_engine::fbs::BoxColliderComponent>() const {
+  return properties_as_BoxColliderComponent();
 }
 
 struct ComponentBuilder {
@@ -1262,6 +1343,10 @@ inline bool VerifyComponentUnion(::flatbuffers::VerifierTemplate<B> &verifier, c
     }
     case ComponentUnion_TransformComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::TransformComponent *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ComponentUnion_BoxColliderComponent: {
+      auto ptr = reinterpret_cast<const noi_engine::fbs::BoxColliderComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

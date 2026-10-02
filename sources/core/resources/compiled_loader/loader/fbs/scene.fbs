@@ -52,12 +52,18 @@ table TransformComponent{
     rotation: [float];
 }
 
+table BoxColliderComponent{
+    half_extents: [float];
+    is_static: bool;
+}
+
 union ComponentUnion {
     RenderLayerComponent,
     MeshRendererComponent,
     ScriptsComponent,
     Camera2DComponent,
-    TransformComponent
+    TransformComponent,
+    BoxColliderComponent
 }
 
 table Component {

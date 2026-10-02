@@ -4,6 +4,7 @@
 
 #include "scene_parser.hpp"
 #include "component_parser.hpp"
+#include "box_collider_parser.hpp"
 #include <noi_engine/core/components/name_component.hpp>
 #include "../../../source_loader/loader/scene_parser/color_parser.hpp"
 
@@ -171,6 +172,11 @@ auto noi_engine::c::scene_parser::parse_component(scene& target_scene, const ent
     else if (type == "mesh_renderer")
     {
         mesh_renderer_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "box_collider")
+    {
+        box_collider_parser parser{};
         parser.parse(entity, target_scene, m_resources, properties);
     }
 }

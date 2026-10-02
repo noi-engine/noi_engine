@@ -74,6 +74,7 @@ set(CORE_PRIVATE_HEADERS
         core/resources/compiled_loader/loader/scene_loader.hpp
         core/resources/compiled_loader/loader/scene_parser/scene_parser.hpp
         core/resources/compiled_loader/loader/scene_parser/component_parser.hpp
+        core/resources/compiled_loader/loader/scene_parser/box_collider_parser.hpp
         core/resources/compiled_loader/loader/mesh_2d_loader.hpp
         core/resources/source_loader/loader/mesh_loader.hpp
         core/resources/source_loader/loader/scene_loader.hpp
@@ -83,6 +84,7 @@ set(CORE_PRIVATE_HEADERS
         core/resources/source_loader/loader/scene_parser/color_parser.hpp
         core/resources/source_loader/loader/scene_parser/scene_parser.hpp
         core/resources/source_loader/loader/scene_parser/component_parser.hpp
+        core/resources/source_loader/loader/scene_parser/box_collider_parser.hpp
 )
 
 set(CORE_SOURCES
@@ -122,6 +124,7 @@ set(CORE_SOURCES
         core/resources/compiled_loader/loader/scene_loader.cpp
         core/resources/compiled_loader/loader/scene_parser/scene_parser.cpp
         core/resources/compiled_loader/loader/scene_parser/component_parser.cpp
+        core/resources/compiled_loader/loader/scene_parser/box_collider_parser.cpp
         core/resources/compiled_loader/compiled_resource_loader.cpp
         core/resources/source_loader/source_resource_loader.cpp
         core/resources/source_loader/loader/scene_loader.cpp
@@ -131,6 +134,7 @@ set(CORE_SOURCES
         core/resources/source_loader/loader/mesh_loader.cpp
         core/resources/source_loader/loader/scene_parser/color_parser.cpp
         core/resources/source_loader/loader/scene_parser/component_parser.cpp
+        core/resources/source_loader/loader/scene_parser/box_collider_parser.cpp
         core/resources/source_loader/loader/scene_parser/scene_parser.cpp
         core/sdl/sdl_game.cpp
         core/sdl/sdl_window.cpp
