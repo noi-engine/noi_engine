@@ -16,6 +16,13 @@ noi_engine::renderer::renderer(resources& resources)
 
 auto noi_engine::renderer::begin_frame() -> void
 {
+    // Re-asserted every frame, not just once at init: embedding hosts (e.g. the editor's Qt
+    // viewport) run their own GL work on this context between frames and don't promise to leave
+    // blending enabled, so a one-time glEnable would silently stop taking effect there - sprites'
+    // transparent pixels would composite as opaque black instead of blending with what's behind.
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

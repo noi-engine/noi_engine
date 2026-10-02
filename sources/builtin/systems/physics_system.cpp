@@ -85,5 +85,11 @@ auto noi_engine::physics_system::step(world& world, const float dt) -> void
 
 auto noi_engine::physics_system::on_update(const script_context& ctx, const float dt) -> void
 {
-    step(ctx.get_world(), dt);
+    // Ticks aren't guaranteed to be regular (e.g. the editor only ticks on demand outside Play,
+    // so the first tick after a scene loads can carry several real seconds of elapsed time).
+    // step() integrates whatever dt it's given with no substepping, so an unclamped huge dt lets
+    // a falling body's position jump further in one frame than a thin static collider is wide,
+    // tunneling straight through it instead of colliding.
+    constexpr float max_dt = 1.0f / 30.0f;
+    step(ctx.get_world(), dt < max_dt ? dt : max_dt);
 }

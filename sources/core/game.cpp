@@ -89,8 +89,4 @@ auto noi_engine::game::init(const opengl_context_loader loader) -> void
     {
         throw std::runtime_error("Failed to initialize OpenGL");
     }
-
-    // TODO: check if necessary
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
