@@ -1,6 +1,6 @@
 {
   "name": "noi-engine",
-  "version-string": "0.0.107",
+  "version-string": "0.0.108",
   "builtin-baseline": "fd3dde77905b1b1890df3c8daa496d9b2fe44f7f",
   "dependencies": [
     "gtest",
