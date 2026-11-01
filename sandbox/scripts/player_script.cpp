@@ -22,7 +22,7 @@ using noi_engine::script_component;
 using noi_engine::transform;
 using noi_engine::world_matrix;
 
-auto sandbox::basic::player_script::on_update(
+auto sandbox::player_script::on_update(
     const noi_engine::entity self, const noi_engine::script_context& context, const float dt) -> void
 {
     const auto input = context.input;

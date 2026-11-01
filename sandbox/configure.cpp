@@ -12,18 +12,18 @@
 #include "systems/entity_counter_system.hpp"
 #include "systems/fps_counter_system.hpp"
 
-using namespace sandbox::basic;
+using namespace sandbox;
 
 static auto movable_player_quad(const sandbox::game& game) -> void;
 
-auto sandbox::basic::configure(const game& game) -> void
+auto sandbox::configure(const game& game) -> void
 {
     movable_player_quad(game);
 }
 
 static auto movable_player_quad(const sandbox::game& game) -> void
 {
-    auto scene = game.resources().load_scene("assets/basic/scenes/main.scene.json");
+    auto scene = game.resources().load_scene("assets/scenes/main.scene.json");
 
     scene->add_system<bounds_system>();
     scene->add_system_after<bounds_system, entity_counter_system>();

@@ -6,7 +6,7 @@
 
 #include <cstdio>
 
-auto sandbox::basic::fps_counter_system::on_update(
+auto sandbox::fps_counter_system::on_update(
     [[maybe_unused]] const noi_engine::script_context& ctx, const float dt) -> void
 {
     m_elapsed += dt;

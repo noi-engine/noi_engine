@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../sandbox_game.hpp"
+#include "sandbox_game.hpp"
 
-namespace sandbox::basic
+namespace sandbox
 {
     auto configure(const game& game) -> void;
 }

@@ -1,20 +1,20 @@
 set(SANDBOX_HEADERS
         sandbox_game.hpp
-        basic/configure.hpp
-        basic/scripts/scripts.hpp
-        basic/systems/bounds_system.hpp
-        basic/systems/entity_counter_system.hpp
-        basic/systems/fps_counter_system.hpp
+        configure.hpp
+        scripts/scripts.hpp
+        systems/bounds_system.hpp
+        systems/entity_counter_system.hpp
+        systems/fps_counter_system.hpp
 )
 
 set(SANDBOX_SOURCES
         main.cpp
-        basic/configure.cpp
-        basic/scripts/player_script.cpp
-        basic/scripts/camera_script.cpp
-        basic/systems/bounds_system.cpp
-        basic/systems/entity_counter_system.cpp
-        basic/systems/fps_counter_system.cpp
+        configure.cpp
+        scripts/player_script.cpp
+        scripts/camera_script.cpp
+        systems/bounds_system.cpp
+        systems/entity_counter_system.cpp
+        systems/fps_counter_system.cpp
 )
 
 add_executable(sandbox ${SANDBOX_SOURCES} ${SANDBOX_HEADERS})

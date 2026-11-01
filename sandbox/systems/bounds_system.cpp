@@ -17,7 +17,7 @@ namespace
     constexpr float k_half_height = 4.5f;
 }  // namespace
 
-auto sandbox::basic::bounds_system::on_update(
+auto sandbox::bounds_system::on_update(
     const noi_engine::script_context& ctx, [[maybe_unused]] const float dt) -> void
 {
     auto& world = ctx.get_world();

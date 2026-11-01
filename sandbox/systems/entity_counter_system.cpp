@@ -9,7 +9,7 @@
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 
-auto sandbox::basic::entity_counter_system::on_update(
+auto sandbox::entity_counter_system::on_update(
     const noi_engine::script_context& ctx, const float dt) -> void
 {
     m_elapsed += dt;

@@ -4,7 +4,7 @@
     "textures": [
       {
         "name": "background_image",
-        "path": "assets/basic/images/0000.png"
+        "path": "assets/images/0000.png"
       }
     ],
     "scripts": [

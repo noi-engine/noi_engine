@@ -7,7 +7,7 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/signals/signal.hpp>
 
-namespace sandbox::basic
+namespace sandbox
 {
     struct moved_signal : noi_engine::signal
     {

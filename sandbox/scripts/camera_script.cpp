@@ -7,7 +7,7 @@
 #include "scripts.hpp"
 #include "../signals/moved_signal.hpp"
 
-auto sandbox::basic::camera_script::on_create(
+auto sandbox::camera_script::on_create(
     const noi_engine::entity self, const noi_engine::script_context& context)
     -> void
 {

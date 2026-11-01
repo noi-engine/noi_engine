@@ -6,7 +6,7 @@
 
 #include <noi_engine/core/system.hpp>
 
-namespace sandbox::basic
+namespace sandbox
 {
     class bounds_system : public noi_engine::system
     {
@@ -15,4 +15,4 @@ namespace sandbox::basic
 
         [[nodiscard]] auto name() const -> std::string_view override { return "bounds_system"; }
     };
-}  // namespace sandbox::basic
+}  // namespace sandbox

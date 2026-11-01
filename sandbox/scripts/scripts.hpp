@@ -7,7 +7,7 @@
 #include <noi_engine/core/ecs/entity.hpp>
 #include <noi_engine/core/model/script.hpp>
 
-namespace sandbox::basic
+namespace sandbox
 {
 	class player_script : public noi_engine::script
 	{
@@ -32,4 +32,4 @@ namespace sandbox::basic
 
 		explicit camera_script() = default;
 	};
-}  // namespace sandbox::basic
+}  // namespace sandbox
