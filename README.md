@@ -7,7 +7,7 @@
 [Engine](https://github.com/noi-engine/noi_engine) ·
 [Editor](https://github.com/noi-engine/noi_engine_editor) ·
 [2D Template](https://github.com/noi-engine/template-basic-2d) ·
-[Releases](https://github.com/noi-engine/noi_engine_release/releases)
+[Releases](https://github.com/noi-engine/noi_engine/releases)
 
 ![Noi Engine editor demo](https://raw.githubusercontent.com/noi-engine/template-basic-2d/main/.github/readme/demo.gif)
 
@@ -88,7 +88,7 @@ auto main(const int argc, char** argv) -> int
 
 **With the editor** (recommended): build or launch the editor, click **Create New Project**, pick the *2D Game Template*, then **Compile** and **Play**.
 
-**Prebuilt engine**: Linux x64 and macOS arm64 builds are on the [releases page](https://github.com/noi-engine/noi_engine_release/releases).
+**Prebuilt engine**: Linux x64 and macOS arm64 builds are on the [releases page](https://github.com/noi-engine/noi_engine/releases).
 
 **From source** (each repo has `debug` / `release` CMake presets):
 
@@ -116,8 +116,7 @@ Dependencies come from vcpkg: SDL2, glm, stb, tinyobjloader, nlohmann-json, flat
 
 | Repo | What it is |
 | --- | --- |
-| [noi_engine](https://github.com/noi-engine/noi_engine) | The engine library |
+| [noi_engine](https://github.com/noi-engine/noi_engine) | The engine library (prebuilt releases on its [releases page](https://github.com/noi-engine/noi_engine/releases)) |
 | [noi_engine_editor](https://github.com/noi-engine/noi_engine_editor) | The Qt/QML editor |
 | [template-basic-2d](https://github.com/noi-engine/template-basic-2d) | Starter 2D platformer template (powered by [Templi](https://github.com/RickaPrincy/Templi)) |
 | [resources_compiler](https://github.com/noi-engine/resources_compiler) | Compiles scenes and resources to FlatBuffers |
-| [noi_engine_release](https://github.com/noi-engine/noi_engine_release) | Prebuilt engine releases |
