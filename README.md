@@ -39,10 +39,10 @@
 
 - Qt 6 / QML desktop app with recent projects and a project creator
 - **Template marketplace**: install templates and older template versions
-- **Live scene viewport** that runs the real engine through a shared bridge, with pan, zoom, grid and gizmos
+- **Live scene viewport** that runs the real engine through the prebuilt [editor bridge](https://github.com/noi-engine/noi_engine_editor_bridge), with pan, zoom, grid and gizmos
 - **Hierarchy + Inspector**: create, edit and delete entities and components; add sprites, textures and scripts
 - **Compile & Play** straight from the editor, with output, editor logs and loaded-resources panels
-- Downloads the engine and tools it needs from releases
+- Downloads the engine, the resources compiler and the editor bridge each template asks for, from their releases
 
 ### Template — [`template-basic-2d`](https://github.com/noi-engine/template-basic-2d)
 
@@ -120,3 +120,4 @@ Dependencies come from vcpkg: SDL2, glm, stb, tinyobjloader, nlohmann-json, flat
 | [noi_engine_editor](https://github.com/noi-engine/noi_engine_editor) | The Qt/QML editor |
 | [template-basic-2d](https://github.com/noi-engine/template-basic-2d) | Starter 2D platformer template (powered by [Templi](https://github.com/RickaPrincy/Templi)) |
 | [resources_compiler](https://github.com/noi-engine/resources_compiler) | Compiles scenes and resources to FlatBuffers |
+| [noi_engine_editor_bridge](https://github.com/noi-engine/noi_engine_editor_bridge) | Prebuilt library the editor uses to run a scene live (editor-only, never part of a game) |
