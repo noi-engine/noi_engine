@@ -4,6 +4,8 @@
 
 #include "component_parser.hpp"
 
+#include <cstdio>
+
 #include <glm/vec3.hpp>
 #include <noi_engine/core/model/script.hpp>
 #include <noi_engine/core/components/dirty.hpp>
@@ -65,10 +67,19 @@ namespace noi_engine
                                         const nlohmann::json& properties) -> void
     {
         std::vector<resource_handle<script>> scripts{};
-        for (const auto& script_name : properties["names"])
+        if (properties.contains("names"))
         {
-            auto script_handle = resources->get_handle<script>(script_name.get<std::string>());
-            scripts.push_back(script_handle);
+            for (const auto& script_name : properties["names"])
+            {
+                const auto name = script_name.get<std::string>();
+                resource_handle<script> script_handle{};
+                if (!resources->find_or_load_script(name, script_handle))
+                {
+                    std::fprintf(stderr, "[noi_engine] Unknown script '%s' (not registered), skipped\n", name.c_str());
+                    continue;
+                }
+                scripts.push_back(script_handle);
+            }
         }
 
         target_scene.get_world().add<script_component>(entity, script_component{.scripts = scripts});

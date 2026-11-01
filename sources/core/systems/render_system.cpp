@@ -8,6 +8,7 @@
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/camera_3d.hpp>
 #include <noi_engine/core/components/culling.hpp>
+#include <noi_engine/core/components/fill_screen.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/render_layer.hpp>
@@ -51,6 +52,8 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
     if (world.has<camera_2d>(active_camera))
     {
         glDisable(GL_DEPTH_TEST);
+        // After every update (scripts, physics) moved the camera this frame.
+        apply_fill_screen(world, active_camera);
         view = camera_2d_system::view_matrix(world, active_camera);
         projection = camera_2d_system::projection_matrix(world, active_camera);
     }

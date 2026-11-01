@@ -3,6 +3,7 @@
 //
 
 #include "component_parser.hpp"
+#include <cstdio>
 #include <glm/vec3.hpp>
 #include "../fbs/scene_generated.h"
 #include <noi_engine/core/model/script.hpp>
@@ -70,6 +71,7 @@ namespace noi_engine::c
 
         if (!properties)
         {
+            world.add<script_component>(entity, value);
             return;
         }
 
@@ -79,9 +81,13 @@ namespace noi_engine::c
         {
             for (const auto* name : *names)
             {
-                value.scripts.push_back(
-                    resources->get_handle<script>(name->c_str())
-                );
+                resource_handle<script> script_handle{};
+                if (!resources->find_or_load_script(name->c_str(), script_handle))
+                {
+                    std::fprintf(stderr, "[noi_engine] Unknown script '%s' (not registered), skipped\n", name->c_str());
+                    continue;
+                }
+                value.scripts.push_back(script_handle);
             }
         }
 

@@ -13,6 +13,8 @@ set(NOI_ENGINE_TEST_SOURCES
         core/scene_system_test.cpp
         builtin/systems/physics_system_test.cpp
         core/culling_test.cpp
+        core/fill_screen_test.cpp
+        core/script_resources_test.cpp
         builtin/systems/orbit_camera_system_test.cpp
 )
 

@@ -74,6 +74,18 @@ namespace noi_engine
 				m_factories[std::string(name)] = std::move(factory);
 			}
 
+			// Forgets every registered script (the editor does it before loading a rebuilt
+			// scripts library, so deleted scripts disappear).
+			auto clear() -> void
+			{
+				m_factories.clear();
+			}
+
+			[[nodiscard]] auto contains(const std::string_view name) const -> bool
+			{
+				return m_factories.contains(std::string(name));
+			}
+
 			[[nodiscard]] auto factories() const
 				-> const std::unordered_map<std::string, std::function<std::unique_ptr<script>()>>&
 			{

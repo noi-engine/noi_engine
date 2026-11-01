@@ -139,3 +139,13 @@ auto noi_engine::scene::get_camera_entity() const -> entity
 {
     return this->m_camera_entity;
 }
+
+auto noi_engine::scene::set_scripts_paused(const bool paused) -> void
+{
+    this->m_scripts_paused = paused;
+}
+
+auto noi_engine::scene::scripts_paused() const -> bool
+{
+    return this->m_scripts_paused;
+}

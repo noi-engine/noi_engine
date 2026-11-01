@@ -114,6 +114,12 @@ namespace noi_engine::details
             return;
 
         m_label_to_id.erase(m_labels[handle.m_id]);
+        // A label names one resource: take it from the resource that had it.
+        if (const auto previous = m_label_to_id.find(std::string(label));
+            previous != m_label_to_id.end() && previous->second != handle.m_id)
+        {
+            m_labels[previous->second].clear();
+        }
         m_labels[handle.m_id] = label;
         m_label_to_id[m_labels[handle.m_id]] = handle.m_id;
     }

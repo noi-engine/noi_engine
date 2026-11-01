@@ -4,8 +4,11 @@
 
 #include "box_collider_parser.hpp"
 #include "culling_parser.hpp"
+#include "fill_screen_parser.hpp"
 #include "color_parser.hpp"
 #include "scene_parser.hpp"
+
+#include <cstdio>
 #include "component_parser.hpp"
 #include <noi_engine/core/components/name_component.hpp>
 
@@ -52,7 +55,16 @@ auto noi_engine::scene_parser::parse_resources(const nlohmann::json& res_json) c
     {
         for (const auto& item : res_json["scripts"])
         {
-            m_resources->load_from_path<script>(item.get<std::string>(), item.get<std::string>());
+            const auto name = item.get<std::string>();
+            // A script removed from (or not yet compiled into) the scripts library: skip it
+            // instead of failing the whole scene.
+            if (!details::script_registry::instance().contains(name))
+            {
+                std::fprintf(stderr, "[noi_engine] Scene uses unknown script '%s' (not registered), skipped\n",
+                             name.c_str());
+                continue;
+            }
+            m_resources->load_from_path<script>(name, name);
         }
     }
 
@@ -186,6 +198,11 @@ auto noi_engine::scene_parser::parse_component(scene& target_scene, const entity
     else if (type == "always_active")
     {
         always_active_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "fill_screen")
+    {
+        fill_screen_parser parser{};
         parser.parse(entity, target_scene, m_resources, properties);
     }
 }

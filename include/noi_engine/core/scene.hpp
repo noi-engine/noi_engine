@@ -46,6 +46,7 @@ namespace noi_engine
 		};
 
 		std::vector<system_slot> m_systems{};
+		bool m_scripts_paused{ false };
 
 		[[nodiscard]] auto find_system_slot(std::type_index type)
 			-> std::vector<system_slot>::iterator;
@@ -70,6 +71,11 @@ namespace noi_engine
 		[[nodiscard]] auto get_world() -> world&;
 
 		[[nodiscard]] auto get_camera_entity() const -> entity;
+
+		// Paused scripts don't run at all (no on_create, no updates): the editor pauses them
+		// outside Play mode so the scene shows as authored.
+		auto set_scripts_paused(bool paused) -> void;
+		[[nodiscard]] auto scripts_paused() const -> bool;
 
 		template <typename T, typename... Args>
 		auto add_system(Args&&... args) -> T&

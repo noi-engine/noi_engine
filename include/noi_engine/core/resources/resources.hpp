@@ -9,6 +9,8 @@
 #include <noi_engine/core/model/mesh.hpp>
 #include <noi_engine/core/model/shader.hpp>
 #include <noi_engine/core/model/texture.hpp>
+#include <stdexcept>
+#include <string>
 #include <noi_engine/core/model/script.hpp>
 #include <noi_engine/core/resources/resource_loader.hpp>
 #include <noi_engine/core/resources/details/resource_manager.hpp>
@@ -51,6 +53,10 @@ namespace noi_engine
                 return std::make_unique<T>();
             });
         }
+
+        // The script resource named `name`: the loaded one, else a new instance when a script of
+        // that name is registered. False (and `out` untouched) for an unknown script.
+        auto find_or_load_script(std::string_view name, resource_handle<script>& out) -> bool;
 
         template <typename T>
         auto load_instance(const std::string_view name, std::unique_ptr<T> resource)
@@ -139,8 +145,14 @@ namespace noi_engine
     template <>
     inline auto resources::load_from_path(const std::string_view path) -> resource_handle<script>
     {
-        auto instance = details::script_registry::instance().factories().at(std::string(path))();
-        return this->load_instance(std::move(instance));
+        const auto& factories = details::script_registry::instance().factories();
+        const auto it = factories.find(std::string(path));
+        if (it == factories.end())
+        {
+            throw std::runtime_error("noi_engine: script '" + std::string(path) +
+                                     "' is not registered (is it compiled into the scripts library?)");
+        }
+        return this->load_instance(it->second());
     }
 
     template <>
@@ -238,5 +250,25 @@ namespace noi_engine
     inline auto resources::get_label(const resource_handle<material> handle) const -> std::string_view
     {
         return materials.get_label(handle);
+    }
+    inline auto resources::find_or_load_script(const std::string_view name, resource_handle<script>& out) -> bool
+    {
+        if (name.empty())
+        {
+            return false;
+        }
+        // get_handle() returns an empty handle (the first loaded script) for an unknown label:
+        // check the label round-trips.
+        if (const auto handle = scripts.get_handle(name); scripts.get_label(handle) == name)
+        {
+            out = handle;
+            return true;
+        }
+        if (!details::script_registry::instance().contains(name))
+        {
+            return false;
+        }
+        out = this->load_from_path<script>(name, name);
+        return true;
     }
 } // namespace noi_engine

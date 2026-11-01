@@ -52,6 +52,9 @@ struct CullingComponentBuilder;
 struct AlwaysActiveComponent;
 struct AlwaysActiveComponentBuilder;
 
+struct FillScreenComponent;
+struct FillScreenComponentBuilder;
+
 struct Component;
 struct ComponentBuilder;
 
@@ -77,11 +80,12 @@ enum ComponentUnion : uint8_t {
   ComponentUnion_BoxColliderComponent = 6,
   ComponentUnion_CullingComponent = 7,
   ComponentUnion_AlwaysActiveComponent = 8,
+  ComponentUnion_FillScreenComponent = 9,
   ComponentUnion_MIN = ComponentUnion_NONE,
-  ComponentUnion_MAX = ComponentUnion_AlwaysActiveComponent
+  ComponentUnion_MAX = ComponentUnion_FillScreenComponent
 };
 
-inline const ComponentUnion (&EnumValuesComponentUnion())[9] {
+inline const ComponentUnion (&EnumValuesComponentUnion())[10] {
   static const ComponentUnion values[] = {
     ComponentUnion_NONE,
     ComponentUnion_RenderLayerComponent,
@@ -91,13 +95,14 @@ inline const ComponentUnion (&EnumValuesComponentUnion())[9] {
     ComponentUnion_TransformComponent,
     ComponentUnion_BoxColliderComponent,
     ComponentUnion_CullingComponent,
-    ComponentUnion_AlwaysActiveComponent
+    ComponentUnion_AlwaysActiveComponent,
+    ComponentUnion_FillScreenComponent
   };
   return values;
 }
 
 inline const char * const *EnumNamesComponentUnion() {
-  static const char * const names[10] = {
+  static const char * const names[11] = {
     "NONE",
     "RenderLayerComponent",
     "MeshRendererComponent",
@@ -107,13 +112,14 @@ inline const char * const *EnumNamesComponentUnion() {
     "BoxColliderComponent",
     "CullingComponent",
     "AlwaysActiveComponent",
+    "FillScreenComponent",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameComponentUnion(ComponentUnion e) {
-  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_AlwaysActiveComponent)) return "";
+  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_FillScreenComponent)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesComponentUnion()[index];
 }
@@ -152,6 +158,10 @@ template<> struct ComponentUnionTraits<noi_engine::fbs::CullingComponent> {
 
 template<> struct ComponentUnionTraits<noi_engine::fbs::AlwaysActiveComponent> {
   static const ComponentUnion enum_value = ComponentUnion_AlwaysActiveComponent;
+};
+
+template<> struct ComponentUnionTraits<noi_engine::fbs::FillScreenComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_FillScreenComponent;
 };
 
 template <bool B = false>
@@ -940,6 +950,36 @@ inline ::flatbuffers::Offset<AlwaysActiveComponent> CreateAlwaysActiveComponent(
   return builder_.Finish();
 }
 
+struct FillScreenComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef FillScreenComponentBuilder Builder;
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct FillScreenComponentBuilder {
+  typedef FillScreenComponent Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit FillScreenComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<FillScreenComponent> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<FillScreenComponent>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<FillScreenComponent> CreateFillScreenComponent(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  FillScreenComponentBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
 struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -980,6 +1020,9 @@ struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   const noi_engine::fbs::AlwaysActiveComponent *properties_as_AlwaysActiveComponent() const {
     return properties_type() == noi_engine::fbs::ComponentUnion_AlwaysActiveComponent ? static_cast<const noi_engine::fbs::AlwaysActiveComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::FillScreenComponent *properties_as_FillScreenComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_FillScreenComponent ? static_cast<const noi_engine::fbs::FillScreenComponent *>(properties()) : nullptr;
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
@@ -1023,6 +1066,10 @@ template<> inline const noi_engine::fbs::CullingComponent *Component::properties
 
 template<> inline const noi_engine::fbs::AlwaysActiveComponent *Component::properties_as<noi_engine::fbs::AlwaysActiveComponent>() const {
   return properties_as_AlwaysActiveComponent();
+}
+
+template<> inline const noi_engine::fbs::FillScreenComponent *Component::properties_as<noi_engine::fbs::FillScreenComponent>() const {
+  return properties_as_FillScreenComponent();
 }
 
 struct ComponentBuilder {
@@ -1481,6 +1528,10 @@ inline bool VerifyComponentUnion(::flatbuffers::VerifierTemplate<B> &verifier, c
     }
     case ComponentUnion_AlwaysActiveComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::AlwaysActiveComponent *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ComponentUnion_FillScreenComponent: {
+      auto ptr = reinterpret_cast<const noi_engine::fbs::FillScreenComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;
