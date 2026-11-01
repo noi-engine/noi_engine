@@ -46,6 +46,12 @@ struct TransformComponentBuilder;
 struct BoxColliderComponent;
 struct BoxColliderComponentBuilder;
 
+struct CullingComponent;
+struct CullingComponentBuilder;
+
+struct AlwaysActiveComponent;
+struct AlwaysActiveComponentBuilder;
+
 struct Component;
 struct ComponentBuilder;
 
@@ -69,11 +75,13 @@ enum ComponentUnion : uint8_t {
   ComponentUnion_Camera2DComponent = 4,
   ComponentUnion_TransformComponent = 5,
   ComponentUnion_BoxColliderComponent = 6,
+  ComponentUnion_CullingComponent = 7,
+  ComponentUnion_AlwaysActiveComponent = 8,
   ComponentUnion_MIN = ComponentUnion_NONE,
-  ComponentUnion_MAX = ComponentUnion_BoxColliderComponent
+  ComponentUnion_MAX = ComponentUnion_AlwaysActiveComponent
 };
 
-inline const ComponentUnion (&EnumValuesComponentUnion())[7] {
+inline const ComponentUnion (&EnumValuesComponentUnion())[9] {
   static const ComponentUnion values[] = {
     ComponentUnion_NONE,
     ComponentUnion_RenderLayerComponent,
@@ -81,13 +89,15 @@ inline const ComponentUnion (&EnumValuesComponentUnion())[7] {
     ComponentUnion_ScriptsComponent,
     ComponentUnion_Camera2DComponent,
     ComponentUnion_TransformComponent,
-    ComponentUnion_BoxColliderComponent
+    ComponentUnion_BoxColliderComponent,
+    ComponentUnion_CullingComponent,
+    ComponentUnion_AlwaysActiveComponent
   };
   return values;
 }
 
 inline const char * const *EnumNamesComponentUnion() {
-  static const char * const names[8] = {
+  static const char * const names[10] = {
     "NONE",
     "RenderLayerComponent",
     "MeshRendererComponent",
@@ -95,13 +105,15 @@ inline const char * const *EnumNamesComponentUnion() {
     "Camera2DComponent",
     "TransformComponent",
     "BoxColliderComponent",
+    "CullingComponent",
+    "AlwaysActiveComponent",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameComponentUnion(ComponentUnion e) {
-  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_BoxColliderComponent)) return "";
+  if (::flatbuffers::IsOutRange(e, ComponentUnion_NONE, ComponentUnion_AlwaysActiveComponent)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesComponentUnion()[index];
 }
@@ -132,6 +144,14 @@ template<> struct ComponentUnionTraits<noi_engine::fbs::TransformComponent> {
 
 template<> struct ComponentUnionTraits<noi_engine::fbs::BoxColliderComponent> {
   static const ComponentUnion enum_value = ComponentUnion_BoxColliderComponent;
+};
+
+template<> struct ComponentUnionTraits<noi_engine::fbs::CullingComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_CullingComponent;
+};
+
+template<> struct ComponentUnionTraits<noi_engine::fbs::AlwaysActiveComponent> {
+  static const ComponentUnion enum_value = ComponentUnion_AlwaysActiveComponent;
 };
 
 template <bool B = false>
@@ -828,6 +848,98 @@ inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponentDir
       is_static);
 }
 
+struct CullingComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef CullingComponentBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ENABLED = 4,
+    VT_MARGIN = 6,
+    VT_SIMULATE_OFFSCREEN = 8
+  };
+  bool enabled() const {
+    return GetField<uint8_t>(VT_ENABLED, 1) != 0;
+  }
+  float margin() const {
+    return GetField<float>(VT_MARGIN, 2.0f);
+  }
+  bool simulate_offscreen() const {
+    return GetField<uint8_t>(VT_SIMULATE_OFFSCREEN, 1) != 0;
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_ENABLED, 1) &&
+           VerifyField<float>(verifier, VT_MARGIN, 4) &&
+           VerifyField<uint8_t>(verifier, VT_SIMULATE_OFFSCREEN, 1) &&
+           verifier.EndTable();
+  }
+};
+
+struct CullingComponentBuilder {
+  typedef CullingComponent Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_enabled(bool enabled) {
+    fbb_.AddElement<uint8_t>(CullingComponent::VT_ENABLED, static_cast<uint8_t>(enabled), 1);
+  }
+  void add_margin(float margin) {
+    fbb_.AddElement<float>(CullingComponent::VT_MARGIN, margin, 2.0f);
+  }
+  void add_simulate_offscreen(bool simulate_offscreen) {
+    fbb_.AddElement<uint8_t>(CullingComponent::VT_SIMULATE_OFFSCREEN, static_cast<uint8_t>(simulate_offscreen), 1);
+  }
+  explicit CullingComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<CullingComponent> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<CullingComponent>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<CullingComponent> CreateCullingComponent(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    bool enabled = true,
+    float margin = 2.0f,
+    bool simulate_offscreen = true) {
+  CullingComponentBuilder builder_(_fbb);
+  builder_.add_margin(margin);
+  builder_.add_simulate_offscreen(simulate_offscreen);
+  builder_.add_enabled(enabled);
+  return builder_.Finish();
+}
+
+struct AlwaysActiveComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef AlwaysActiveComponentBuilder Builder;
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct AlwaysActiveComponentBuilder {
+  typedef AlwaysActiveComponent Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit AlwaysActiveComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<AlwaysActiveComponent> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<AlwaysActiveComponent>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<AlwaysActiveComponent> CreateAlwaysActiveComponent(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  AlwaysActiveComponentBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
 struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -863,6 +975,12 @@ struct Component FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const noi_engine::fbs::BoxColliderComponent *properties_as_BoxColliderComponent() const {
     return properties_type() == noi_engine::fbs::ComponentUnion_BoxColliderComponent ? static_cast<const noi_engine::fbs::BoxColliderComponent *>(properties()) : nullptr;
   }
+  const noi_engine::fbs::CullingComponent *properties_as_CullingComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_CullingComponent ? static_cast<const noi_engine::fbs::CullingComponent *>(properties()) : nullptr;
+  }
+  const noi_engine::fbs::AlwaysActiveComponent *properties_as_AlwaysActiveComponent() const {
+    return properties_type() == noi_engine::fbs::ComponentUnion_AlwaysActiveComponent ? static_cast<const noi_engine::fbs::AlwaysActiveComponent *>(properties()) : nullptr;
+  }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -897,6 +1015,14 @@ template<> inline const noi_engine::fbs::TransformComponent *Component::properti
 
 template<> inline const noi_engine::fbs::BoxColliderComponent *Component::properties_as<noi_engine::fbs::BoxColliderComponent>() const {
   return properties_as_BoxColliderComponent();
+}
+
+template<> inline const noi_engine::fbs::CullingComponent *Component::properties_as<noi_engine::fbs::CullingComponent>() const {
+  return properties_as_CullingComponent();
+}
+
+template<> inline const noi_engine::fbs::AlwaysActiveComponent *Component::properties_as<noi_engine::fbs::AlwaysActiveComponent>() const {
+  return properties_as_AlwaysActiveComponent();
 }
 
 struct ComponentBuilder {
@@ -1347,6 +1473,14 @@ inline bool VerifyComponentUnion(::flatbuffers::VerifierTemplate<B> &verifier, c
     }
     case ComponentUnion_BoxColliderComponent: {
       auto ptr = reinterpret_cast<const noi_engine::fbs::BoxColliderComponent *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ComponentUnion_CullingComponent: {
+      auto ptr = reinterpret_cast<const noi_engine::fbs::CullingComponent *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ComponentUnion_AlwaysActiveComponent: {
+      auto ptr = reinterpret_cast<const noi_engine::fbs::AlwaysActiveComponent *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

@@ -12,6 +12,7 @@ set(NOI_ENGINE_TEST_SOURCES
         core/systems/render_system_test.cpp
         core/scene_system_test.cpp
         builtin/systems/physics_system_test.cpp
+        core/culling_test.cpp
         builtin/systems/orbit_camera_system_test.cpp
 )
 

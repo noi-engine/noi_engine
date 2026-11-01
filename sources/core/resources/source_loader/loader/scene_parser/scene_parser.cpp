@@ -3,6 +3,7 @@
 //
 
 #include "box_collider_parser.hpp"
+#include "culling_parser.hpp"
 #include "color_parser.hpp"
 #include "scene_parser.hpp"
 #include "component_parser.hpp"
@@ -175,6 +176,16 @@ auto noi_engine::scene_parser::parse_component(scene& target_scene, const entity
     else if (type == "box_collider")
     {
         box_collider_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "culling")
+    {
+        culling_parser parser{};
+        parser.parse(entity, target_scene, m_resources, properties);
+    }
+    else if (type == "always_active")
+    {
+        always_active_parser parser{};
         parser.parse(entity, target_scene, m_resources, properties);
     }
 }

@@ -6,6 +6,7 @@
 #include <noi_engine/builtin/components/gravity.hpp>
 #include <noi_engine/builtin/components/box_collider.hpp>
 #include <noi_engine/core/components/transform.hpp>
+#include <noi_engine/core/scene.hpp>
 #include <glm/common.hpp>
 #include <vector>
 
@@ -13,12 +14,45 @@
 // opt in via `gravity`, then pairwise penetration resolution for entities that opt in via
 // `box_collider`. No broad-phase, no restitution/friction/rotation - entities without either
 // component are never visited (see world::view<>), so this costs nothing when unused.
+namespace
+{
+    // Whether a body takes part in this step: always, unless an active area is given and the
+    // body is outside it (and not always_active).
+    auto is_active(noi_engine::world& world, const noi_engine::entity e, const noi_engine::view_area* area) -> bool
+    {
+        if (!area || world.has<noi_engine::always_active>(e))
+            return true;
+
+        const auto& t = world.get<noi_engine::transform>(e);
+        const glm::vec2 half_size = world.has<noi_engine::box_collider>(e)
+                                        ? world.get<noi_engine::box_collider>(e).half_extents
+                                        : glm::vec2{t.scale.x, t.scale.y} * 0.5f;
+        return area->overlaps({t.position.x, t.position.y}, half_size);
+    }
+
+    auto step_bodies(noi_engine::world& world, const float dt, const noi_engine::view_area* area) -> void;
+}
+
 auto noi_engine::physics_system::step(world& world, const float dt) -> void
+{
+    step_bodies(world, dt, nullptr);
+}
+
+auto noi_engine::physics_system::step(world& world, const float dt, const view_area& active_area) -> void
+{
+    step_bodies(world, dt, &active_area);
+}
+
+namespace
+{
+using namespace noi_engine;
+
+auto step_bodies(world& world, const float dt, const view_area* area) -> void
 {
     for (const auto e : world.view<transform, gravity>())
     {
         auto& g = world.get<gravity>(e);
-        if (!g.enabled)
+        if (!g.enabled || !is_active(world, e, area))
             continue;
 
         g.velocity += g.acceleration * dt;
@@ -32,7 +66,10 @@ auto noi_engine::physics_system::step(world& world, const float dt) -> void
 
     std::vector<entity> colliders;
     for (const auto e : world.view<transform, box_collider>())
-        colliders.push_back(e);
+    {
+        if (is_active(world, e, area))
+            colliders.push_back(e);
+    }
 
     for (size_t i = 0; i < colliders.size(); ++i)
     {
@@ -83,6 +120,8 @@ auto noi_engine::physics_system::step(world& world, const float dt) -> void
     }
 }
 
+}
+
 auto noi_engine::physics_system::on_update(const script_context& ctx, const float dt) -> void
 {
     // Ticks aren't guaranteed to be regular (e.g. the editor only ticks on demand outside Play,
@@ -91,5 +130,16 @@ auto noi_engine::physics_system::on_update(const script_context& ctx, const floa
     // a falling body's position jump further in one frame than a thin static collider is wide,
     // tunneling straight through it instead of colliding.
     constexpr float max_dt = 1.0f / 30.0f;
-    step(ctx.get_world(), dt < max_dt ? dt : max_dt);
+    const float clamped_dt = dt < max_dt ? dt : max_dt;
+
+    auto& world = ctx.get_world();
+    const auto camera = ctx.scene->get_camera_entity();
+    view_area area;
+    if (world.has<culling>(camera) && !world.get<culling>(camera).simulate_offscreen &&
+        culling_area(world, camera, area))
+    {
+        step(world, clamped_dt, area);
+        return;
+    }
+    step(world, clamped_dt);
 }

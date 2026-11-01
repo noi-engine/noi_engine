@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <noi_engine/core/components/culling.hpp>
 #include <noi_engine/core/ecs/world.hpp>
 #include <noi_engine/core/system.hpp>
 
@@ -12,6 +13,9 @@ namespace noi_engine
     {
     public:
         static auto step(world& world, float dt) -> void;
+        // Same, but bodies outside `active_area` (unless always_active) are left alone. Used when
+        // the camera's culling has simulate_offscreen = false.
+        static auto step(world& world, float dt, const view_area& active_area) -> void;
 
         auto on_update(const script_context& ctx, float dt) -> void override;
 

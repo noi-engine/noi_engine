@@ -27,6 +27,7 @@ set(CORE_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/camera_3d.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/script_component.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/name_component.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/components/culling.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_handle.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/resource_loader.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/core/resources/details/resource_manager.hpp
@@ -75,6 +76,7 @@ set(CORE_PRIVATE_HEADERS
         core/resources/compiled_loader/loader/scene_parser/scene_parser.hpp
         core/resources/compiled_loader/loader/scene_parser/component_parser.hpp
         core/resources/compiled_loader/loader/scene_parser/box_collider_parser.hpp
+        core/resources/compiled_loader/loader/scene_parser/culling_parser.hpp
         core/resources/compiled_loader/loader/mesh_2d_loader.hpp
         core/resources/source_loader/loader/mesh_loader.hpp
         core/resources/source_loader/loader/scene_loader.hpp
@@ -85,6 +87,7 @@ set(CORE_PRIVATE_HEADERS
         core/resources/source_loader/loader/scene_parser/scene_parser.hpp
         core/resources/source_loader/loader/scene_parser/component_parser.hpp
         core/resources/source_loader/loader/scene_parser/box_collider_parser.hpp
+        core/resources/source_loader/loader/scene_parser/culling_parser.hpp
 )
 
 set(CORE_SOURCES
@@ -106,6 +109,7 @@ set(CORE_SOURCES
         core/input/input_state.cpp
         core/resources/resources.cpp
         core/components/world_matrix.cpp
+        core/components/culling.cpp
         core/systems/render_system.cpp
         core/systems/camera_2d_system.cpp
         core/systems/camera_3d_system.cpp
@@ -125,6 +129,7 @@ set(CORE_SOURCES
         core/resources/compiled_loader/loader/scene_parser/scene_parser.cpp
         core/resources/compiled_loader/loader/scene_parser/component_parser.cpp
         core/resources/compiled_loader/loader/scene_parser/box_collider_parser.cpp
+        core/resources/compiled_loader/loader/scene_parser/culling_parser.cpp
         core/resources/compiled_loader/compiled_resource_loader.cpp
         core/resources/source_loader/source_resource_loader.cpp
         core/resources/source_loader/loader/scene_loader.cpp
@@ -135,6 +140,7 @@ set(CORE_SOURCES
         core/resources/source_loader/loader/scene_parser/color_parser.cpp
         core/resources/source_loader/loader/scene_parser/component_parser.cpp
         core/resources/source_loader/loader/scene_parser/box_collider_parser.cpp
+        core/resources/source_loader/loader/scene_parser/culling_parser.cpp
         core/resources/source_loader/loader/scene_parser/scene_parser.cpp
         core/sdl/sdl_game.cpp
         core/sdl/sdl_window.cpp

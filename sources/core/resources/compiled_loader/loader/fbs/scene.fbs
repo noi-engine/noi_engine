@@ -57,13 +57,24 @@ table BoxColliderComponent{
     is_static: bool;
 }
 
+table CullingComponent{
+    enabled: bool = true;
+    margin: float = 2.0;
+    simulate_offscreen: bool = true;
+}
+
+table AlwaysActiveComponent{
+}
+
 union ComponentUnion {
     RenderLayerComponent,
     MeshRendererComponent,
     ScriptsComponent,
     Camera2DComponent,
     TransformComponent,
-    BoxColliderComponent
+    BoxColliderComponent,
+    CullingComponent,
+    AlwaysActiveComponent
 }
 
 table Component {

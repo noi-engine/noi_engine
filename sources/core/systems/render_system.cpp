@@ -7,11 +7,13 @@
 #include "camera_3d_system.hpp"
 #include <noi_engine/core/components/camera_2d.hpp>
 #include <noi_engine/core/components/camera_3d.hpp>
+#include <noi_engine/core/components/culling.hpp>
 #include <noi_engine/core/components/transform.hpp>
 #include <noi_engine/core/components/mesh_renderer.hpp>
 #include <noi_engine/core/components/render_layer.hpp>
 #include <noi_engine/core/scene.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <cmath>
 #include <stdexcept>
 #include <algorithm>
 
@@ -63,8 +65,25 @@ auto noi_engine::render_system::render(world& world, renderer& renderer, const e
         throw std::runtime_error("active_camera has no camera_2d or camera_3d component");
     }
 
+    // Culling (see culling.hpp): skip what lies outside the camera's view + margin. The
+    // entity's quad spans its world matrix's x / y axes.
+    view_area area;
+    const bool culled = culling_area(world, active_camera, area);
+
     for (const auto e : sorted_renderables(world))
     {
+        if (culled && !world.has<always_active>(e))
+        {
+            const auto& m = world.get<world_matrix>(e).value;
+            const glm::vec2 half_size{
+                (std::abs(m[0].x) + std::abs(m[1].x)) * 0.5f,
+                (std::abs(m[0].y) + std::abs(m[1].y)) * 0.5f};
+            if (!area.overlaps({m[3].x, m[3].y}, half_size))
+            {
+                continue;
+            }
+        }
+
         mesh_renderer_properties* properties = world.has<mesh_renderer_properties>(e)
                                                    ? &world.get<mesh_renderer_properties>(e)
                                                    : nullptr;
