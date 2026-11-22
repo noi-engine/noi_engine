@@ -32,7 +32,8 @@
 - **Scenes as data**: scenes are written in JSON and compiled to FlatBuffers for release builds (source and compiled loaders)
 - **OpenGL renderer** (SDL2 + glad): meshes, materials, shaders, textures, render layers, letterboxing, 2D and 3D cameras
 - **C++ scripts** that register themselves, with `on_create` / `on_update` hooks and helper macros
-- **Built-in modules you can turn on**: `physics_system` (gravity + AABB `box_collider`), `orbit_camera_system`, follow action
+- **Built-in modules you can turn on**: `physics_system` (gravity, AABB colliders with triggers, layers and collision signals), `orbit_camera_system`, follow action
+- **Several scenes**: a script switches scene with `NOI_ENGINE_LOAD_SCENE("scenes/level2.scene")`; `game.on_scene_loaded(...)` adds the systems every scene needs
 - **Resource manager** with handles, labels and listing, which the editor uses
 
 ### Editor — [`noi_engine_editor`](https://github.com/noi-engine/noi_engine_editor)
@@ -83,6 +84,24 @@ auto main(const int argc, char** argv) -> int
     return game.run(argc, argv);
 }
 ```
+
+## Physics in a few lines
+
+```cpp
+NOI_ENGINE_ADD(gravity{});                                   // moves under gravity (a "body")
+NOI_ENGINE_ADD((box_collider{.half_extents = {0.5f, 0.5f}})); // solid box
+NOI_ENGINE_ADD((box_collider{.is_static = true}));            // floor / wall: never moves
+NOI_ENGINE_ADD((box_collider{.is_trigger = true}));           // coin / door: reports, pushes nothing
+NOI_ENGINE_ADD((box_collider{.layer = 2u, .mask = 1u}));      // collides only with layer 1
+
+if (NOI_ENGINE_GET(gravity).grounded) { /* standing on something: can jump */ }
+
+NOI_ENGINE_CONNECT(collision_begin, self, [](float, const collision_begin& hit) {
+    // hit.source touched hit.other (hit.trigger: it was a trigger overlap)
+});
+```
+
+`collision_begin` / `collision_end` are emitted once per entity of each pair, on the frame the boxes start / stop touching.
 
 ## Getting started
 

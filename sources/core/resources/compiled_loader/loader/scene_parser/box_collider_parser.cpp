@@ -27,7 +27,18 @@ namespace noi_engine::c
             }
         }
 
+        if (const auto* offset = box_collider_properties->offset())
+        {
+            if (offset->size() >= 2)
+            {
+                value.offset = glm::vec2(offset->Get(0), offset->Get(1));
+            }
+        }
+
         value.is_static = box_collider_properties->is_static();
+        value.is_trigger = box_collider_properties->is_trigger();
+        value.layer = box_collider_properties->layer();
+        value.mask = box_collider_properties->mask();
 
         target_scene.get_world().add<box_collider>(entity, value);
     }

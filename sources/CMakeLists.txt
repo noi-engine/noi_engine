@@ -49,6 +49,7 @@ set(BUILTIN_HEADERS
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/gravity.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/box_collider.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/components/orbit_camera.hpp
+        ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/signals/collision_signals.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/systems/physics_system.hpp
         ${NOI_ENGINE_SOURCE_DIR}/include/noi_engine/builtin/systems/orbit_camera_system.hpp
 )

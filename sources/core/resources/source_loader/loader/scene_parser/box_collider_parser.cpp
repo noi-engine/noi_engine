@@ -16,7 +16,16 @@ namespace noi_engine
             value.half_extents = glm::vec2(half_extents[0].get<float>(), half_extents[1].get<float>());
         }
 
+        if (properties.contains("offset"))
+        {
+            const auto offset = properties["offset"];
+            value.offset = glm::vec2(offset[0].get<float>(), offset[1].get<float>());
+        }
+
         value.is_static = properties.value("is_static", false);
+        value.is_trigger = properties.value("is_trigger", false);
+        value.layer = properties.value("layer", value.layer);
+        value.mask = properties.value("mask", value.mask);
 
         target_scene.get_world().add<box_collider>(entity, value);
     }

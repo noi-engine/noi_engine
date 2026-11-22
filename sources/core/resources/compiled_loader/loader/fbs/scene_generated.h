@@ -798,7 +798,11 @@ struct BoxColliderComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tab
   typedef BoxColliderComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_HALF_EXTENTS = 4,
-    VT_IS_STATIC = 6
+    VT_IS_STATIC = 6,
+    VT_OFFSET = 8,
+    VT_IS_TRIGGER = 10,
+    VT_LAYER = 12,
+    VT_MASK = 14
   };
   const ::flatbuffers::Vector<float> *half_extents() const {
     return GetPointer<const ::flatbuffers::Vector<float> *>(VT_HALF_EXTENTS);
@@ -806,12 +810,29 @@ struct BoxColliderComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tab
   bool is_static() const {
     return GetField<uint8_t>(VT_IS_STATIC, 0) != 0;
   }
+  const ::flatbuffers::Vector<float> *offset() const {
+    return GetPointer<const ::flatbuffers::Vector<float> *>(VT_OFFSET);
+  }
+  bool is_trigger() const {
+    return GetField<uint8_t>(VT_IS_TRIGGER, 0) != 0;
+  }
+  uint32_t layer() const {
+    return GetField<uint32_t>(VT_LAYER, 1);
+  }
+  uint32_t mask() const {
+    return GetField<uint32_t>(VT_MASK, 4294967295);
+  }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_HALF_EXTENTS) &&
            verifier.VerifyVector(half_extents()) &&
            VerifyField<uint8_t>(verifier, VT_IS_STATIC, 1) &&
+           VerifyOffset(verifier, VT_OFFSET) &&
+           verifier.VerifyVector(offset()) &&
+           VerifyField<uint8_t>(verifier, VT_IS_TRIGGER, 1) &&
+           VerifyField<uint32_t>(verifier, VT_LAYER, 4) &&
+           VerifyField<uint32_t>(verifier, VT_MASK, 4) &&
            verifier.EndTable();
   }
 };
@@ -825,6 +846,18 @@ struct BoxColliderComponentBuilder {
   }
   void add_is_static(bool is_static) {
     fbb_.AddElement<uint8_t>(BoxColliderComponent::VT_IS_STATIC, static_cast<uint8_t>(is_static), 0);
+  }
+  void add_offset(::flatbuffers::Offset<::flatbuffers::Vector<float>> offset) {
+    fbb_.AddOffset(BoxColliderComponent::VT_OFFSET, offset);
+  }
+  void add_is_trigger(bool is_trigger) {
+    fbb_.AddElement<uint8_t>(BoxColliderComponent::VT_IS_TRIGGER, static_cast<uint8_t>(is_trigger), 0);
+  }
+  void add_layer(uint32_t layer) {
+    fbb_.AddElement<uint32_t>(BoxColliderComponent::VT_LAYER, layer, 1);
+  }
+  void add_mask(uint32_t mask) {
+    fbb_.AddElement<uint32_t>(BoxColliderComponent::VT_MASK, mask, 4294967295);
   }
   explicit BoxColliderComponentBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -840,9 +873,17 @@ struct BoxColliderComponentBuilder {
 inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponent(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::Vector<float>> half_extents = 0,
-    bool is_static = false) {
+    bool is_static = false,
+    ::flatbuffers::Offset<::flatbuffers::Vector<float>> offset = 0,
+    bool is_trigger = false,
+    uint32_t layer = 1,
+    uint32_t mask = 4294967295) {
   BoxColliderComponentBuilder builder_(_fbb);
+  builder_.add_mask(mask);
+  builder_.add_layer(layer);
+  builder_.add_offset(offset);
   builder_.add_half_extents(half_extents);
+  builder_.add_is_trigger(is_trigger);
   builder_.add_is_static(is_static);
   return builder_.Finish();
 }
@@ -850,12 +891,21 @@ inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponent(
 inline ::flatbuffers::Offset<BoxColliderComponent> CreateBoxColliderComponentDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<float> *half_extents = nullptr,
-    bool is_static = false) {
+    bool is_static = false,
+    const std::vector<float> *offset = nullptr,
+    bool is_trigger = false,
+    uint32_t layer = 1,
+    uint32_t mask = 4294967295) {
   auto half_extents__ = half_extents ? _fbb.CreateVector<float>(*half_extents) : 0;
+  auto offset__ = offset ? _fbb.CreateVector<float>(*offset) : 0;
   return noi_engine::fbs::CreateBoxColliderComponent(
       _fbb,
       half_extents__,
-      is_static);
+      is_static,
+      offset__,
+      is_trigger,
+      layer,
+      mask);
 }
 
 struct CullingComponent FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
