@@ -10,6 +10,7 @@
 #include <noi_engine/core/scene.hpp>
 #include <glm/common.hpp>
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <vector>
 
@@ -158,6 +159,12 @@ namespace
             const float reach = bodies[i].right;
             for (std::size_t j = i + 1; j < bodies.size() && bodies[j].left <= reach; ++j)
             {
+                // Cheap rejection on y from the extents read when sorting (an earlier push moves a
+                // body by less than the margin), before touching the world again.
+                constexpr float margin = 0.5f;
+                if (std::abs(bodies[i].centre.y - bodies[j].centre.y) > bodies[i].half.y + bodies[j].half.y + margin)
+                    continue;
+
                 // Refresh both: an earlier pair may have moved them.
                 const auto a = make_body(world, bodies[i].e);
                 const auto b = make_body(world, bodies[j].e);

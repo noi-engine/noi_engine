@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <chrono>
 #include <vector>
 
 #include <noi_engine/builtin/systems/physics_system.hpp>
@@ -228,4 +229,37 @@ TEST(PhysicsSystemTest, ManyColliderPairsAreAllResolved)
 
     for (const auto body : bodies)
         EXPECT_NEAR(w.get<transform>(body).position.y, 1.0f, 1e-4f);
+}
+
+// A scene with thousands of colliders must stay cheap: the step is sorted along x and only
+// tests neighbours, so its cost follows the number of overlapping pairs, not the square of the
+// number of colliders. The bound is generous (debug builds, shared CI machines): a step that
+// compared every pair (4 million tests) would be far over it.
+TEST(PhysicsSystemTest, ThousandsOfCollidersStayCheap)
+{
+    world w;
+
+    for (int i = 0; i < 2500; ++i)
+    {
+        const auto x = static_cast<float>(i % 100) * 3.0f;
+        const auto y = static_cast<float>(i / 100) * 3.0f;
+        add_box(w, {x, y, 0.0f}, box_collider{.half_extents = {0.5f, 0.5f}, .is_static = true}, false);
+    }
+    for (int i = 0; i < 1500; ++i)
+    {
+        const auto x = static_cast<float>(i % 100) * 3.0f;
+        const auto y = static_cast<float>(i / 100) * 3.0f + 1.5f;
+        add_box(w, {x, y, 0.0f}, box_collider{.half_extents = {0.4f, 0.4f}}, true);
+    }
+
+    physics_system::step(w, 0.016f); // first step settles the overlaps
+
+    const auto start = std::chrono::steady_clock::now();
+    constexpr int steps = 5;
+    for (int i = 0; i < steps; ++i)
+        physics_system::step(w, 0.016f);
+    const auto elapsed_ms =
+        std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count() / steps;
+
+    EXPECT_LT(elapsed_ms, 150.0) << "a physics step with 4000 colliders took " << elapsed_ms << " ms";
 }
