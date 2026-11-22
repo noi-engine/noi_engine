@@ -4,6 +4,8 @@
 
 #include <noi_engine/core/game.hpp>
 
+#include <utility>
+
 #include "glad/glad.h"
 #include <noi_engine/core/model/shader.hpp>
 
@@ -19,6 +21,12 @@ auto noi_engine::game::render() -> void
 auto noi_engine::game::update(const float dt) -> void
 {
     this->m_scene_manager->update(dt);
+
+    if (!m_requested_scene.empty())
+    {
+        const auto path = std::exchange(m_requested_scene, {});
+        this->set_scene(path);
+    }
 }
 
 auto noi_engine::game::init_builtin_resources() const -> void
@@ -70,7 +78,22 @@ auto noi_engine::game::set_scene(const std::string_view path) const -> void
 {
     this->m_resources->clear();
     this->init_builtin_resources();
-    this->set_scene(this->m_resources->load_scene(path));
+    auto loaded = this->m_resources->load_scene(path);
+    if (m_on_scene_loaded && loaded)
+    {
+        m_on_scene_loaded(*loaded);
+    }
+    this->set_scene(std::move(loaded));
+}
+
+auto noi_engine::game::request_scene(std::string path) -> void
+{
+    m_requested_scene = std::move(path);
+}
+
+auto noi_engine::game::on_scene_loaded(std::function<void(scene&)> callback) -> void
+{
+    m_on_scene_loaded = std::move(callback);
 }
 
 auto noi_engine::game::resources() const noexcept -> noi_engine::resources&

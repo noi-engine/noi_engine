@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include <functional>
 #include <memory>
+#include <string>
 #include <noi_engine/core/input/input_state.hpp>
 #include <noi_engine/core/renderer/renderer.hpp>
 #include <noi_engine/core/resources/resource_loader.hpp>
@@ -14,6 +16,10 @@
 #include <string_view>
 
 //TODO(begin): no idea
+// Inside a script: go to another scene ("scenes/level2.scene") after this frame.
+#define NOI_ENGINE_LOAD_SCENE(Path) \
+    context.game->request_scene(Path)
+
 #define NOI_ENGINE_REGISTER_SCRIPT(Type) \
     game.register_script<Type>(#Type)
 
@@ -38,6 +44,9 @@ namespace noi_engine
 
         std::unique_ptr<renderer> m_renderer{nullptr};
         std::unique_ptr<resources> m_resources{nullptr};
+        // Scene asked for by a script, loaded once the current frame's update is over.
+        std::string m_requested_scene;
+        std::function<void(scene&)> m_on_scene_loaded;
 
     protected:
         game_conf m_conf{};
@@ -60,6 +69,14 @@ namespace noi_engine
         auto set_scene(std::unique_ptr<scene> scene) const -> void;
 
         auto set_scene(std::string_view path) const -> void;
+
+        // Switches to another scene at the end of the current frame. Safe to call from a script
+        // (set_scene would destroy the scene that is still running its update).
+        auto request_scene(std::string path) -> void;
+
+        // Called with every scene loaded from a path (set_scene(path), request_scene): the place
+        // to add the systems a scene needs, since they aren't part of the scene file.
+        auto on_scene_loaded(std::function<void(scene&)> callback) -> void;
 
         template <typename T>
         auto register_script(const std::string_view name) const -> void
